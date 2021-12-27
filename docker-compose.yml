@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  mysql:
+    container_name: java-skeleton-mysql
+    image: mysql:8
+    ports:
+      - "3360:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    entrypoint:
+      sh -c "
+      echo 'CREATE DATABASE IF NOT EXISTS java-skeleton;' > /docker-entrypoint-initdb.d/init.sql;
+      /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+      "
+    command: ["--default-authentication-plugin=mysql_native_password"]
+
+  java:
+    container_name: java-skeleton-java
+    build:
+      context: ./docker/java
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8030:8080"
+    volumes:
+      - .:/app:delegated
+    env_file:
+      - .env
+    tty: true
+    depends_on:
+      - mysql
