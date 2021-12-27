@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/java-skeleton.iml" filepath="$PROJECT_DIR$/.idea/java-skeleton.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/java-app-demo.iml" filepath="$PROJECT_DIR$/.idea/modules/java-app-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/java-app-demo.main.iml" filepath="$PROJECT_DIR$/.idea/modules/java-app-demo.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/java-app-demo.test.iml" filepath="$PROJECT_DIR$/.idea/modules/java-app-demo.test.iml" />
     </modules>
   </component>
 </project>
