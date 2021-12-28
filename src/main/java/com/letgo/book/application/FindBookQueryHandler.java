@@ -2,8 +2,11 @@ package com.letgo.book.application;
 
 import com.letgo.book.domain.Book;
 import com.letgo.book.domain.BookId;
+import com.letgo.book.domain.BookNotFound;
 import com.letgo.book.domain.BookRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class FindBookQueryHandler {
@@ -14,7 +17,10 @@ public class FindBookQueryHandler {
     }
 
     public FindBookQueryResponse handle(FindBookQuery query) {
-        Book book = repository.find(new BookId(query.id()));
-        return new FindBookQueryResponse(book.title());
+        Optional<Book> book = repository.find(new BookId(query.id()));
+        if (book.isEmpty()) {
+            throw BookNotFound.withId(query.id());
+        }
+        return new FindBookQueryResponse(book.get().title());
     }
 }

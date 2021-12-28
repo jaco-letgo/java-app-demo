@@ -5,10 +5,12 @@ import com.letgo.book.domain.BookId;
 import com.letgo.book.domain.BookRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class InMemoryBookRepository implements BookRepository {
     @Override
-    public Book find(BookId id) {
-        return new Book(id, "title");
+    public Optional<Book> find(BookId id) {
+        return Optional.of(new Book(id, "title"));
     }
 }
