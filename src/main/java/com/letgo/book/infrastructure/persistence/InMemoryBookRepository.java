@@ -9,6 +9,6 @@ import org.springframework.stereotype.Service;
 public class InMemoryBookRepository implements BookRepository {
     @Override
     public Book find(BookId id) {
-        return new Book();
+        return new Book(id, "title");
     }
 }

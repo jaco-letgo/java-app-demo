@@ -1,23 +1,23 @@
 package com.letgo.book.infrastructure.controller;
 
-import com.letgo.book.domain.Book;
-import com.letgo.book.domain.BookId;
-import com.letgo.book.domain.BookRepository;
+import com.letgo.book.application.FindBookQuery;
+import com.letgo.book.application.FindBookQueryHandler;
+import com.letgo.book.application.FindBookQueryResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class GetBookController {
-    private final BookRepository bookRepository;
+    private final FindBookQueryHandler handler;
 
-    GetBookController(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
+    GetBookController(FindBookQueryHandler handler) {
+        this.handler = handler;
     }
 
     @GetMapping("/book/{id}")
     public String index(@PathVariable("id") String id) {
-        Book book = bookRepository.find(new BookId());
-        return book.toString();
+        FindBookQueryResponse response = handler.handle(new FindBookQuery(id));
+        return response.title();
     }
 }
