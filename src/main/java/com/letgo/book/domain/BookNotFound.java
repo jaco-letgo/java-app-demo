@@ -1,6 +1,6 @@
 package com.letgo.book.domain;
 
-public class BookNotFound extends IndexOutOfBoundsException {
+final public class BookNotFound extends IndexOutOfBoundsException {
     private BookNotFound(String message) {
         super(message);
     }

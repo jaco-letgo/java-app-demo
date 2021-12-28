@@ -11,20 +11,18 @@ import java.util.Optional;
 
 @Service
 public class InMemoryBookRepository implements BookRepository {
-    private final Map<BookId, Book> storage = new HashMap<>();
+    private final Map<String, Book> storage = new HashMap<>();
 
     @Override
     public Optional<Book> find(BookId id) {
-        Book book = new Book(id, "title");
-        save(book);
-        if (storage.containsKey(id)) {
-            return Optional.of(storage.get(id));
+        if (storage.containsKey(id.value())) {
+            return Optional.of(storage.get(id.value()));
         }
         return Optional.empty();
     }
 
     @Override
     public void save(Book book) {
-        storage.put(book.id(), book);
+        storage.put(book.id().value(), book);
     }
 }

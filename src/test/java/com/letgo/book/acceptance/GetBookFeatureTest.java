@@ -5,6 +5,6 @@ import org.junit.jupiter.api.Test;
 final public class GetBookFeatureTest extends TestCase {
     @Test
     public void itShouldGetABookById() {
-        assert get("/book/123").equals("title");
+        assert get("/book/123").equals("Book not found with id 123");
     }
 }

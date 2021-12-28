@@ -1,6 +1,6 @@
 package com.letgo.book.application.create;
 
-public class CreateBookCommand {
+final public class CreateBookCommand {
     private final String id;
     private final String title;
 

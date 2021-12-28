@@ -12,7 +12,7 @@ public class CreateBookCommandHandler {
     }
 
     public void handle(CreateBookCommand command) {
-        Book book = new Book(new BookId(command.id()), command.title());
+        Book book = Book.create(BookId.create(command.id()), command.title());
         repository.save(book);
     }
 }

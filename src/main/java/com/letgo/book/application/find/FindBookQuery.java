@@ -1,6 +1,6 @@
 package com.letgo.book.application.find;
 
-public class FindBookQuery {
+final public class FindBookQuery {
     private final String id;
 
     public FindBookQuery(String id) {

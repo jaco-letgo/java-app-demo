@@ -17,7 +17,7 @@ public class FindBookQueryHandler {
     }
 
     public FindBookQueryResponse handle(FindBookQuery query) {
-        Optional<Book> book = repository.find(new BookId(query.id()));
+        Optional<Book> book = repository.find(BookId.create(query.id()));
         if (book.isEmpty()) {
             throw BookNotFound.withId(query.id());
         }

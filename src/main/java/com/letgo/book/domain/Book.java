@@ -1,12 +1,16 @@
 package com.letgo.book.domain;
 
-public class Book {
+final public class Book {
     private final BookId id;
     private final String title;
 
-    public Book(BookId id, String title) {
+    private Book(BookId id, String title) {
         this.id = id;
         this.title = title;
+    }
+
+    public static Book create(BookId id, String title) {
+        return new Book(id, title);
     }
 
     public BookId id() {
