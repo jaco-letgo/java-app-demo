@@ -1,4 +1,4 @@
-package com.letgo.book.application;
+package com.letgo.book.application.find;
 
 import com.letgo.book.domain.Book;
 import com.letgo.book.domain.BookId;

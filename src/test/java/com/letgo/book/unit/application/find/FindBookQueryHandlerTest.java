@@ -1,7 +1,7 @@
-package com.letgo.book.unit.application;
+package com.letgo.book.unit.application.find;
 
-import com.letgo.book.application.FindBookQuery;
-import com.letgo.book.application.FindBookQueryHandler;
+import com.letgo.book.application.find.FindBookQuery;
+import com.letgo.book.application.find.FindBookQueryHandler;
 import com.letgo.book.domain.BookRepository;
 import com.letgo.book.infrastructure.persistence.InMemoryBookRepository;
 import org.junit.jupiter.api.Test;

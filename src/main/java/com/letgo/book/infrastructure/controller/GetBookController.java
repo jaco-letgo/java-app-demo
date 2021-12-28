@@ -1,8 +1,8 @@
 package com.letgo.book.infrastructure.controller;
 
-import com.letgo.book.application.FindBookQuery;
-import com.letgo.book.application.FindBookQueryHandler;
-import com.letgo.book.application.FindBookQueryResponse;
+import com.letgo.book.application.find.FindBookQuery;
+import com.letgo.book.application.find.FindBookQueryHandler;
+import com.letgo.book.application.find.FindBookQueryResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
