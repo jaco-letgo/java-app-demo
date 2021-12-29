@@ -15,6 +15,7 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web:2.6.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.json:json:20211205'
 }
 
 test {

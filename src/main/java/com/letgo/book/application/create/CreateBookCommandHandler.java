@@ -3,7 +3,9 @@ package com.letgo.book.application.create;
 import com.letgo.book.domain.Book;
 import com.letgo.book.domain.BookId;
 import com.letgo.book.domain.BookRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CreateBookCommandHandler {
     private final BookRepository repository;
 
