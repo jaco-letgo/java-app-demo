@@ -10,7 +10,7 @@ final public class CreateBookFeatureTest extends TestCase {
     @Test
     public void itShouldCreateABook() {
         ResponseEntity<String> postResponse = post("{'id': '1234', 'title': 'olakease'}");
-        assertSame(postResponse.getStatusCode(), HttpStatus.CREATED);
+        assertSame(HttpStatus.CREATED, postResponse.getStatusCode());
         assertFalse(postResponse.hasBody());
 
         ResponseEntity<String> getResponse = get("/book/1234");

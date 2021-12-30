@@ -12,14 +12,14 @@ final public class FindBookFeatureTest extends TestCase {
         post("{'id': '12345', 'title': 'olakease'}");
 
         ResponseEntity<String> getResponse = get("/book/12345");
-        assertSame(getResponse.getStatusCode(), HttpStatus.ACCEPTED);
+        assertSame(HttpStatus.ACCEPTED, getResponse.getStatusCode());
         assertEquals("olakease", getResponse.getBody());
     }
 
     @Test
     public void itShouldReturnAnErrorWhenBookIsNotFoundForGivenId() {
         ResponseEntity<String> getResponse = get("/book/123");
-        assertSame(getResponse.getStatusCode(), HttpStatus.NOT_FOUND);
+        assertSame(HttpStatus.NOT_FOUND, getResponse.getStatusCode());
         assertFalse(getResponse.hasBody());
     }
 }

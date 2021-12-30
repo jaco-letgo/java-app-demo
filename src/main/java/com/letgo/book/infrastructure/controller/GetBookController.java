@@ -3,7 +3,9 @@ package com.letgo.book.infrastructure.controller;
 import com.letgo.book.application.find.FindBookQuery;
 import com.letgo.book.application.find.FindBookQueryHandler;
 import com.letgo.book.application.find.FindBookQueryResponse;
+import com.letgo.book.domain.BookNotFound;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,11 +20,17 @@ public class GetBookController {
 
     @GetMapping("/book/{id}")
     public ResponseEntity<String> index(@PathVariable("id") String id) {
-        try {
-            FindBookQueryResponse response = handler.handle(new FindBookQuery(id));
-            return ResponseEntity.accepted().body(response.title());
-        } catch (RuntimeException exception) {
-            return ResponseEntity.notFound().build();
-        }
+        FindBookQueryResponse response = handler.handle(new FindBookQuery(id));
+        return ResponseEntity.accepted().body(response.title());
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> handle(BookNotFound exception) {
+        return ResponseEntity.notFound().build();
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> handle(Exception exception) {
+        return ResponseEntity.internalServerError().build();
     }
 }
