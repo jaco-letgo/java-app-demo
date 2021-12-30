@@ -7,6 +7,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 abstract class TestCase {
@@ -16,15 +17,15 @@ abstract class TestCase {
     @Autowired
     protected TestRestTemplate restTemplate;
 
-    protected String get(String endpoint) {
-        return restTemplate.getForObject(DOMAIN_NAME + port + endpoint, String.class);
+    protected ResponseEntity<String> get(String endpoint) {
+        return restTemplate.getForEntity(DOMAIN_NAME + port + endpoint, String.class);
     }
 
-    protected String post(String endpoint, String body) {
+    protected ResponseEntity<String> post(String body) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(body, headers);
 
-        return restTemplate.postForObject(DOMAIN_NAME + port + endpoint, entity, String.class);
+        return restTemplate.postForEntity(DOMAIN_NAME + port + "/book", entity, String.class);
     }
 }
