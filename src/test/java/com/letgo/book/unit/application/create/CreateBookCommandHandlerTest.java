@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class CreateBookCommandHandlerTest {
     private final BookRepository repository = new InMemoryBookRepository();
     private final CreateBookCommandHandler handler = new CreateBookCommandHandler(repository);
@@ -22,10 +24,10 @@ public class CreateBookCommandHandlerTest {
         handler.handle(new CreateBookCommand(id.value(), title));
 
         Optional<Book> optionalBook = repository.find(id);
-        assert optionalBook.isPresent();
+        assertTrue(optionalBook.isPresent());
 
         Book book = optionalBook.get();
-        assert book.id().hasSameValueAs(id);
-        assert book.title().equals(title);
+        assertTrue(book.id().hasSameValueAs(id));
+        assertEquals(title, book.title());
     }
 }

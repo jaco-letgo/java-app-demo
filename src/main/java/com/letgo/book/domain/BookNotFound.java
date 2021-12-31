@@ -5,7 +5,7 @@ final public class BookNotFound extends IndexOutOfBoundsException {
         super(message);
     }
 
-    public static BookNotFound withId(String id) {
-        return new BookNotFound("Book not found with id " + id);
+    public static BookNotFound withId(BookId id) {
+        return new BookNotFound("Book not found with id " + id.value());
     }
 }

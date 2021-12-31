@@ -2,7 +2,7 @@ package com.letgo.book.domain;
 
 final public class Book {
     private final BookId id;
-    private final String title;
+    private String title;
 
     private Book(BookId id, String title) {
         this.id = id;
@@ -19,5 +19,9 @@ final public class Book {
 
     public String title() {
         return title;
+    }
+
+    public void changeTitle(String newTitle) {
+        title = newTitle;
     }
 }

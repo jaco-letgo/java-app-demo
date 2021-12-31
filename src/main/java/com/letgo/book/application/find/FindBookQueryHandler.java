@@ -1,26 +1,20 @@
 package com.letgo.book.application.find;
 
 import com.letgo.book.domain.Book;
+import com.letgo.book.domain.BookFinder;
 import com.letgo.book.domain.BookId;
-import com.letgo.book.domain.BookNotFound;
-import com.letgo.book.domain.BookRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class FindBookQueryHandler {
-    private final BookRepository repository;
+    private final BookFinder finder;
 
-    public FindBookQueryHandler(BookRepository repository) {
-        this.repository = repository;
+    public FindBookQueryHandler(BookFinder finder) {
+        this.finder = finder;
     }
 
     public FindBookQueryResponse handle(FindBookQuery query) {
-        Optional<Book> book = repository.find(BookId.create(query.id()));
-        if (book.isEmpty()) {
-            throw BookNotFound.withId(query.id());
-        }
-        return new FindBookQueryResponse(book.get().title());
+        Book book = finder.find(BookId.create(query.id()));
+        return new FindBookQueryResponse(book.title());
     }
 }
