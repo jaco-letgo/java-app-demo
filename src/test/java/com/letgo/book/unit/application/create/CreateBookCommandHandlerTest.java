@@ -27,7 +27,7 @@ public class CreateBookCommandHandlerTest {
         assertTrue(optionalBook.isPresent());
 
         Book book = optionalBook.get();
-        assertTrue(book.id().hasSameValueAs(id));
+        assertEquals(id, book.id());
         assertEquals(title, book.title());
     }
 }

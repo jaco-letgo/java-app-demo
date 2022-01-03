@@ -1,5 +1,7 @@
 package com.letgo.book.domain;
 
+import java.util.Objects;
+
 final public class BookId {
     private final String value;
 
@@ -15,7 +17,13 @@ final public class BookId {
         return value;
     }
 
-    public boolean hasSameValueAs(BookId id) {
-        return this.value.equals(id.value());
+    @Override
+    public boolean equals(Object anObject) {
+        return anObject instanceof BookId && this.value.equals(((BookId) anObject).value());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 }
