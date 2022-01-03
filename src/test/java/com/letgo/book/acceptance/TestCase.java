@@ -6,6 +6,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
@@ -27,5 +28,9 @@ abstract class TestCase {
         HttpEntity<String> entity = new HttpEntity<>(body, headers);
 
         return restTemplate.postForEntity(DOMAIN_NAME + port + "/book", entity, String.class);
+    }
+
+    protected ResponseEntity<String> put(String url) {
+        return restTemplate.exchange(url, HttpMethod.PUT, HttpEntity.EMPTY, String.class);
     }
 }
