@@ -1,7 +1,5 @@
 package com.letgo.book.domain;
 
-import java.util.Objects;
-
 final public class BookId {
     private final String value;
 
@@ -24,6 +22,6 @@ final public class BookId {
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
+        return value.hashCode();
     }
 }
