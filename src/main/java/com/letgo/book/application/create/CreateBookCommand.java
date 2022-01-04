@@ -1,6 +1,8 @@
 package com.letgo.book.application.create;
 
-final public class CreateBookCommand {
+import com.letgo.shared.application.bus.command.Command;
+
+final public class CreateBookCommand implements Command {
     private final String id;
     private final String title;
 
