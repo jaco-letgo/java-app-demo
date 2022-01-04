@@ -1,6 +1,8 @@
 package com.letgo.book.application.find;
 
-final public class FindBookQueryResponse {
+import com.letgo.shared.application.bus.query.QueryResponse;
+
+final public class FindBookQueryResponse implements QueryResponse {
     private final String title;
 
     public FindBookQueryResponse(String title) {

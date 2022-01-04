@@ -1,6 +1,8 @@
 package com.letgo.book.application.find;
 
-final public class FindBookQuery {
+import com.letgo.shared.application.bus.query.Query;
+
+final public class FindBookQuery implements Query {
     private final String id;
 
     public FindBookQuery(String id) {
