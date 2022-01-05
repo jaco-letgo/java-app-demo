@@ -15,10 +15,7 @@ public class InMemoryBookRepository implements BookRepository {
 
     @Override
     public Optional<Book> find(BookId id) {
-        if (storage.containsKey(id)) {
-            return Optional.of(storage.get(id));
-        }
-        return Optional.empty();
+        return Optional.ofNullable(storage.get(id));
     }
 
     @Override
