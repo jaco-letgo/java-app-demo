@@ -22,7 +22,7 @@ public class ChangeTitleCommandHandlerTest {
 
     @Test
     public void itShouldCreateABook() {
-        BookId id = BookId.create("123");
+        BookId id = BookId.create();
         String currentTitle = "Whatever";
         Book currentBook = Book.create(id, currentTitle);
         repository.save(currentBook);

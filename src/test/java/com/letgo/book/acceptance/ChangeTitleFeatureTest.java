@@ -4,27 +4,30 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 final public class ChangeTitleFeatureTest extends TestCase {
     @Test
     public void itShouldChangeABookTitle() {
-        post("{'id': '1234', 'title': 'olakease'}");
+        UUID id = UUID.randomUUID();
+        post("{'id': " + id + ", 'title': 'olakease'}");
 
-        ResponseEntity<String> getResponse = get("/book/1234");
+        ResponseEntity<String> getResponse = get("/book/" + id);
         assertEquals("olakease", getResponse.getBody());
 
-        ResponseEntity<String> putResponse = put("/book/1234/title/whatever");
+        ResponseEntity<String> putResponse = put("/book/" + id + "/title/whatever");
         assertSame(HttpStatus.OK, putResponse.getStatusCode());
         assertFalse(putResponse.hasBody());
 
-        ResponseEntity<String> secondGetResponse = get("/book/1234");
+        ResponseEntity<String> secondGetResponse = get("/book/" + id);
         assertEquals("whatever", secondGetResponse.getBody());
     }
 
     @Test
     public void itShouldReturnAnErrorWhenBookIsNotFoundForGivenId() {
-        ResponseEntity<String> putResponse = put("/book/123/title/olakease");
+        ResponseEntity<String> putResponse = put("/book/" + UUID.randomUUID() + "/title/olakease");
         assertSame(HttpStatus.NOT_FOUND, putResponse.getStatusCode());
         assertFalse(putResponse.hasBody());
     }

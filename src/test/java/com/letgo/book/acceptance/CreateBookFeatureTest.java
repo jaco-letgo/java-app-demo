@@ -4,16 +4,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 final public class CreateBookFeatureTest extends TestCase {
     @Test
     public void itShouldCreateABook() {
-        ResponseEntity<String> postResponse = post("{'id': '1234', 'title': 'olakease'}");
+        UUID id = UUID.randomUUID();
+        ResponseEntity<String> postResponse = post("{'id': " + id + ", 'title': 'olakease'}");
         assertSame(HttpStatus.CREATED, postResponse.getStatusCode());
         assertFalse(postResponse.hasBody());
 
-        ResponseEntity<String> getResponse = get("/book/1234");
+        ResponseEntity<String> getResponse = get("/book/" + id);
         assertEquals("olakease", getResponse.getBody());
     }
 }

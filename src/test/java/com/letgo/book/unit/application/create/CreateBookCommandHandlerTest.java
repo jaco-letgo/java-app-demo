@@ -18,7 +18,7 @@ public class CreateBookCommandHandlerTest {
 
     @Test
     public void itShouldCreateABook() {
-        BookId id = BookId.create("123");
+        BookId id = BookId.create();
         String title = "Title";
 
         handler.handle(new CreateBookCommand(id.value(), title));

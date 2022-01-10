@@ -15,7 +15,7 @@ public class FindBookQueryHandlerTest {
 
     @Test
     public void itShouldFindABook() {
-        BookId bookId = BookId.create("12345");
+        BookId bookId = BookId.create();
         String title = "Whatever";
         repository.save(Book.create(bookId, title));
 
@@ -27,13 +27,14 @@ public class FindBookQueryHandlerTest {
 
     @Test
     public void itShouldThrowAnExceptionWhenBookIsNotFound() {
-        FindBookQuery query = new FindBookQuery(BookId.create("12345").value());
+        BookId bookId = BookId.create();
+        FindBookQuery query = new FindBookQuery(bookId.value());
 
         BookNotFound exception = assertThrowsExactly(
                 BookNotFound.class,
                 () -> handler.handle(query)
         );
 
-        assertEquals("Book not found with id 12345", exception.getMessage());
+        assertEquals("Book not found with id " + bookId.value(), exception.getMessage());
     }
 }

@@ -1,27 +1,33 @@
 package com.letgo.book.domain;
 
-final public class BookId {
-    private final String value;
+import java.util.UUID;
 
-    private BookId(String value) {
+final public class BookId {
+    private final UUID value;
+
+    private BookId(UUID value) {
         this.value = value;
     }
 
+    public static BookId create() {
+        return new BookId(UUID.randomUUID());
+    }
+
     public static BookId create(String value) {
-        return new BookId(value);
+        return new BookId(UUID.fromString(value));
     }
 
     public String value() {
-        return value;
+        return value.toString();
     }
 
     @Override
     public boolean equals(Object anObject) {
-        return anObject instanceof BookId && this.value.equals(((BookId) anObject).value());
+        return anObject instanceof BookId && value().equals(((BookId) anObject).value());
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return value().hashCode();
     }
 }
