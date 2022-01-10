@@ -1,11 +1,10 @@
 package com.letgo.book.domain;
 
-import org.springframework.stereotype.Service;
+import com.letgo.shared.domain.DomainService;
 
 import java.util.Optional;
 
-@Service
-public class BookFinder {
+public class BookFinder implements DomainService {
     private final BookRepository repository;
 
     public BookFinder(BookRepository repository) {
