@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class PostBookController {
+public class PostBookController extends BookController {
     private final CommandBus commandBus;
 
     public PostBookController(CommandBus commandBus) {
         this.commandBus = commandBus;
     }
 
-    @PostMapping("/book")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void index(@RequestBody String request) throws Exception {
         JSONObject body = new JSONObject(request);

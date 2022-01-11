@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class GetBookController {
+public class GetBookController extends BookController {
     private final QueryBus queryBus;
 
     public GetBookController(QueryBus queryBus) {
         this.queryBus = queryBus;
     }
 
-    @GetMapping("/book/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<String> index(@PathVariable("id") String id) throws Exception {
         FindBookQueryResponse response = (FindBookQueryResponse) queryBus.dispatch(new FindBookQuery(id));
         return ResponseEntity.accepted().body(response.title());
