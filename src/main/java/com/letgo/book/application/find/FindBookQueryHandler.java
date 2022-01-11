@@ -14,6 +14,6 @@ public class FindBookQueryHandler implements QueryHandler<FindBookQuery> {
 
     public FindBookQueryResponse handle(FindBookQuery query) {
         Book book = finder.find(BookId.create(query.id()));
-        return new FindBookQueryResponse(book.title());
+        return new FindBookQueryResponse(book.title().value());
     }
 }

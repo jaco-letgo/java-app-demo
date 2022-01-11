@@ -16,13 +16,13 @@ public class FindBookQueryHandlerTest {
     @Test
     public void itShouldFindABook() {
         BookId bookId = BookId.create();
-        String title = "Whatever";
+        BookTitle title = BookTitle.create("Whatever");
         repository.save(Book.create(bookId, title));
 
         FindBookQuery query = new FindBookQuery(bookId.value());
         FindBookQueryResponse response = handler.handle(query);
 
-        assertEquals(title, response.title());
+        assertEquals(title.value(), response.title());
     }
 
     @Test

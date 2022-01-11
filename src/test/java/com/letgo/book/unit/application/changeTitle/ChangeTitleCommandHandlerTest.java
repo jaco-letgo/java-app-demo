@@ -2,10 +2,7 @@ package com.letgo.book.unit.application.changeTitle;
 
 import com.letgo.book.application.changeTitle.ChangeTitleCommand;
 import com.letgo.book.application.changeTitle.ChangeTitleCommandHandler;
-import com.letgo.book.domain.Book;
-import com.letgo.book.domain.BookFinder;
-import com.letgo.book.domain.BookId;
-import com.letgo.book.domain.BookRepository;
+import com.letgo.book.domain.*;
 import com.letgo.book.infrastructure.persistence.InMemoryBookRepository;
 import org.junit.jupiter.api.Test;
 
@@ -23,13 +20,13 @@ public class ChangeTitleCommandHandlerTest {
     @Test
     public void itShouldCreateABook() {
         BookId id = BookId.create();
-        String currentTitle = "Whatever";
+        BookTitle currentTitle = BookTitle.create("Whatever");
         Book currentBook = Book.create(id, currentTitle);
         repository.save(currentBook);
 
-        String newTitle = "Title";
+        BookTitle newTitle = BookTitle.create("Title");
 
-        handler.handle(new ChangeTitleCommand(id.value(), newTitle));
+        handler.handle(new ChangeTitleCommand(id.value(), newTitle.value()));
 
         Optional<Book> optionalBook = repository.find(id);
         assertTrue(optionalBook.isPresent());

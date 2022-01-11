@@ -2,14 +2,14 @@ package com.letgo.book.domain;
 
 final public class Book {
     private final BookId id;
-    private String title;
+    private BookTitle title;
 
-    private Book(BookId id, String title) {
+    private Book(BookId id, BookTitle title) {
         this.id = id;
         this.title = title;
     }
 
-    public static Book create(BookId id, String title) {
+    public static Book create(BookId id, BookTitle title) {
         return new Book(id, title);
     }
 
@@ -17,11 +17,11 @@ final public class Book {
         return id;
     }
 
-    public String title() {
+    public BookTitle title() {
         return title;
     }
 
-    public void changeTitle(String newTitle) {
+    public void changeTitle(BookTitle newTitle) {
         title = newTitle;
     }
 }

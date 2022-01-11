@@ -1,9 +1,6 @@
 package com.letgo.book.application.changeTitle;
 
-import com.letgo.book.domain.Book;
-import com.letgo.book.domain.BookFinder;
-import com.letgo.book.domain.BookId;
-import com.letgo.book.domain.BookRepository;
+import com.letgo.book.domain.*;
 import com.letgo.shared.application.bus.command.CommandHandler;
 
 public class ChangeTitleCommandHandler implements CommandHandler<ChangeTitleCommand> {
@@ -17,7 +14,7 @@ public class ChangeTitleCommandHandler implements CommandHandler<ChangeTitleComm
 
     public void handle(ChangeTitleCommand command) {
         Book book = finder.find(BookId.create(command.id()));
-        book.changeTitle(command.newTitle());
+        book.changeTitle(BookTitle.create(command.newTitle()));
         repository.save(book);
     }
 }
