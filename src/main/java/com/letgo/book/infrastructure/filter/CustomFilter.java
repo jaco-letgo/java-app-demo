@@ -1,11 +1,11 @@
 package com.letgo.book.infrastructure.filter;
 
-import org.springframework.stereotype.Component;
+import com.letgo.shared.domain.Service;
 
 import javax.servlet.*;
 import java.io.IOException;
 
-@Component
+@Service
 final public class CustomFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

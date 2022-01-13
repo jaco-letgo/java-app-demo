@@ -4,7 +4,7 @@ import com.letgo.shared.application.bus.query.Query;
 import com.letgo.shared.application.bus.query.QueryBus;
 import com.letgo.shared.application.bus.query.QueryHandler;
 import com.letgo.shared.application.bus.query.QueryResponse;
-import org.springframework.stereotype.Service;
+import com.letgo.shared.domain.Service;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

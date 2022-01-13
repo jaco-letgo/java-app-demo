@@ -1,10 +1,11 @@
 package com.letgo.book.domain;
 
-import com.letgo.shared.domain.DomainService;
+import com.letgo.shared.domain.Service;
 
 import java.util.Optional;
 
-final public class BookFinder implements DomainService {
+@Service
+final public class BookFinder {
     private final BookRepository repository;
 
     public BookFinder(BookRepository repository) {

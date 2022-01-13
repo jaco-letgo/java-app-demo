@@ -3,7 +3,7 @@ package com.letgo.shared.infrastructure.bus.command;
 import com.letgo.shared.application.bus.command.Command;
 import com.letgo.shared.application.bus.command.CommandBus;
 import com.letgo.shared.application.bus.command.CommandHandler;
-import org.springframework.stereotype.Service;
+import com.letgo.shared.domain.Service;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
