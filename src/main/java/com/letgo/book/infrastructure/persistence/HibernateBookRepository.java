@@ -43,6 +43,6 @@ final public class HibernateBookRepository implements BookRepository {
     }
 
     private HibernateBookEntity findById(BookId id) {
-        return session().byId(HibernateBookEntity.class).load(id);
+        return session().find(HibernateBookEntity.class, id);
     }
 }
