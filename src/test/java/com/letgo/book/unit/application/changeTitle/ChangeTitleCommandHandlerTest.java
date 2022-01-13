@@ -10,7 +10,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ChangeTitleCommandHandlerTest {
+final public class ChangeTitleCommandHandlerTest {
     private final BookRepository repository = new InMemoryBookRepository();
     private final ChangeTitleCommandHandler handler = new ChangeTitleCommandHandler(
             repository,

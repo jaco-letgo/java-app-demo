@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class PostBookController extends BookController {
+final public class PostBookController extends BookController {
     private final CommandBus commandBus;
 
     public PostBookController(CommandBus commandBus) {

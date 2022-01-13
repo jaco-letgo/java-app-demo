@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class InMemoryCommandBus implements CommandBus {
+final public class InMemoryCommandBus implements CommandBus {
     private final Map<Class<? extends Command>, CommandHandler<? extends Command>> handlers = new HashMap<>();
 
     public InMemoryCommandBus(List<CommandHandler<? extends Command>> handlers) {

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class GetBookController extends BookController {
+final public class GetBookController extends BookController {
     private final QueryBus queryBus;
 
     public GetBookController(QueryBus queryBus) {

@@ -11,7 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-abstract class TestCase {
+public abstract class TestCase {
     public static final String DOMAIN_NAME = "http://localhost:";
     @LocalServerPort
     protected int port;

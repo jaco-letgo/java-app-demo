@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class SpringExceptionHandler {
+final public class SpringExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<String> handle(BookNotFound exception) {
         return ResponseEntity.notFound().build();

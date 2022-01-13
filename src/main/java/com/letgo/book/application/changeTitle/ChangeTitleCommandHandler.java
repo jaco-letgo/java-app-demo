@@ -3,7 +3,7 @@ package com.letgo.book.application.changeTitle;
 import com.letgo.book.domain.*;
 import com.letgo.shared.application.bus.command.CommandHandler;
 
-public class ChangeTitleCommandHandler implements CommandHandler<ChangeTitleCommand> {
+final public class ChangeTitleCommandHandler implements CommandHandler<ChangeTitleCommand> {
     private final BookRepository repository;
     private final BookFinder finder;
 

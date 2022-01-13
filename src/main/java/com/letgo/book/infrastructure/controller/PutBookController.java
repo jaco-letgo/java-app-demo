@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class PutBookController extends BookController {
+final public class PutBookController extends BookController {
     private final CommandBus commandBus;
 
     public PutBookController(CommandBus commandBus) {

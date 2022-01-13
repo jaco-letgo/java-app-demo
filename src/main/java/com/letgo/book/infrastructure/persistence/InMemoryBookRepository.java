@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class InMemoryBookRepository implements BookRepository {
+final public class InMemoryBookRepository implements BookRepository {
     private final Map<BookId, Book> storage = new HashMap<>();
 
     @Override

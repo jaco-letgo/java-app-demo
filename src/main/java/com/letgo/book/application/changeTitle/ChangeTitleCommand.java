@@ -2,7 +2,7 @@ package com.letgo.book.application.changeTitle;
 
 import com.letgo.shared.application.bus.command.Command;
 
-public class ChangeTitleCommand implements Command {
+final public class ChangeTitleCommand implements Command {
     private final String id;
     private final String newTitle;
 

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class InMemoryQueryBus implements QueryBus {
+final public class InMemoryQueryBus implements QueryBus {
     private final Map<Class<? extends Query>, QueryHandler<? extends Query>> handlers = new HashMap<>();
 
     public InMemoryQueryBus(List<QueryHandler<? extends Query>> handlers) {

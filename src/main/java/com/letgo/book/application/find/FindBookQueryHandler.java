@@ -5,7 +5,7 @@ import com.letgo.book.domain.BookFinder;
 import com.letgo.book.domain.BookId;
 import com.letgo.shared.application.bus.query.QueryHandler;
 
-public class FindBookQueryHandler implements QueryHandler<FindBookQuery> {
+final public class FindBookQueryHandler implements QueryHandler<FindBookQuery> {
     private final BookFinder finder;
 
     public FindBookQueryHandler(BookFinder finder) {

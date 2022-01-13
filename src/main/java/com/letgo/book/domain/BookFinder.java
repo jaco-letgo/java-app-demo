@@ -4,7 +4,7 @@ import com.letgo.shared.domain.DomainService;
 
 import java.util.Optional;
 
-public class BookFinder implements DomainService {
+final public class BookFinder implements DomainService {
     private final BookRepository repository;
 
     public BookFinder(BookRepository repository) {

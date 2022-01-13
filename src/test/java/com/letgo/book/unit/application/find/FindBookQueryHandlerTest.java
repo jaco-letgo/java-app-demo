@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FindBookQueryHandlerTest {
+final public class FindBookQueryHandlerTest {
     private final BookRepository repository = new InMemoryBookRepository();
     private final FindBookQueryHandler handler = new FindBookQueryHandler(new BookFinder(repository));
 
