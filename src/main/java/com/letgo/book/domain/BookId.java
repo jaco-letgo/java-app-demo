@@ -1,8 +1,9 @@
 package com.letgo.book.domain;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-final public class BookId {
+final public class BookId implements Serializable {
     private final UUID value;
 
     private BookId(UUID value) {
