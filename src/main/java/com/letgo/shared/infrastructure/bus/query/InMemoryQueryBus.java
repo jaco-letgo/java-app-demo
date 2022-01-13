@@ -4,7 +4,7 @@ import com.letgo.shared.application.bus.query.Query;
 import com.letgo.shared.application.bus.query.QueryBus;
 import com.letgo.shared.application.bus.query.QueryHandler;
 import com.letgo.shared.application.bus.query.QueryResponse;
-import com.letgo.shared.domain.Service;
+import com.letgo.shared.infrastructure.InfrastructureService;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service
+@InfrastructureService
 final public class InMemoryQueryBus implements QueryBus {
     private final Map<Class<? extends Query>, QueryHandler<? extends Query>> handlers = new HashMap<>();
 

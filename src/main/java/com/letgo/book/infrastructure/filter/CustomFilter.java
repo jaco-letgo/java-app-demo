@@ -1,11 +1,11 @@
 package com.letgo.book.infrastructure.filter;
 
-import com.letgo.shared.domain.Service;
+import com.letgo.shared.infrastructure.InfrastructureService;
 
 import javax.servlet.*;
 import java.io.IOException;
 
-@Service
+@InfrastructureService
 final public class CustomFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

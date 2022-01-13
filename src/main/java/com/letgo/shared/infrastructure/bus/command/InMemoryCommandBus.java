@@ -3,7 +3,7 @@ package com.letgo.shared.infrastructure.bus.command;
 import com.letgo.shared.application.bus.command.Command;
 import com.letgo.shared.application.bus.command.CommandBus;
 import com.letgo.shared.application.bus.command.CommandHandler;
-import com.letgo.shared.domain.Service;
+import com.letgo.shared.infrastructure.InfrastructureService;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service
+@InfrastructureService
 final public class InMemoryCommandBus implements CommandBus {
     private final Map<Class<? extends Command>, CommandHandler<? extends Command>> handlers = new HashMap<>();
 

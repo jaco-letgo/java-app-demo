@@ -5,14 +5,14 @@ import com.letgo.book.domain.BookId;
 import com.letgo.book.domain.BookRepository;
 import com.letgo.book.infrastructure.persistence.mapping.HibernateBookEntity;
 import com.letgo.book.infrastructure.persistence.mapping.HibernateBookMapper;
-import com.letgo.shared.domain.Service;
+import com.letgo.shared.infrastructure.InfrastructureService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.util.Optional;
 
-@Service
+@InfrastructureService
 final public class HibernateBookRepository implements BookRepository {
     private final SessionFactory sessionFactory;
 
