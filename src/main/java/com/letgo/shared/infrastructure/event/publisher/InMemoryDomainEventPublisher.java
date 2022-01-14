@@ -4,18 +4,13 @@ import com.letgo.shared.application.event.DomainEventPublisher;
 import com.letgo.shared.application.event.DomainEventSubscriber;
 import com.letgo.shared.domain.DomainEvent;
 
-import java.util.ArrayList;
 import java.util.List;
 
 final public class InMemoryDomainEventPublisher implements DomainEventPublisher {
     private final List<DomainEventSubscriber> subscribers;
 
-    public InMemoryDomainEventPublisher() {
-        this.subscribers = new ArrayList<>();
-    }
-
-    public void add(DomainEventSubscriber subscriber) {
-        subscribers.add(subscriber);
+    public InMemoryDomainEventPublisher(List<DomainEventSubscriber> subscribers) {
+        this.subscribers = subscribers;
     }
 
     @Override
