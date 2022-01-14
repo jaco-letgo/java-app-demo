@@ -1,6 +1,8 @@
 package com.letgo.book.domain;
 
-final public class Book {
+import com.letgo.shared.domain.AggregateRoot;
+
+final public class Book extends AggregateRoot {
     private final BookId id;
     private BookTitle title;
 
@@ -10,7 +12,9 @@ final public class Book {
     }
 
     public static Book create(BookId id, BookTitle title) {
-        return new Book(id, title);
+        Book book = new Book(id, title);
+        book.storeEvent(new BookCreated(id.value(), title.value()));
+        return book;
     }
 
     public BookId id() {
