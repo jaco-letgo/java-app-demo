@@ -11,9 +11,10 @@ services:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     entrypoint:
       sh -c "
-      echo 'CREATE DATABASE IF NOT EXISTS java-app-demo;' > /docker-entrypoint-initdb.d/init.sql;
       /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
       "
+    volumes:
+      - ./docker/mysql/init/:/docker-entrypoint-initdb.d/
     command: ["--default-authentication-plugin=mysql_native_password"]
 
   java:

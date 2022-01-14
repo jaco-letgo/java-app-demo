@@ -1,3 +1,5 @@
+USE demo;
+
 CREATE TABLE IF NOT EXISTS books (
     id       CHAR(36)     NOT NULL,
     title    VARCHAR(255) NOT NULL,
