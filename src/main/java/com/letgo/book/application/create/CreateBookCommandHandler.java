@@ -18,8 +18,11 @@ final public class CreateBookCommandHandler implements CommandHandler<CreateBook
 
     @Override
     public void handle(CreateBookCommand command) {
-        Book book = Book.create(BookId.create(command.id()), BookTitle.create(command.title()));
-        repository.save(book);
-        publisher.publish(book.retrieveEvents());
+        BookId id = BookId.create(command.id());
+        if (repository.find(id).isEmpty()) {
+            Book book = Book.create(id, BookTitle.create(command.title()));
+            repository.save(book);
+            publisher.publish(book.retrieveEvents());
+        }
     }
 }

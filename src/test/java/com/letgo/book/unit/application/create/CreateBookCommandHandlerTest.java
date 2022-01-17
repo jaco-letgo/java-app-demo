@@ -28,9 +28,11 @@ final public class CreateBookCommandHandlerTest {
         BookTitle title = BookTitle.create("Title");
 
         BookCreated expectedEvent = new BookCreated(id.value(), title.value());
-        subscribers.add(new SpyDomainEventSubscriber(expectedEvent));
+        SpyDomainEventSubscriber subscriber = new SpyDomainEventSubscriber(expectedEvent);
+        subscribers.add(subscriber);
 
         handler.handle(new CreateBookCommand(id.value(), title.value()));
+        assertTrue(subscriber.hasBeenCalled());
 
         Optional<Book> optionalBook = repository.find(id);
         assertTrue(optionalBook.isPresent());
@@ -38,5 +40,26 @@ final public class CreateBookCommandHandlerTest {
         Book book = optionalBook.get();
         assertEquals(id, book.id());
         assertEquals(title, book.title());
+    }
+
+    @Test
+    public void itShouldBeIdempotent() {
+        BookId id = BookId.create();
+        BookTitle title = BookTitle.create("Title");
+        Book currentBook = Book.create(id, title);
+        currentBook.retrieveEvents();
+        repository.save(currentBook);
+
+        SpyDomainEventSubscriber subscriber = new SpyDomainEventSubscriber();
+        subscribers.add(subscriber);
+
+        handler.handle(new CreateBookCommand(id.value(), title.value()));
+        assertFalse(subscriber.hasBeenCalled());
+
+        Optional<Book> optionalBook = repository.find(id);
+        assertTrue(optionalBook.isPresent());
+
+        Book book = optionalBook.get();
+        assertEquals(currentBook, book);
     }
 }

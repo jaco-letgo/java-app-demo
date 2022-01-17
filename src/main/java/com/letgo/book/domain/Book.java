@@ -26,6 +26,7 @@ final public class Book extends AggregateRoot {
     }
 
     public void changeTitle(BookTitle newTitle) {
+        storeEvent(new BookTitleChanged(id.value(), title.value(), newTitle.value()));
         title = newTitle;
     }
 }
