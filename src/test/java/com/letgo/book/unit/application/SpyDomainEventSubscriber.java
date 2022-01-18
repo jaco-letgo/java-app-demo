@@ -3,7 +3,7 @@ package com.letgo.book.unit.application;
 import com.letgo.shared.application.event.DomainEventSubscriber;
 import com.letgo.shared.domain.DomainEvent;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 final public class SpyDomainEventSubscriber implements DomainEventSubscriber {
     private boolean hasBeenCalled = false;
@@ -25,7 +25,10 @@ final public class SpyDomainEventSubscriber implements DomainEventSubscriber {
     @Override
     public void consume(DomainEvent event) {
         hasBeenCalled = true;
-        assertEquals(expectedEvent, event);
+        assertNotNull(expectedEvent);
+        assertEquals(expectedEvent.aggregateId(), event.aggregateId());
+        assertEquals(expectedEvent.name(), event.name());
+        assertEquals(expectedEvent.body(), event.body());
     }
 
     public boolean hasBeenCalled() {

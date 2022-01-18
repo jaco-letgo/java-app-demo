@@ -2,19 +2,12 @@ package com.letgo.book.domain;
 
 import com.letgo.shared.domain.DomainEvent;
 
-import java.util.Objects;
-
 final public class BookCreated extends DomainEvent {
-    private final String id;
     private final String title;
 
     public BookCreated(String id, String title) {
-        this.id = id;
+        super(id);
         this.title = title;
-    }
-
-    public String id() {
-        return id;
     }
 
     public String title() {
@@ -22,15 +15,12 @@ final public class BookCreated extends DomainEvent {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BookCreated that = (BookCreated) o;
-        return Objects.equals(id, that.id) && Objects.equals(title, that.title);
+    public String name() {
+        return "BookCreated";
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(id, title);
+    public String body() {
+        return "{'title': " + title + "}";
     }
 }
