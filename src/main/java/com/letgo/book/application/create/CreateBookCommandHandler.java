@@ -3,7 +3,6 @@ package com.letgo.book.application.create;
 import com.letgo.book.domain.Book;
 import com.letgo.book.domain.BookId;
 import com.letgo.book.domain.BookRepository;
-import com.letgo.book.domain.BookTitle;
 import com.letgo.shared.application.bus.command.CommandHandler;
 import com.letgo.shared.application.event.DomainEventPublisher;
 
@@ -20,7 +19,7 @@ final public class CreateBookCommandHandler implements CommandHandler<CreateBook
     public void handle(CreateBookCommand command) {
         BookId id = BookId.create(command.id());
         if (repository.find(id).isEmpty()) {
-            Book book = Book.create(id, BookTitle.create(command.title()));
+            Book book = Book.create(id.value(), command.title());
             repository.save(book);
             publisher.publish(book.retrieveEvents());
         }

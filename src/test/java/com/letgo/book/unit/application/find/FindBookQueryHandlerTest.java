@@ -3,38 +3,39 @@ package com.letgo.book.unit.application.find;
 import com.letgo.book.application.find.FindBookQuery;
 import com.letgo.book.application.find.FindBookQueryHandler;
 import com.letgo.book.application.find.FindBookQueryResponse;
-import com.letgo.book.domain.*;
-import com.letgo.book.infrastructure.persistence.InMemoryBookRepository;
+import com.letgo.book.domain.Book;
+import com.letgo.book.domain.BookFinder;
+import com.letgo.book.domain.BookNotFound;
+import com.letgo.book.unit.application.BookTestCase;
+import com.letgo.book.unit.domain.BookIdMother;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
-final public class FindBookQueryHandlerTest {
-    private final BookRepository repository = new InMemoryBookRepository();
+final public class FindBookQueryHandlerTest extends BookTestCase {
     private final FindBookQueryHandler handler = new FindBookQueryHandler(new BookFinder(repository));
 
     @Test
     public void itShouldFindABook() {
-        BookId bookId = BookId.create();
-        BookTitle title = BookTitle.create("Whatever");
-        repository.save(Book.create(bookId, title));
+        Book book = anExistingBook();
 
-        FindBookQuery query = new FindBookQuery(bookId.value());
+        FindBookQuery query = new FindBookQuery(book.id().value());
         FindBookQueryResponse response = handler.handle(query);
 
-        assertEquals(title.value(), response.title());
+        assertEquals(book.title().value(), response.title());
     }
 
     @Test
     public void itShouldThrowAnExceptionWhenBookIsNotFound() {
-        BookId bookId = BookId.create();
-        FindBookQuery query = new FindBookQuery(bookId.value());
+        String id = BookIdMother.random().value();
+        FindBookQuery query = new FindBookQuery(id);
 
         BookNotFound exception = assertThrowsExactly(
                 BookNotFound.class,
                 () -> handler.handle(query)
         );
 
-        assertEquals("Book not found with id " + bookId.value(), exception.getMessage());
+        assertEquals("Book not found with id " + id, exception.getMessage());
     }
 }

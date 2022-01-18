@@ -9,12 +9,15 @@ final public class Book extends AggregateRoot {
     private Book(BookId id, BookTitle title) {
         this.id = id;
         this.title = title;
+        storeEvent(new BookCreated(id.value(), title.value()));
+    }
+
+    public static Book create(String id, String title) {
+        return new Book(BookId.create(id), BookTitle.create(title));
     }
 
     public static Book create(BookId id, BookTitle title) {
-        Book book = new Book(id, title);
-        book.storeEvent(new BookCreated(id.value(), title.value()));
-        return book;
+        return new Book(id, title);
     }
 
     public BookId id() {

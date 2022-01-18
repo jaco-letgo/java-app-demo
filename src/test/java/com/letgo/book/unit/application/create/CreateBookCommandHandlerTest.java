@@ -2,64 +2,47 @@ package com.letgo.book.unit.application.create;
 
 import com.letgo.book.application.create.CreateBookCommand;
 import com.letgo.book.application.create.CreateBookCommandHandler;
-import com.letgo.book.domain.*;
-import com.letgo.book.infrastructure.persistence.InMemoryBookRepository;
-import com.letgo.book.unit.application.SpyDomainEventSubscriber;
-import com.letgo.shared.application.event.DomainEventPublisher;
-import com.letgo.shared.application.event.DomainEventSubscriber;
-import com.letgo.shared.infrastructure.event.publisher.InMemoryDomainEventPublisher;
+import com.letgo.book.domain.Book;
+import com.letgo.book.domain.BookCreated;
+import com.letgo.book.domain.BookId;
+import com.letgo.book.domain.BookTitle;
+import com.letgo.book.unit.application.BookTestCase;
+import com.letgo.book.unit.domain.BookIdMother;
+import com.letgo.book.unit.domain.BookTitleMother;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-final public class CreateBookCommandHandlerTest {
-    private final BookRepository repository = new InMemoryBookRepository();
-    private final List<DomainEventSubscriber> subscribers = new ArrayList<>();
-    private final DomainEventPublisher publisher = new InMemoryDomainEventPublisher(subscribers);
+final public class CreateBookCommandHandlerTest extends BookTestCase {
     private final CreateBookCommandHandler handler = new CreateBookCommandHandler(repository, publisher);
 
     @Test
     public void itShouldCreateABook() {
-        BookId id = BookId.create();
-        BookTitle title = BookTitle.create("Title");
+        BookId id = BookIdMother.random();
+        BookTitle title = BookTitleMother.create("Title");
 
-        BookCreated expectedEvent = new BookCreated(id.value(), title.value());
-        SpyDomainEventSubscriber subscriber = new SpyDomainEventSubscriber(expectedEvent);
-        subscribers.add(subscriber);
+        expectDomainEventsToBePublished(new BookCreated(id.value(), title.value()));
 
         handler.handle(new CreateBookCommand(id.value(), title.value()));
-        assertTrue(subscriber.hasBeenCalled());
 
-        Optional<Book> optionalBook = repository.find(id);
-        assertTrue(optionalBook.isPresent());
-
-        Book book = optionalBook.get();
+        Book book = repository.find(id).orElseThrow();
         assertEquals(id, book.id());
         assertEquals(title, book.title());
+
+        eventsShouldBePublished();
     }
 
     @Test
     public void itShouldBeIdempotent() {
-        BookId id = BookId.create();
-        BookTitle title = BookTitle.create("Title");
-        Book currentBook = Book.create(id, title);
-        currentBook.retrieveEvents();
-        repository.save(currentBook);
+        Book currentBook = anExistingBook();
+        BookId id = currentBook.id();
 
-        SpyDomainEventSubscriber subscriber = new SpyDomainEventSubscriber();
-        subscribers.add(subscriber);
+        expectDomainEventsToBePublished();
 
-        handler.handle(new CreateBookCommand(id.value(), title.value()));
-        assertFalse(subscriber.hasBeenCalled());
+        handler.handle(new CreateBookCommand(id.value(), currentBook.title().value()));
 
-        Optional<Book> optionalBook = repository.find(id);
-        assertTrue(optionalBook.isPresent());
+        assertEquals(currentBook, repository.find(id).orElseThrow());
 
-        Book book = optionalBook.get();
-        assertEquals(currentBook, book);
+        eventsShouldNotBePublished();
     }
 }

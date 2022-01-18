@@ -7,10 +7,6 @@ final public class BookTitle {
         this.value = value;
     }
 
-    public static BookTitle create() {
-        return new BookTitle("");
-    }
-
     public static BookTitle create(String value) {
         return new BookTitle(value);
     }
