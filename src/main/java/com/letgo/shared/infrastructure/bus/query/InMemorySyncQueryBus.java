@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.Map;
 
 @InfrastructureService
-final public class InMemoryQueryBus implements QueryBus {
+final public class InMemorySyncQueryBus implements QueryBus {
     private final Map<Class<? extends Query>, QueryHandler<? extends Query>> handlers = new HashMap<>();
 
-    public InMemoryQueryBus(List<QueryHandler<? extends Query>> handlers) {
+    public InMemorySyncQueryBus(List<QueryHandler<? extends Query>> handlers) {
         handlers.forEach(queryHandler -> this.handlers.put(getQueryClass(queryHandler), queryHandler));
     }
 

@@ -12,11 +12,11 @@ final public class FindBookFeatureTest extends TestCase {
     @Test
     public void itShouldFindAnExistingBook() {
         UUID id = UUID.randomUUID();
-        post("{'id': " + id + ", 'title': 'olakease'}");
+        givenAnExistingBookWith(id.toString(), "OlaKeAse");
 
         ResponseEntity<String> getResponse = get("/book/" + id);
         assertSame(HttpStatus.ACCEPTED, getResponse.getStatusCode());
-        assertEquals("olakease", getResponse.getBody());
+        assertEquals("OLAKEASE", getResponse.getBody());
     }
 
     @Test

@@ -12,11 +12,13 @@ final public class CreateBookFeatureTest extends TestCase {
     @Test
     public void itShouldCreateABook() {
         UUID id = UUID.randomUUID();
-        ResponseEntity<String> postResponse = post("{'id': " + id + ", 'title': 'olakease'}");
+        ResponseEntity<String> postResponse = post("{'id': " + id + ", 'title': 'OlaKeAse'}");
         assertSame(HttpStatus.CREATED, postResponse.getStatusCode());
         assertFalse(postResponse.hasBody());
 
+        weWaitForEventsToBeProcessed();
+
         ResponseEntity<String> getResponse = get("/book/" + id);
-        assertEquals("olakease", getResponse.getBody());
+        assertEquals("OLAKEASE", getResponse.getBody());
     }
 }

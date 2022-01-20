@@ -7,7 +7,7 @@ import com.letgo.book.unit.domain.BookMother;
 import com.letgo.shared.application.event.DomainEventPublisher;
 import com.letgo.shared.application.event.DomainEventSubscriber;
 import com.letgo.shared.domain.DomainEvent;
-import com.letgo.shared.infrastructure.event.publisher.InMemoryDomainEventPublisher;
+import com.letgo.shared.infrastructure.event.publisher.InMemorySyncDomainEventPublisher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 abstract public class BookTestCase {
     protected final BookRepository repository = new InMemoryBookRepository();
     protected final List<DomainEventSubscriber> subscribers = new ArrayList<>();
-    protected final DomainEventPublisher publisher = new InMemoryDomainEventPublisher(subscribers);
+    protected final DomainEventPublisher publisher = new InMemorySyncDomainEventPublisher(subscribers);
 
     protected Book anExistingBook() {
         Book currentBook = BookMother.random();

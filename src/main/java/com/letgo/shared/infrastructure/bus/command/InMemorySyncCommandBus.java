@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.Map;
 
 @InfrastructureService
-final public class InMemoryCommandBus implements CommandBus {
+final public class InMemorySyncCommandBus implements CommandBus {
     private final Map<Class<? extends Command>, CommandHandler<? extends Command>> handlers = new HashMap<>();
 
-    public InMemoryCommandBus(List<CommandHandler<? extends Command>> handlers) {
+    public InMemorySyncCommandBus(List<CommandHandler<? extends Command>> handlers) {
         handlers.forEach(commandHandler -> this.handlers.put(getCommandClass(commandHandler), commandHandler));
     }
 

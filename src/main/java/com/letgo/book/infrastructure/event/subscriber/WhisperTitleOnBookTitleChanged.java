@@ -17,7 +17,8 @@ final public class WhisperTitleOnBookTitleChanged implements DomainEventSubscrib
     @EventListener(BookTitleChanged.class)
     public void consume(DomainEvent event) {
         if (event instanceof BookTitleChanged) {
-            System.out.println(((BookTitleChanged) event).newTitle().toLowerCase());
+            BookTitleChanged bookTitleChanged = (BookTitleChanged) event;
+            System.out.println(bookTitleChanged.oldTitle() + " -> " + bookTitleChanged.newTitle());
         }
     }
 }

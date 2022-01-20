@@ -6,10 +6,10 @@ import com.letgo.shared.domain.DomainEvent;
 
 import java.util.List;
 
-final public class InMemoryDomainEventPublisher implements DomainEventPublisher {
+final public class InMemorySyncDomainEventPublisher implements DomainEventPublisher {
     private final List<DomainEventSubscriber> subscribers;
 
-    public InMemoryDomainEventPublisher(List<DomainEventSubscriber> subscribers) {
+    public InMemorySyncDomainEventPublisher(List<DomainEventSubscriber> subscribers) {
         this.subscribers = subscribers;
     }
 

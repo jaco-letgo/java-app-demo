@@ -11,10 +11,10 @@ import org.springframework.scheduling.annotation.Async;
 
 @Async
 @InfrastructureService
-final public class ShoutTitleOnBookCreated implements DomainEventSubscriber {
+final public class WhisperTitleOnBookCreated implements DomainEventSubscriber {
     private final CommandBus commandBus;
 
-    public ShoutTitleOnBookCreated(CommandBus commandBus) {
+    public WhisperTitleOnBookCreated(CommandBus commandBus) {
         this.commandBus = commandBus;
     }
 
@@ -28,7 +28,12 @@ final public class ShoutTitleOnBookCreated implements DomainEventSubscriber {
     public void consume(DomainEvent event) {
         if (event instanceof BookCreated) {
             try {
-                commandBus.dispatch(new ChangeTitleCommand(event.aggregateId(), ((BookCreated) event).title().toUpperCase()));
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            try {
+                commandBus.dispatch(new ChangeTitleCommand(event.aggregateId(), ((BookCreated) event).title().toLowerCase()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
