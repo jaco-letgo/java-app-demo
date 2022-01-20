@@ -25,13 +25,9 @@ final public class ShoutTitleOnBookCreated implements DomainEventSubscriber {
 
     @Override
     @EventListener(BookCreated.class)
-    public void consume(DomainEvent event) {
+    public void consume(DomainEvent event) throws Throwable {
         if (event instanceof BookCreated) {
-            try {
-                commandBus.dispatch(new ChangeTitleCommand(event.aggregateId(), ((BookCreated) event).title().toUpperCase()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            commandBus.dispatch(new ChangeTitleCommand(event.aggregateId(), ((BookCreated) event).title().toUpperCase()));
         }
     }
 }

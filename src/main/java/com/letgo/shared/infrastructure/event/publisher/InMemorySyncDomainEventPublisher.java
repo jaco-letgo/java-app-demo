@@ -20,7 +20,11 @@ final public class InMemorySyncDomainEventPublisher implements DomainEventPublis
 
     private void tryToConsumeEvent(DomainEvent event, DomainEventSubscriber subscriber) {
         if (subscriber.isSubscribedTo(event)) {
-            subscriber.consume(event);
+            try {
+                subscriber.consume(event);
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
         }
     }
 }

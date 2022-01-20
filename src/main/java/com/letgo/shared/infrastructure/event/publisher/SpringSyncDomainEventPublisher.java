@@ -15,6 +15,10 @@ final public class SpringSyncDomainEventPublisher implements DomainEventPublishe
 
     @Override
     public void publish(List<DomainEvent> events) {
-        events.forEach(publisher::publishEvent);
+        try {
+            events.forEach(publisher::publishEvent);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
     }
 }

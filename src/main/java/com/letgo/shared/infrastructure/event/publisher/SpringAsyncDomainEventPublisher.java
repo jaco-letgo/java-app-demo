@@ -19,6 +19,10 @@ final public class SpringAsyncDomainEventPublisher implements DomainEventPublish
 
     @Override
     public void publish(List<DomainEvent> events) {
-        events.forEach(publisher::publishEvent);
+        try {
+            events.forEach(publisher::publishEvent);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
     }
 }

@@ -25,18 +25,10 @@ final public class WhisperTitleOnBookCreated implements DomainEventSubscriber {
 
     @Override
     @EventListener(BookCreated.class)
-    public void consume(DomainEvent event) {
+    public void consume(DomainEvent event) throws Throwable {
         if (event instanceof BookCreated) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            try {
-                commandBus.dispatch(new ChangeTitleCommand(event.aggregateId(), ((BookCreated) event).title().toLowerCase()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Thread.sleep(100);
+            commandBus.dispatch(new ChangeTitleCommand(event.aggregateId(), ((BookCreated) event).title().toLowerCase()));
         }
     }
 }
