@@ -27,7 +27,14 @@ final public class ShoutTitleOnBookCreated implements DomainEventSubscriber {
     @EventListener(BookCreated.class)
     public void consume(DomainEvent event) throws Throwable {
         if (event instanceof BookCreated) {
-            commandBus.dispatch(new ChangeTitleCommand(event.aggregateId(), ((BookCreated) event).title().toUpperCase()));
+            BookCreated bookCreated = (BookCreated) event;
+            commandBus.dispatch(
+                    new ChangeTitleCommand(
+                            bookCreated.aggregateId(),
+                            bookCreated.title().toUpperCase(),
+                            bookCreated.titleCreatedAt().plusNanos(100000)
+                    )
+            );
         }
     }
 }

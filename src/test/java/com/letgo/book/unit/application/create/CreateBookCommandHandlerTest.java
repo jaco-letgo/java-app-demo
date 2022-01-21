@@ -21,13 +21,13 @@ final public class CreateBookCommandHandlerTest extends BookTestCase {
         BookId id = BookIdMother.random();
         BookTitle title = BookTitleMother.create("Title");
 
-        expectDomainEventsToBePublished(new BookCreated(id.value(), title.value()));
+        expectDomainEventsToBePublished(new BookCreated(id.value(), title.value(), title.createdAt()));
 
         handler.handle(new CreateBookCommand(id.value(), title.value()));
 
         Book book = repository.find(id).orElseThrow();
         assertEquals(id, book.id());
-        assertEquals(title, book.title());
+        assertEquals(title.value(), book.title().value());
 
         eventsShouldBePublished();
     }

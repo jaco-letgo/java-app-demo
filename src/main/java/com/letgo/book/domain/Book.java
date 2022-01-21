@@ -9,7 +9,7 @@ final public class Book extends AggregateRoot {
     private Book(BookId id, BookTitle title) {
         this.id = id;
         this.title = title;
-        storeEvent(new BookCreated(id.value(), title.value()));
+        storeEvent(new BookCreated(id.value(), title.value(), title.createdAt()));
     }
 
     public static Book create(String id, String title) {
@@ -26,6 +26,10 @@ final public class Book extends AggregateRoot {
 
     public BookTitle title() {
         return title;
+    }
+
+    public boolean canChangeTitle(BookTitle newTitle) {
+        return !title.equals(newTitle) && newTitle.isNewerThan(title);
     }
 
     public void changeTitle(BookTitle newTitle) {

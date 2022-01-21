@@ -12,7 +12,7 @@ final public class ChangeTitleFeatureTest extends TestCase {
     @Test
     public void itShouldChangeABookTitle() {
         UUID id = UUID.randomUUID();
-        givenAnExistingBookWith(id.toString(), "OLAKEASE");
+        givenAnExistingBookWith(id.toString(), "OlaKeAse");
 
         ResponseEntity<String> putResponse = put("/book/" + id + "/title/whatever");
         assertSame(HttpStatus.OK, putResponse.getStatusCode());

@@ -17,8 +17,8 @@ final public class ChangeTitleCommandHandler implements CommandHandler<ChangeTit
 
     public void handle(ChangeTitleCommand command) {
         Book book = finder.find(BookId.create(command.id()));
-        BookTitle newTitle = BookTitle.create(command.newTitle());
-        if (!book.title().equals(newTitle)) {
+        BookTitle newTitle = BookTitle.create(command.newTitle(), command.occurredOn());
+        if (book.canChangeTitle(newTitle)) {
             book.changeTitle(newTitle);
             repository.save(book);
             publisher.publish(book.retrieveEvents());

@@ -26,7 +26,7 @@ final public class ChangeTitleCommandHandlerTest extends BookTestCase {
         BookTitleChanged expectedEvent = new BookTitleChanged(id.value(), currentBook.title().value(), newTitle.value());
         expectDomainEventsToBePublished(expectedEvent);
 
-        handler.handle(new ChangeTitleCommand(id.value(), newTitle.value()));
+        handler.handle(new ChangeTitleCommand(id.value(), newTitle.value(), newTitle.createdAt()));
 
         Book book = repository.find(id).orElseThrow();
         assertEquals(id, book.id());
@@ -39,10 +39,11 @@ final public class ChangeTitleCommandHandlerTest extends BookTestCase {
     public void itShouldBeIdempotent() {
         Book currentBook = anExistingBook();
         BookId id = currentBook.id();
+        BookTitle title = currentBook.title();
 
         expectDomainEventsToBePublished();
 
-        handler.handle(new ChangeTitleCommand(id.value(), currentBook.title().value()));
+        handler.handle(new ChangeTitleCommand(id.value(), title.value(), title.createdAt()));
 
         assertEquals(currentBook, repository.find(id).orElseThrow());
         eventsShouldNotBePublished();

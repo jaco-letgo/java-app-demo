@@ -14,6 +14,6 @@ final public class SpringExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<String> handle(Exception exception) {
-        return ResponseEntity.internalServerError().build();
+        return ResponseEntity.internalServerError().body(exception.getMessage());
     }
 }

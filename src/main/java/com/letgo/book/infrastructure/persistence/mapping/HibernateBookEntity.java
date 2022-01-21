@@ -1,7 +1,6 @@
 package com.letgo.book.infrastructure.persistence.mapping;
 
 import com.letgo.book.domain.BookId;
-import com.letgo.book.domain.BookTitle;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -12,14 +11,13 @@ final public class HibernateBookEntity {
     @Id
     @Type(type = "com.letgo.book.infrastructure.persistence.mapping.BookIdType")
     private BookId id;
-    @Convert(converter = BookTitleConverter.class)
-    @Column(nullable = false)
-    private BookTitle title;
+    @Embedded
+    private BookTitleEmbeddable title;
 
     public HibernateBookEntity() {
     }
 
-    public HibernateBookEntity(BookId id, BookTitle title) {
+    public HibernateBookEntity(BookId id, BookTitleEmbeddable title) {
         this.id = id;
         this.title = title;
     }
@@ -28,7 +26,7 @@ final public class HibernateBookEntity {
         return id;
     }
 
-    public BookTitle title() {
+    public BookTitleEmbeddable title() {
         return title;
     }
 }

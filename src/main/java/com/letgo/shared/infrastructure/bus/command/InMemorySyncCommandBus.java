@@ -25,7 +25,9 @@ final public class InMemorySyncCommandBus implements CommandBus {
             throw new Exception(String.format("No handler found for %s", command.getClass().getName()));
         }
         CommandHandler<Command> commandHandler = (CommandHandler<Command>) handlers.get(command.getClass());
-        commandHandler.handle(command);
+        synchronized (this) {
+            commandHandler.handle(command);
+        }
     }
 
     private Class<? extends Command> getCommandClass(CommandHandler<? extends Command> handler) {
