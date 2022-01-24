@@ -1,19 +1,14 @@
-package com.letgo.book.application.find;
+package com.letgo.book.application.find
 
-import com.letgo.book.domain.Book;
-import com.letgo.book.domain.BookFinder;
-import com.letgo.book.domain.BookId;
-import com.letgo.shared.application.bus.query.QueryHandler;
+import com.letgo.book.domain.BookFinder
+import com.letgo.book.domain.BookId
+import com.letgo.shared.application.bus.query.QueryHandler
 
-final public class FindBookQueryHandler implements QueryHandler<FindBookQuery> {
-    private final BookFinder finder;
-
-    public FindBookQueryHandler(BookFinder finder) {
-        this.finder = finder;
-    }
-
-    public FindBookQueryResponse handle(FindBookQuery query) {
-        Book book = finder.find(BookId.create(query.id()));
-        return new FindBookQueryResponse(book.title().value());
+class FindBookQueryHandler(
+    private val finder: BookFinder
+) : QueryHandler<FindBookQuery> {
+    override fun handle(query: FindBookQuery): FindBookQueryResponse {
+        val book = finder.find(BookId.create(query.id()))
+        return FindBookQueryResponse(book.title().value())
     }
 }

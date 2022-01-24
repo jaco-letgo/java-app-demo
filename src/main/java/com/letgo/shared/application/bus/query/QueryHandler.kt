@@ -1,5 +1,6 @@
-package com.letgo.shared.application.bus.query;
+package com.letgo.shared.application.bus.query
 
-public interface QueryHandler<T extends Query> {
-    public QueryResponse handle(T query) throws Exception;
+interface QueryHandler<T : Query> {
+    @Throws(Exception::class)
+    fun handle(query: T): QueryResponse
 }
