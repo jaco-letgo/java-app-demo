@@ -1,32 +1,33 @@
-package com.letgo.book.infrastructure.persistence.mapping;
+package com.letgo.book.infrastructure.persistence.mapping
 
-import com.letgo.book.domain.BookId;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
+import com.letgo.book.domain.BookId
+import org.hibernate.annotations.Type
+import javax.persistence.Embedded
+import javax.persistence.Entity
+import javax.persistence.Id
+import javax.persistence.Table
 
 @Entity
 @Table(name = "books")
-final public class HibernateBookEntity {
+class HibernateBookEntity {
     @Id
     @Type(type = "com.letgo.book.infrastructure.persistence.mapping.BookIdType")
-    private BookId id;
+    private var id: BookId? = null
+
     @Embedded
-    private BookTitleEmbeddable title;
+    private var title: BookTitleEmbeddable? = null
 
-    public HibernateBookEntity() {
+    constructor()
+    constructor(id: BookId, title: BookTitleEmbeddable) {
+        this.id = id
+        this.title = title
     }
 
-    public HibernateBookEntity(BookId id, BookTitleEmbeddable title) {
-        this.id = id;
-        this.title = title;
+    fun id(): BookId? {
+        return id
     }
 
-    public BookId id() {
-        return id;
-    }
-
-    public BookTitleEmbeddable title() {
-        return title;
+    fun title(): BookTitleEmbeddable? {
+        return title
     }
 }

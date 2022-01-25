@@ -6,8 +6,8 @@ import com.letgo.book.domain.BookTitle
 object HibernateBookMapper {
     fun toDomainEntity(entity: HibernateBookEntity): Book {
         val book: Book = Book.create(
-            entity.id(), BookTitle.create(
-                entity.title()!!.value(), entity.title()!!.createdAt()
+            entity.id()!!, BookTitle.create(
+                entity.title()!!.value()!!, entity.title()!!.createdAt()!!
             )
         )
         book.retrieveEvents()
