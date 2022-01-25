@@ -1,32 +1,25 @@
-package com.letgo.book.domain;
+package com.letgo.book.domain
 
-import com.letgo.shared.domain.DomainEvent;
+import com.letgo.shared.domain.DomainEvent
 
-public class BookTitleChanged extends DomainEvent {
-    private final String oldTitle;
-    private final String newTitle;
-
-    public BookTitleChanged(String id, String oldTitle, String newTitle) {
-        super(id);
-        this.oldTitle = oldTitle;
-        this.newTitle = newTitle;
+class BookTitleChanged(
+    id: String,
+    private val oldTitle: String,
+    private val newTitle: String
+) : DomainEvent(id) {
+    fun oldTitle(): String {
+        return oldTitle
     }
 
-    public String oldTitle() {
-        return oldTitle;
+    fun newTitle(): String {
+        return newTitle
     }
 
-    public String newTitle() {
-        return newTitle;
+    override fun name(): String {
+        return "BookTitleChanged"
     }
 
-    @Override
-    public String name() {
-        return "BookTitleChanged";
-    }
-
-    @Override
-    public String body() {
-        return "{'oldTitle': " + oldTitle + ", 'newTitle': " + newTitle + "}";
+    override fun body(): String {
+        return "{'oldTitle': $oldTitle, 'newTitle': $newTitle}"
     }
 }

@@ -1,25 +1,23 @@
-package com.letgo.book.infrastructure.filter;
+package com.letgo.book.infrastructure.filter
 
-import com.letgo.shared.infrastructure.InfrastructureService;
-
-import javax.servlet.*;
-import java.io.IOException;
+import com.letgo.shared.infrastructure.InfrastructureService
+import java.io.IOException
+import javax.servlet.*
 
 @InfrastructureService
-final public class CustomFilter implements Filter {
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+class CustomFilter : Filter {
+    @Throws(ServletException::class)
+    override fun init(filterConfig: FilterConfig) {
         // do nothing
     }
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    @Throws(IOException::class, ServletException::class)
+    override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
         // change the request/response here
-        chain.doFilter(request, response);
+        chain.doFilter(request, response)
     }
 
-    @Override
-    public void destroy() {
+    override fun destroy() {
         // do nothing
     }
 }

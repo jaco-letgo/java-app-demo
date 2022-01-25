@@ -1,39 +1,41 @@
-package com.letgo.book.domain;
+package com.letgo.book.domain
 
-import com.letgo.shared.domain.AggregateRoot;
+import com.letgo.shared.domain.AggregateRoot
 
-final public class Book extends AggregateRoot {
-    private final BookId id;
-    private BookTitle title;
-
-    private Book(BookId id, BookTitle title) {
-        this.id = id;
-        this.title = title;
-        storeEvent(new BookCreated(id.value(), title.value(), title.createdAt()));
+class Book private constructor(
+    private val id: BookId,
+    private var title: BookTitle
+) : AggregateRoot() {
+    init {
+        storeEvent(BookCreated(id.value(), title.value(), title.createdAt()))
     }
 
-    public static Book create(String id, String title) {
-        return new Book(BookId.create(id), BookTitle.create(title));
+    fun id(): BookId {
+        return id
     }
 
-    public static Book create(BookId id, BookTitle title) {
-        return new Book(id, title);
+    fun title(): BookTitle {
+        return title
     }
 
-    public BookId id() {
-        return id;
+    fun canChangeTitle(newTitle: BookTitle): Boolean {
+        return title != newTitle && newTitle.isNewerThan(title)
     }
 
-    public BookTitle title() {
-        return title;
+    fun changeTitle(newTitle: BookTitle) {
+        storeEvent(BookTitleChanged(id.value(), title.value(), newTitle.value()))
+        title = newTitle
     }
 
-    public boolean canChangeTitle(BookTitle newTitle) {
-        return !title.equals(newTitle) && newTitle.isNewerThan(title);
-    }
+    companion object {
+        @JvmStatic
+        fun create(id: String, title: String): Book {
+            return Book(BookId.create(id), BookTitle.create(title))
+        }
 
-    public void changeTitle(BookTitle newTitle) {
-        storeEvent(new BookTitleChanged(id.value(), title.value(), newTitle.value()));
-        title = newTitle;
+        @JvmStatic
+        fun create(id: BookId, title: BookTitle): Book {
+            return Book(id, title)
+        }
     }
 }

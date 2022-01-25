@@ -1,9 +1,8 @@
-package com.letgo.shared.infrastructure;
+package com.letgo.shared.infrastructure
 
-import java.lang.annotation.*;
+import java.lang.annotation.Inherited
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.ANNOTATION_CLASS, AnnotationTarget.CLASS)
 @Inherited
-public @interface InfrastructureService {
-}
+annotation class InfrastructureService

@@ -1,29 +1,27 @@
-package com.letgo.shared.infrastructure.event.publisher;
+package com.letgo.shared.infrastructure.event.publisher
 
-import com.letgo.shared.application.event.DomainEventPublisher;
-import com.letgo.shared.application.event.DomainEventSubscriber;
-import com.letgo.shared.domain.DomainEvent;
+import com.letgo.shared.application.event.DomainEventPublisher
+import com.letgo.shared.application.event.DomainEventSubscriber
+import com.letgo.shared.domain.DomainEvent
+import java.util.function.Consumer
 
-import java.util.List;
-
-final public class InMemorySyncDomainEventPublisher implements DomainEventPublisher {
-    private final List<DomainEventSubscriber> subscribers;
-
-    public InMemorySyncDomainEventPublisher(List<DomainEventSubscriber> subscribers) {
-        this.subscribers = subscribers;
+class InMemorySyncDomainEventPublisher(
+    private val subscribers: List<DomainEventSubscriber>
+) : DomainEventPublisher {
+    override fun publish(events: List<DomainEvent>) {
+        events.forEach(Consumer { event: DomainEvent ->
+            subscribers.forEach(Consumer { subscriber: DomainEventSubscriber ->
+                tryToConsumeEvent(event, subscriber)
+            })
+        })
     }
 
-    @Override
-    public void publish(List<DomainEvent> events) {
-        events.forEach(event -> subscribers.forEach(subscriber -> tryToConsumeEvent(event, subscriber)));
-    }
-
-    private void tryToConsumeEvent(DomainEvent event, DomainEventSubscriber subscriber) {
+    private fun tryToConsumeEvent(event: DomainEvent, subscriber: DomainEventSubscriber) {
         if (subscriber.isSubscribedTo(event)) {
             try {
-                subscriber.consume(event);
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
+                subscriber.consume(event)
+            } catch (throwable: Throwable) {
+                throwable.printStackTrace()
             }
         }
     }

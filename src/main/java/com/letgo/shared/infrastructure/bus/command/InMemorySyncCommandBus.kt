@@ -1,40 +1,39 @@
-package com.letgo.shared.infrastructure.bus.command;
+package com.letgo.shared.infrastructure.bus.command
 
-import com.letgo.shared.application.bus.command.Command;
-import com.letgo.shared.application.bus.command.CommandBus;
-import com.letgo.shared.application.bus.command.CommandHandler;
-import com.letgo.shared.infrastructure.InfrastructureService;
-
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.letgo.shared.application.bus.command.Command
+import com.letgo.shared.application.bus.command.CommandBus
+import com.letgo.shared.application.bus.command.CommandHandler
+import com.letgo.shared.infrastructure.InfrastructureService
+import java.lang.reflect.ParameterizedType
+import java.lang.reflect.Type
+import java.util.function.Consumer
 
 @InfrastructureService
-final public class InMemorySyncCommandBus implements CommandBus {
-    private final Map<Class<? extends Command>, CommandHandler<? extends Command>> handlers = new HashMap<>();
+class InMemorySyncCommandBus(handlers: List<CommandHandler<out Command>>) : CommandBus {
+    private val handlers: MutableMap<Class<out Command>, CommandHandler<out Command>> = HashMap()
 
-    public InMemorySyncCommandBus(List<CommandHandler<? extends Command>> handlers) {
-        handlers.forEach(commandHandler -> this.handlers.put(getCommandClass(commandHandler), commandHandler));
+    init {
+        handlers.forEach(Consumer { commandHandler: CommandHandler<out Command> ->
+            this.handlers[getCommandClass(
+                commandHandler
+            )] = commandHandler
+        })
     }
 
-    @Override
-    public void dispatch(Command command) throws Exception {
-        if (!handlers.containsKey(command.getClass())) {
-            throw new Exception(String.format("No handler found for %s", command.getClass().getName()));
+    @Throws(Exception::class)
+    override fun dispatch(command: Command) {
+        if (!handlers.containsKey(command.javaClass)) {
+            throw Exception(String.format("No handler found for %s", command.javaClass.name))
         }
-        CommandHandler<Command> commandHandler = (CommandHandler<Command>) handlers.get(command.getClass());
-        synchronized (this) {
-            commandHandler.handle(command);
-        }
+        val commandHandler = handlers[command.javaClass] as CommandHandler<Command>
+        synchronized(this) { commandHandler.handle(command) }
     }
 
-    private Class<? extends Command> getCommandClass(CommandHandler<? extends Command> handler) {
-        return (Class<? extends Command>) actualTypeArgument(handler);
+    private fun getCommandClass(handler: CommandHandler<out Command>): Class<out Command> {
+        return actualTypeArgument(handler) as Class<out Command>
     }
 
-    private Type actualTypeArgument(CommandHandler<? extends Command> handler) {
-        return ((ParameterizedType) handler.getClass().getGenericInterfaces()[0]).getActualTypeArguments()[0];
+    private fun actualTypeArgument(handler: CommandHandler<out Command>): Type {
+        return (handler.javaClass.genericInterfaces[0] as ParameterizedType).actualTypeArguments[0]
     }
 }

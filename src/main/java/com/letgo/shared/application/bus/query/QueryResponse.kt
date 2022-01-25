@@ -1,4 +1,3 @@
-package com.letgo.shared.application.bus.query;
+package com.letgo.shared.application.bus.query
 
-public interface QueryResponse {
-}
+interface QueryResponse

@@ -1,16 +1,20 @@
-package com.letgo.book.infrastructure.persistence.mapping;
+package com.letgo.book.infrastructure.persistence.mapping
 
-import com.letgo.book.domain.Book;
-import com.letgo.book.domain.BookTitle;
+import com.letgo.book.domain.Book
+import com.letgo.book.domain.BookTitle
 
-final public class HibernateBookMapper {
-    public static Book toDomainEntity(HibernateBookEntity entity) {
-        Book book = Book.create(entity.id(), BookTitle.create(entity.title().value(), entity.title().createdAt()));
-        book.retrieveEvents();
-        return book;
+object HibernateBookMapper {
+    fun toDomainEntity(entity: HibernateBookEntity): Book {
+        val book: Book = Book.create(
+            entity.id(), BookTitle.create(
+                entity.title()!!.value(), entity.title()!!.createdAt()
+            )
+        )
+        book.retrieveEvents()
+        return book
     }
 
-    public static HibernateBookEntity toOrmEntity(Book entity) {
-        return new HibernateBookEntity(entity.id(), new BookTitleEmbeddable(entity.title()));
+    fun toOrmEntity(entity: Book): HibernateBookEntity {
+        return HibernateBookEntity(entity.id(), BookTitleEmbeddable(entity.title()))
     }
 }

@@ -1,24 +1,19 @@
-package com.letgo.book.infrastructure.controller;
+package com.letgo.book.infrastructure.controller
 
-import com.letgo.book.application.find.FindBookQuery;
-import com.letgo.book.application.find.FindBookQueryResponse;
-import com.letgo.shared.application.bus.query.QueryBus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import com.letgo.book.application.find.FindBookQuery
+import com.letgo.book.application.find.FindBookQueryResponse
+import com.letgo.shared.application.bus.query.QueryBus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
-final public class GetBookController extends BookController {
-    private final QueryBus queryBus;
-
-    public GetBookController(QueryBus queryBus) {
-        this.queryBus = queryBus;
-    }
-
+class GetBookController(private val queryBus: QueryBus) : BookController() {
     @GetMapping("/{id}")
-    public ResponseEntity<String> index(@PathVariable("id") String id) throws Exception {
-        FindBookQueryResponse response = (FindBookQueryResponse) queryBus.dispatch(new FindBookQuery(id));
-        return ResponseEntity.accepted().body(response.title());
+    @Throws(Exception::class)
+    fun index(@PathVariable("id") id: String): ResponseEntity<String> {
+        val response = queryBus.dispatch(FindBookQuery(id)) as FindBookQueryResponse
+        return ResponseEntity.accepted().body(response.title())
     }
 }

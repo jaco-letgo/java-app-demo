@@ -1,18 +1,14 @@
-package com.letgo.shared.domain;
+package com.letgo.shared.domain
 
-import java.util.ArrayList;
-import java.util.List;
-
-public abstract class AggregateRoot {
-    private List<DomainEvent> events = new ArrayList<>();
-
-    public List<DomainEvent> retrieveEvents() {
-        List<DomainEvent> events = this.events;
-        this.events = new ArrayList<>();
-        return events;
+abstract class AggregateRoot {
+    private var events: MutableList<DomainEvent> = ArrayList()
+    fun retrieveEvents(): List<DomainEvent> {
+        val events: List<DomainEvent> = events
+        this.events = ArrayList()
+        return events
     }
 
-    protected void storeEvent(DomainEvent event) {
-        this.events.add(event);
+    protected fun storeEvent(event: DomainEvent) {
+        events.add(event)
     }
 }

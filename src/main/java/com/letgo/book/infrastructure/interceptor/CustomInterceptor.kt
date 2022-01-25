@@ -1,22 +1,26 @@
-package com.letgo.book.infrastructure.interceptor;
+package com.letgo.book.infrastructure.interceptor
 
-import com.letgo.shared.infrastructure.InfrastructureService;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.letgo.shared.infrastructure.InfrastructureService
+import org.springframework.web.servlet.HandlerInterceptor
+import org.springframework.web.servlet.ModelAndView
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 @InfrastructureService
-final public class CustomInterceptor implements HandlerInterceptor {
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+class CustomInterceptor : HandlerInterceptor {
+    @Throws(Exception::class)
+    override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         // custom logic goes here
-        return true;
+        return true
     }
 
-    @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    @Throws(Exception::class)
+    override fun postHandle(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        handler: Any,
+        modelAndView: ModelAndView?
+    ) {
         // custom logic goes here
     }
 }

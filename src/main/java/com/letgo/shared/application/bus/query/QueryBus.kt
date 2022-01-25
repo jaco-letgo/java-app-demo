@@ -1,5 +1,6 @@
-package com.letgo.shared.application.bus.query;
+package com.letgo.shared.application.bus.query
 
-public interface QueryBus {
-    public QueryResponse dispatch(Query query) throws Exception;
+interface QueryBus {
+    @Throws(Exception::class)
+    fun dispatch(query: Query): QueryResponse
 }

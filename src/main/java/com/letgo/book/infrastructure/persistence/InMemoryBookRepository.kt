@@ -1,23 +1,17 @@
-package com.letgo.book.infrastructure.persistence;
+package com.letgo.book.infrastructure.persistence
 
-import com.letgo.book.domain.Book;
-import com.letgo.book.domain.BookId;
-import com.letgo.book.domain.BookRepository;
+import com.letgo.book.domain.Book
+import com.letgo.book.domain.BookId
+import com.letgo.book.domain.BookRepository
+import java.util.*
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
-final public class InMemoryBookRepository implements BookRepository {
-    private final Map<BookId, Book> storage = new HashMap<>();
-
-    @Override
-    public Optional<Book> find(BookId id) {
-        return Optional.ofNullable(storage.get(id));
+class InMemoryBookRepository : BookRepository {
+    private val storage: MutableMap<BookId, Book> = HashMap()
+    override fun find(id: BookId): Optional<Book> {
+        return Optional.ofNullable(storage[id])
     }
 
-    @Override
-    public void save(Book book) {
-        storage.put(book.id(), book);
+    override fun save(book: Book) {
+        storage[book.id()] = book
     }
 }

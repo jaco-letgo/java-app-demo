@@ -1,8 +1,10 @@
-package com.letgo.shared.application.event;
+package com.letgo.shared.application.event
 
-import com.letgo.shared.domain.DomainEvent;
+import com.letgo.shared.domain.DomainEvent
 
-public interface DomainEventSubscriber {
-    public boolean isSubscribedTo(DomainEvent event);
-    public void consume(DomainEvent event) throws Throwable;
+interface DomainEventSubscriber {
+    fun isSubscribedTo(event: DomainEvent): Boolean
+
+    @Throws(Throwable::class)
+    fun consume(event: DomainEvent)
 }

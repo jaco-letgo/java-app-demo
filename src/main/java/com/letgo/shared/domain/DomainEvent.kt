@@ -1,56 +1,51 @@
-package com.letgo.shared.domain;
+package com.letgo.shared.domain
 
-import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.UUID;
+import java.time.LocalDateTime
+import java.util.*
 
-public abstract class DomainEvent {
-    private final UUID id;
-    private final String aggregateId;
-    private final LocalDateTime occurredOn;
+abstract class DomainEvent {
+    private val id: UUID
+    private val aggregateId: String
+    private val occurredOn: LocalDateTime
 
-    public DomainEvent(String aggregateId) {
-        this.id = UUID.randomUUID();
-        this.aggregateId = aggregateId;
-        this.occurredOn = LocalDateTime.now();
+    constructor(aggregateId: String) {
+        id = UUID.randomUUID()
+        this.aggregateId = aggregateId
+        occurredOn = LocalDateTime.now()
     }
 
-    public DomainEvent(String aggregateId, UUID id, LocalDateTime occurredOn) {
-        this.id = id;
-        this.aggregateId = aggregateId;
-        this.occurredOn = occurredOn;
+    constructor(aggregateId: String, id: UUID, occurredOn: LocalDateTime) {
+        this.id = id
+        this.aggregateId = aggregateId
+        this.occurredOn = occurredOn
     }
 
-    public final String id() {
-        return id.toString();
+    fun id(): String {
+        return id.toString()
     }
 
-    public abstract String name();
-
-    public final String aggregateId() {
-        return aggregateId;
+    abstract fun name(): String
+    fun aggregateId(): String {
+        return aggregateId
     }
 
-    public final LocalDateTime occurredOn() {
-        return occurredOn;
+    fun occurredOn(): LocalDateTime {
+        return occurredOn
     }
 
-    public abstract String body();
-
-    @Override
-    public final boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DomainEvent that = (DomainEvent) o;
-        return Objects.equals(id, that.id)
-                && Objects.equals(name(), that.name())
-                && Objects.equals(aggregateId, that.aggregateId)
-                && Objects.equals(occurredOn, that.occurredOn)
-                && Objects.equals(body(), that.body());
+    abstract fun body(): String
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        val that = other as DomainEvent
+        return (id == that.id
+                && name() == that.name()
+                && aggregateId == that.aggregateId
+                && occurredOn == that.occurredOn
+                && body() == that.body())
     }
 
-    @Override
-    public final int hashCode() {
-        return Objects.hash(id, name(), aggregateId, occurredOn, body());
+    override fun hashCode(): Int {
+        return Objects.hash(id, name(), aggregateId, occurredOn, body())
     }
 }

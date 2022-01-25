@@ -1,46 +1,44 @@
-package com.letgo.book.domain;
+package com.letgo.book.domain
 
-import java.time.LocalDateTime;
-import java.util.Objects;
+import java.time.LocalDateTime
+import java.util.*
 
-final public class BookTitle {
-    private final String value;
-    private final LocalDateTime createdAt;
-
-    private BookTitle(String value, LocalDateTime createdAt) {
-        this.value = value;
-        this.createdAt = createdAt;
+class BookTitle private constructor(
+    private val value: String,
+    private val createdAt: LocalDateTime
+) {
+    fun value(): String {
+        return value
     }
 
-    public static BookTitle create(String value) {
-        return new BookTitle(value, LocalDateTime.now());
+    fun createdAt(): LocalDateTime {
+        return createdAt
     }
 
-    public static BookTitle create(String value, LocalDateTime createdAt) {
-        return new BookTitle(value, createdAt);
+    override fun equals(other: Any?): Boolean {
+        return (other is BookTitle
+                && value() == other.value()
+                && createdAt() == other.createdAt()
+                )
     }
 
-    public String value() {
-        return value;
+    override fun hashCode(): Int {
+        return Objects.hash(value, createdAt)
     }
 
-    public LocalDateTime createdAt() {
-        return createdAt;
+    fun isNewerThan(title: BookTitle): Boolean {
+        return createdAt.isAfter(title.createdAt())
     }
 
-    @Override
-    public boolean equals(Object anObject) {
-        return anObject instanceof BookTitle
-                && value().equals(((BookTitle) anObject).value())
-                && createdAt().equals(((BookTitle) anObject).createdAt());
-    }
+    companion object {
+        @JvmStatic
+        fun create(value: String): BookTitle {
+            return BookTitle(value, LocalDateTime.now())
+        }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(value, createdAt);
-    }
-
-    public boolean isNewerThan(BookTitle title) {
-        return this.createdAt.isAfter(title.createdAt());
+        @JvmStatic
+        fun create(value: String, createdAt: LocalDateTime): BookTitle {
+            return BookTitle(value, createdAt)
+        }
     }
 }

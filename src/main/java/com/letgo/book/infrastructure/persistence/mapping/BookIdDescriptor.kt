@@ -1,48 +1,36 @@
-package com.letgo.book.infrastructure.persistence.mapping;
+package com.letgo.book.infrastructure.persistence.mapping
 
-import com.letgo.book.domain.BookId;
-import org.hibernate.type.descriptor.WrapperOptions;
-import org.hibernate.type.descriptor.java.AbstractTypeDescriptor;
-import org.hibernate.type.descriptor.java.ImmutableMutabilityPlan;
+import com.letgo.book.domain.BookId
+import org.hibernate.type.descriptor.WrapperOptions
+import org.hibernate.type.descriptor.java.AbstractTypeDescriptor
+import org.hibernate.type.descriptor.java.ImmutableMutabilityPlan
 
-final public class BookIdDescriptor extends AbstractTypeDescriptor<BookId> {
-    public BookIdDescriptor() {
-        super(BookId.class, new ImmutableMutabilityPlan<>());
+class BookIdDescriptor : AbstractTypeDescriptor<BookId>(BookId::class.java, ImmutableMutabilityPlan()) {
+    override fun toString(value: BookId): String {
+        return value.value()
     }
 
-    @Override
-    public String toString(BookId value) {
-        return value.value();
+    override fun fromString(string: String): BookId {
+        return BookId.create(string)
     }
 
-    @Override
-    public BookId fromString(String string) {
-        return BookId.create(string);
-    }
-
-    @Override
-    public <X> X unwrap(BookId value, Class<X> type, WrapperOptions options) {
+    override fun <X> unwrap(value: BookId?, type: Class<X>, options: WrapperOptions): X? {
         if (value == null) {
-            return null;
+            return null
         }
-
-        if (String.class.isAssignableFrom(type)) {
-            return (X) toString(value);
+        if (String::class.java.isAssignableFrom(type)) {
+            return toString(value) as X
         }
-
-        throw unknownUnwrap(type);
+        throw unknownUnwrap(type)
     }
 
-    @Override
-    public <X> BookId wrap(X value, WrapperOptions options) {
+    override fun <X> wrap(value: X?, options: WrapperOptions): BookId? {
         if (value == null) {
-            return null;
+            return null
         }
-
-        if (value instanceof String) {
-            return fromString((String) value);
+        if (value is String) {
+            return fromString(value as String)
         }
-
-        throw unknownWrap(value.getClass());
+        throw unknownWrap(value.javaClass)
     }
 }

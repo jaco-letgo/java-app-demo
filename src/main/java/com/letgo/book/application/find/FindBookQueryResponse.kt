@@ -1,15 +1,11 @@
-package com.letgo.book.application.find;
+package com.letgo.book.application.find
 
-import com.letgo.shared.application.bus.query.QueryResponse;
+import com.letgo.shared.application.bus.query.QueryResponse
 
-final public class FindBookQueryResponse implements QueryResponse {
-    private final String title;
-
-    public FindBookQueryResponse(String title) {
-        this.title = title;
-    }
-
-    public String title() {
-        return title;
+class FindBookQueryResponse(
+    private val title: String
+) : QueryResponse {
+    fun title(): String {
+        return title
     }
 }

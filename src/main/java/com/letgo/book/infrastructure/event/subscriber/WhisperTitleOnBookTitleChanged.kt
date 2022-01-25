@@ -1,24 +1,21 @@
-package com.letgo.book.infrastructure.event.subscriber;
+package com.letgo.book.infrastructure.event.subscriber
 
-import com.letgo.book.domain.BookTitleChanged;
-import com.letgo.shared.application.event.DomainEventSubscriber;
-import com.letgo.shared.domain.DomainEvent;
-import com.letgo.shared.infrastructure.InfrastructureService;
-import org.springframework.context.event.EventListener;
+import com.letgo.book.domain.BookTitleChanged
+import com.letgo.shared.application.event.DomainEventSubscriber
+import com.letgo.shared.domain.DomainEvent
+import com.letgo.shared.infrastructure.InfrastructureService
+import org.springframework.context.event.EventListener
 
 @InfrastructureService
-final public class WhisperTitleOnBookTitleChanged implements DomainEventSubscriber {
-    @Override
-    public boolean isSubscribedTo(DomainEvent event) {
-        return BookTitleChanged.class.equals(event.getClass());
+class WhisperTitleOnBookTitleChanged : DomainEventSubscriber {
+    override fun isSubscribedTo(event: DomainEvent): Boolean {
+        return BookTitleChanged::class.java == event.javaClass
     }
 
-    @Override
-    @EventListener(BookTitleChanged.class)
-    public void consume(DomainEvent event) {
-        if (event instanceof BookTitleChanged) {
-            BookTitleChanged bookTitleChanged = (BookTitleChanged) event;
-            System.out.println(bookTitleChanged.oldTitle() + " -> " + bookTitleChanged.newTitle());
+    @EventListener(BookTitleChanged::class)
+    override fun consume(event: DomainEvent) {
+        if (event is BookTitleChanged) {
+            println(event.oldTitle() + " -> " + event.newTitle())
         }
     }
 }

@@ -1,34 +1,32 @@
-package com.letgo.book.domain;
+package com.letgo.book.domain
 
-import java.io.Serializable;
-import java.util.UUID;
+import java.io.Serializable
+import java.util.*
 
-final public class BookId implements Serializable {
-    private final UUID value;
-
-    private BookId(UUID value) {
-        this.value = value;
+class BookId private constructor(
+    private val value: UUID
+) : Serializable {
+    fun value(): String {
+        return value.toString()
     }
 
-    public static BookId create() {
-        return new BookId(UUID.randomUUID());
+    override fun equals(other: Any?): Boolean {
+        return other is BookId && value() == other.value()
     }
 
-    public static BookId create(String value) {
-        return new BookId(UUID.fromString(value));
+    override fun hashCode(): Int {
+        return value().hashCode()
     }
 
-    public String value() {
-        return value.toString();
-    }
+    companion object {
+        @JvmStatic
+        fun create(): BookId {
+            return BookId(UUID.randomUUID())
+        }
 
-    @Override
-    public boolean equals(Object anObject) {
-        return anObject instanceof BookId && value().equals(((BookId) anObject).value());
-    }
-
-    @Override
-    public int hashCode() {
-        return value().hashCode();
+        @JvmStatic
+        fun create(value: String): BookId {
+            return BookId(UUID.fromString(value))
+        }
     }
 }

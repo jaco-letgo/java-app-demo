@@ -1,28 +1,22 @@
-package com.letgo.shared.infrastructure.event.publisher;
+package com.letgo.shared.infrastructure.event.publisher
 
-import com.letgo.shared.application.event.DomainEventPublisher;
-import com.letgo.shared.domain.DomainEvent;
-import com.letgo.shared.infrastructure.InfrastructureService;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.scheduling.annotation.EnableAsync;
-
-import java.util.List;
+import com.letgo.shared.application.event.DomainEventPublisher
+import com.letgo.shared.domain.DomainEvent
+import com.letgo.shared.infrastructure.InfrastructureService
+import org.springframework.context.ApplicationEventPublisher
+import org.springframework.scheduling.annotation.EnableAsync
+import java.util.function.Consumer
 
 @EnableAsync
 @InfrastructureService
-final public class SpringAsyncDomainEventPublisher implements DomainEventPublisher {
-    private final ApplicationEventPublisher publisher;
-
-    public SpringAsyncDomainEventPublisher(ApplicationEventPublisher publisher) {
-        this.publisher = publisher;
-    }
-
-    @Override
-    public void publish(List<DomainEvent> events) {
+class SpringAsyncDomainEventPublisher(
+    private val publisher: ApplicationEventPublisher
+) : DomainEventPublisher {
+    override fun publish(events: List<DomainEvent>) {
         try {
-            events.forEach(publisher::publishEvent);
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
+            events.forEach(Consumer { event: DomainEvent -> publisher.publishEvent(event) })
+        } catch (throwable: Throwable) {
+            throwable.printStackTrace()
         }
     }
 }

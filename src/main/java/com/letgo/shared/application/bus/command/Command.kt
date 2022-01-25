@@ -1,4 +1,3 @@
-package com.letgo.shared.application.bus.command;
+package com.letgo.shared.application.bus.command
 
-public interface Command {
-}
+interface Command

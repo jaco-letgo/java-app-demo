@@ -1,39 +1,38 @@
-package com.letgo.shared.infrastructure.bus.query;
+package com.letgo.shared.infrastructure.bus.query
 
-import com.letgo.shared.application.bus.query.Query;
-import com.letgo.shared.application.bus.query.QueryBus;
-import com.letgo.shared.application.bus.query.QueryHandler;
-import com.letgo.shared.application.bus.query.QueryResponse;
-import com.letgo.shared.infrastructure.InfrastructureService;
-
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.letgo.shared.application.bus.query.Query
+import com.letgo.shared.application.bus.query.QueryBus
+import com.letgo.shared.application.bus.query.QueryHandler
+import com.letgo.shared.application.bus.query.QueryResponse
+import com.letgo.shared.infrastructure.InfrastructureService
+import java.lang.reflect.ParameterizedType
+import java.lang.reflect.Type
+import java.util.function.Consumer
 
 @InfrastructureService
-final public class InMemorySyncQueryBus implements QueryBus {
-    private final Map<Class<? extends Query>, QueryHandler<? extends Query>> handlers = new HashMap<>();
+class InMemorySyncQueryBus(handlers: List<QueryHandler<out Query>>) : QueryBus {
+    private val handlers: MutableMap<Class<out Query>, QueryHandler<out Query>> = HashMap()
 
-    public InMemorySyncQueryBus(List<QueryHandler<? extends Query>> handlers) {
-        handlers.forEach(queryHandler -> this.handlers.put(getQueryClass(queryHandler), queryHandler));
+    init {
+        handlers.forEach(Consumer { queryHandler: QueryHandler<out Query> ->
+            this.handlers[getQueryClass(queryHandler)] = queryHandler
+        })
     }
 
-    @Override
-    public QueryResponse dispatch(Query query) throws Exception {
-        if (!handlers.containsKey(query.getClass())) {
-            throw new Exception(String.format("No handler found for %s", query.getClass().getName()));
+    @Throws(Exception::class)
+    override fun dispatch(query: Query): QueryResponse {
+        if (!handlers.containsKey(query.javaClass)) {
+            throw Exception(String.format("No handler found for %s", query.javaClass.name))
         }
-        QueryHandler<Query> queryHandler = (QueryHandler<Query>) handlers.get(query.getClass());
-        return queryHandler.handle(query);
+        val queryHandler = handlers[query.javaClass] as QueryHandler<Query>
+        return queryHandler.handle(query)
     }
 
-    private Class<? extends Query> getQueryClass(QueryHandler<? extends Query> handler) {
-        return (Class<? extends Query>) actualTypeArgument(handler);
+    private fun getQueryClass(handler: QueryHandler<out Query>): Class<out Query> {
+        return actualTypeArgument(handler) as Class<out Query>
     }
 
-    private Type actualTypeArgument(QueryHandler<? extends Query> handler) {
-        return ((ParameterizedType) handler.getClass().getGenericInterfaces()[0]).getActualTypeArguments()[0];
+    private fun actualTypeArgument(handler: QueryHandler<out Query>): Type {
+        return (handler.javaClass.genericInterfaces[0] as ParameterizedType).actualTypeArguments[0]
     }
 }

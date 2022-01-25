@@ -1,8 +1,8 @@
-package com.letgo.book.domain;
+package com.letgo.book.domain
 
-import java.util.Optional;
+import java.util.*
 
-public interface BookRepository {
-    public Optional<Book> find(BookId id);
-    public void save(Book book);
+interface BookRepository {
+    fun find(id: BookId): Optional<Book>
+    fun save(book: Book)
 }
