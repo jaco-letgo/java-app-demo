@@ -14,6 +14,6 @@ class GetBookController(private val queryBus: QueryBus) : BookController() {
     @Throws(Exception::class)
     fun index(@PathVariable("id") id: String): ResponseEntity<String> {
         val response = queryBus.dispatch(FindBookQuery(id)) as FindBookQueryResponse
-        return ResponseEntity.accepted().body(response.title())
+        return ResponseEntity.accepted().body(response.title)
     }
 }

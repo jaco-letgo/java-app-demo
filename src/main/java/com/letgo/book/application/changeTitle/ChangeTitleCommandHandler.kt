@@ -13,8 +13,8 @@ class ChangeTitleCommandHandler(
         private val publisher: DomainEventPublisher
 ) : CommandHandler<ChangeTitleCommand> {
     override fun handle(command: ChangeTitleCommand) {
-        val book = finder.find(BookId.create(command.id()))
-        val newTitle = BookTitle.create(command.newTitle(), command.occurredOn())
+        val book = finder.find(BookId.create(command.id))
+        val newTitle = BookTitle.create(command.newTitle, command.occurredOn)
         if (book.canChangeTitle(newTitle)) {
             book.changeTitle(newTitle)
             repository.save(book)

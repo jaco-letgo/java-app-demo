@@ -8,7 +8,7 @@ class FindBookQueryHandler(
     private val finder: BookFinder
 ) : QueryHandler<FindBookQuery> {
     override fun handle(query: FindBookQuery): FindBookQueryResponse {
-        val book = finder.find(BookId.create(query.id()))
+        val book = finder.find(BookId.create(query.id))
         return FindBookQueryResponse(book.title().value())
     }
 }

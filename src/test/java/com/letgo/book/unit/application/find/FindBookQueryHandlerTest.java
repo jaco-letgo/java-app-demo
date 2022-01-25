@@ -23,7 +23,7 @@ final public class FindBookQueryHandlerTest extends BookTestCase {
         FindBookQuery query = new FindBookQuery(book.id().value());
         FindBookQueryResponse response = handler.handle(query);
 
-        assertEquals(book.title().value(), response.title());
+        assertEquals(book.title().value(), response.getTitle());
     }
 
     @Test

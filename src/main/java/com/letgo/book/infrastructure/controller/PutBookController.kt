@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDateTime
 
 @RestController
 class PutBookController(
@@ -18,6 +19,6 @@ class PutBookController(
         Exception::class
     )
     fun index(@PathVariable id: String, @PathVariable title: String) {
-        commandBus.dispatch(ChangeTitleCommand(id, title))
+        commandBus.dispatch(ChangeTitleCommand(id, title, LocalDateTime.now()))
     }
 }
