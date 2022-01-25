@@ -1,19 +1,21 @@
-package com.letgo.book.unit.domain;
+package com.letgo.book.unit.domain
 
-import com.letgo.book.domain.BookTitle;
+import com.letgo.book.domain.BookTitle
+import java.time.LocalDateTime
 
-import java.time.LocalDateTime;
-
-final public class BookTitleMother {
-    public static BookTitle create(String title) {
-        return BookTitle.create(title, LocalDateTime.now());
+object BookTitleMother {
+    @JvmStatic
+    fun create(title: String): BookTitle {
+        return BookTitle.create(title, LocalDateTime.now())
     }
 
-    public static BookTitle create(String title, LocalDateTime createdAt) {
-        return BookTitle.create(title, createdAt);
+    @JvmStatic
+    fun create(title: String, createdAt: LocalDateTime): BookTitle {
+        return BookTitle.create(title, createdAt)
     }
 
-    public static BookTitle random() {
-        return BookTitleMother.create("random");
+    @JvmStatic
+    fun random(): BookTitle {
+        return create("random")
     }
 }
