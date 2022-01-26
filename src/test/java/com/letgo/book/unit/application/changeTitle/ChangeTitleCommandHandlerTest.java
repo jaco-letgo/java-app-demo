@@ -21,7 +21,7 @@ final public class ChangeTitleCommandHandlerTest extends BookTestCase {
         Book currentBook = anExistingBook();
         BookId id = currentBook.id();
 
-        BookTitle newTitle = BookTitleMother.create("Title");
+        BookTitle newTitle = BookTitleMother.random();
 
         expectDomainEventsToBePublished(new BookTitleChanged(
                 id.value(),

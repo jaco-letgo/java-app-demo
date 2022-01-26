@@ -11,10 +11,6 @@ data class BookId private constructor(
     }
 
     companion object {
-        fun create(): BookId {
-            return BookId(UUID.randomUUID())
-        }
-
         fun create(value: String): BookId {
             return BookId(UUID.fromString(value))
         }

@@ -1,11 +1,12 @@
 package com.letgo.book.unit.domain
 
-import com.letgo.book.domain.BookId.Companion.create
 import com.letgo.book.domain.BookId
+import java.util.*
 
 object BookIdMother {
-    @JvmStatic
-    fun create(id: String): BookId {
+    fun create(
+        id: String = UUID.randomUUID().toString()
+    ): BookId {
         return BookId.create(id)
     }
 

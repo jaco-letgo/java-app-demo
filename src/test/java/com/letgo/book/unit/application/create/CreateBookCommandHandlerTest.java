@@ -19,7 +19,7 @@ final public class CreateBookCommandHandlerTest extends BookTestCase {
     @Test
     public void itShouldCreateABook() {
         BookId id = BookIdMother.random();
-        BookTitle title = BookTitleMother.create("Title");
+        BookTitle title = BookTitleMother.random();
 
         expectDomainEventsToBePublished(new BookCreated(id.value(), title.value(), title.createdAt()));
 
