@@ -27,7 +27,7 @@ class WhisperTitleOnBookCreated(
                 ChangeTitleCommand(
                     event.aggregateId(),
                     event.title().lowercase(Locale.getDefault()),
-                    event.titleCreatedAt().plusNanos(10000)
+                    event.titleCreatedAt().plusNanos(10000).toString()
                 )
             )
         }

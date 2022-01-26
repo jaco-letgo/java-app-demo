@@ -23,7 +23,7 @@ final public class CreateBookCommandHandlerTest extends BookTestCase {
 
         expectDomainEventsToBePublished(new BookCreated(id.value(), title.value(), title.createdAt()));
 
-        handler.handle(new CreateBookCommand(id.value(), title.value(), title.createdAt()));
+        handler.handle(new CreateBookCommand(id.value(), title.value(), title.createdAt().toString()));
 
         Book book = repository.find(id).orElseThrow();
         assertEquals(id, book.id());
@@ -40,7 +40,7 @@ final public class CreateBookCommandHandlerTest extends BookTestCase {
 
         expectDomainEventsToBePublished();
 
-        handler.handle(new CreateBookCommand(id.value(), title.value(), title.createdAt()));
+        handler.handle(new CreateBookCommand(id.value(), title.value(), title.createdAt().toString()));
 
         assertEquals(currentBook, repository.find(id).orElseThrow());
 

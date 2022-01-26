@@ -26,5 +26,9 @@ data class BookTitle private constructor(
         fun create(value: String, createdAt: LocalDateTime): BookTitle {
             return BookTitle(value, createdAt)
         }
+
+        fun create(value: String, createdAt: String): BookTitle {
+            return BookTitle(value, LocalDateTime.parse(createdAt))
+        }
     }
 }

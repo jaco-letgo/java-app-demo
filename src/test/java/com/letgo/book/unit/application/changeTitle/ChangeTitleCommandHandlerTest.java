@@ -26,7 +26,7 @@ final public class ChangeTitleCommandHandlerTest extends BookTestCase {
         BookTitleChanged expectedEvent = new BookTitleChanged(id.value(), currentBook.title().value(), newTitle.value());
         expectDomainEventsToBePublished(expectedEvent);
 
-        handler.handle(new ChangeTitleCommand(id.value(), newTitle.value(), newTitle.createdAt()));
+        handler.handle(new ChangeTitleCommand(id.value(), newTitle.value(), newTitle.createdAt().toString()));
 
         Book book = repository.find(id).orElseThrow();
         assertEquals(id, book.id());
@@ -43,7 +43,7 @@ final public class ChangeTitleCommandHandlerTest extends BookTestCase {
 
         expectDomainEventsToBePublished();
 
-        handler.handle(new ChangeTitleCommand(id.value(), title.value(), title.createdAt()));
+        handler.handle(new ChangeTitleCommand(id.value(), title.value(), title.createdAt().toString()));
 
         assertEquals(currentBook, repository.find(id).orElseThrow());
         eventsShouldNotBePublished();

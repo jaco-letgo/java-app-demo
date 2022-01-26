@@ -1,7 +1,6 @@
 package com.letgo.book.domain
 
 import com.letgo.shared.domain.AggregateRoot
-import java.time.LocalDateTime
 
 class Book private constructor(
     private val id: BookId,
@@ -30,7 +29,7 @@ class Book private constructor(
 
     companion object {
         @JvmStatic
-        fun create(id: String, title: String, titleCreatedAt: LocalDateTime): Book {
+        fun create(id: String, title: String, titleCreatedAt: String): Book {
             return Book(BookId.create(id), BookTitle.create(title, titleCreatedAt))
         }
 

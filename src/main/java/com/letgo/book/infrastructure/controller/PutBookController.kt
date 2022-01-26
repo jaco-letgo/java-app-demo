@@ -19,6 +19,6 @@ class PutBookController(
         Exception::class
     )
     fun index(@PathVariable id: String, @PathVariable title: String) {
-        commandBus.dispatch(ChangeTitleCommand(id, title, LocalDateTime.now()))
+        commandBus.dispatch(ChangeTitleCommand(id, title, LocalDateTime.now().toString()))
     }
 }

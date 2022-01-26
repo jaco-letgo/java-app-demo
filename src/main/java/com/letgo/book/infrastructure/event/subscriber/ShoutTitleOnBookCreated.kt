@@ -27,7 +27,7 @@ class ShoutTitleOnBookCreated(
                 ChangeTitleCommand(
                     event.aggregateId(),
                     event.title().uppercase(Locale.getDefault()),
-                    event.titleCreatedAt().plusNanos(100000)
+                    event.titleCreatedAt().plusNanos(100000).toString()
                 )
             )
         }

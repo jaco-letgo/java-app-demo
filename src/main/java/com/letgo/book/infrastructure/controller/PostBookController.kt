@@ -19,6 +19,12 @@ class PostBookController(
     @Throws(Exception::class)
     fun index(@RequestBody request: String) {
         val body = JSONObject(request)
-        commandBus.dispatch(CreateBookCommand(body.getString("id"), body.getString("title"), LocalDateTime.now()))
+        commandBus.dispatch(
+            CreateBookCommand(
+                body.getString("id"),
+                body.getString("title"),
+                LocalDateTime.now().toString()
+            )
+        )
     }
 }
