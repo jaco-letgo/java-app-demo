@@ -17,6 +17,7 @@ class SpringAsyncDomainEventPublisher(
             events.forEach(Consumer { event: DomainEvent -> publisher.publishEvent(event) })
         } catch (throwable: Throwable) {
             throwable.printStackTrace()
+            throw throwable
         }
     }
 }

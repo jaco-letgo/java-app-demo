@@ -22,6 +22,7 @@ class InMemorySyncDomainEventPublisher(
                 subscriber.consume(event)
             } catch (throwable: Throwable) {
                 throwable.printStackTrace()
+                throw throwable
             }
         }
     }

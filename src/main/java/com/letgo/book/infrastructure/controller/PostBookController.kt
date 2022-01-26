@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDateTime
 
 @RestController
 class PostBookController(
@@ -18,6 +19,6 @@ class PostBookController(
     @Throws(Exception::class)
     fun index(@RequestBody request: String) {
         val body = JSONObject(request)
-        commandBus.dispatch(CreateBookCommand(body.getString("id"), body.getString("title")))
+        commandBus.dispatch(CreateBookCommand(body.getString("id"), body.getString("title"), LocalDateTime.now()))
     }
 }
