@@ -8,6 +8,7 @@ import com.letgo.shared.domain.DomainEvent
 import com.letgo.shared.infrastructure.InfrastructureService
 import org.springframework.context.event.EventListener
 import org.springframework.scheduling.annotation.Async
+import java.time.LocalDateTime
 import java.util.*
 
 @Async
@@ -27,7 +28,7 @@ class WhisperTitleOnBookCreated(
                 ChangeTitleCommand(
                     event.aggregateId(),
                     event.title().lowercase(Locale.getDefault()),
-                    event.titleCreatedAt().plusNanos(10000).toString()
+                    LocalDateTime.parse(event.occurredOn()).plusNanos(10000).toString()
                 )
             )
         }

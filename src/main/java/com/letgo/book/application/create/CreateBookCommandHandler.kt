@@ -13,7 +13,7 @@ class CreateBookCommandHandler(
     override fun handle(command: CreateBookCommand) {
         val id = BookId.create(command.id)
         if (repository.find(id).isEmpty) {
-            val book = Book.create(id.value(), command.title, command.titleCreatedAt)
+            val book = Book.create(id.value(), command.title, command.occurredOn)
             repository.save(book)
             publisher.publish(book.retrieveEvents())
         }

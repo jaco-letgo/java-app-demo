@@ -1,12 +1,14 @@
 package com.letgo.book.domain
 
 import com.letgo.shared.domain.DomainEvent
+import java.time.LocalDateTime
 
 class BookTitleChanged(
     id: String,
     private val oldTitle: String,
-    private val newTitle: String
-) : DomainEvent(id) {
+    private val newTitle: String,
+    occurredOn: LocalDateTime
+) : DomainEvent(aggregateId = id, occurredOn = occurredOn) {
     fun oldTitle(): String {
         return oldTitle
     }

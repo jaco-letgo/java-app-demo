@@ -7,7 +7,7 @@ import com.letgo.book.unit.application.BookTestCase;
 import com.letgo.book.unit.domain.BookTitleMother;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 final public class ChangeTitleCommandHandlerTest extends BookTestCase {
     private final ChangeTitleCommandHandler handler = new ChangeTitleCommandHandler(
@@ -23,8 +23,12 @@ final public class ChangeTitleCommandHandlerTest extends BookTestCase {
 
         BookTitle newTitle = BookTitleMother.create("Title");
 
-        BookTitleChanged expectedEvent = new BookTitleChanged(id.value(), currentBook.title().value(), newTitle.value());
-        expectDomainEventsToBePublished(expectedEvent);
+        expectDomainEventsToBePublished(new BookTitleChanged(
+                id.value(),
+                currentBook.title().value(),
+                newTitle.value(),
+                newTitle.createdAt()
+        ));
 
         handler.handle(new ChangeTitleCommand(id.value(), newTitle.value(), newTitle.createdAt().toString()));
 

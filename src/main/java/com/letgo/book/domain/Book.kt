@@ -23,14 +23,14 @@ class Book private constructor(
     }
 
     fun changeTitle(newTitle: BookTitle) {
-        storeEvent(BookTitleChanged(id.value(), title.value(), newTitle.value()))
+        storeEvent(BookTitleChanged(id.value(), title.value(), newTitle.value(), newTitle.createdAt()))
         title = newTitle
     }
 
     companion object {
         @JvmStatic
-        fun create(id: String, title: String, titleCreatedAt: String): Book {
-            return Book(BookId.create(id), BookTitle.create(title, titleCreatedAt))
+        fun create(id: String, title: String, createdAt: String): Book {
+            return Book(BookId.create(id), BookTitle.create(title, createdAt))
         }
 
         @JvmStatic

@@ -29,6 +29,7 @@ final public class SpyDomainEventSubscriber implements DomainEventSubscriber {
         assertEquals(expectedEvent.aggregateId(), event.aggregateId());
         assertEquals(expectedEvent.name(), event.name());
         assertEquals(expectedEvent.body(), event.body());
+        assertEquals(expectedEvent.occurredOn(), event.occurredOn());
     }
 
     public boolean hasBeenCalled() {

@@ -6,14 +6,10 @@ import java.time.LocalDateTime
 class BookCreated(
     id: String,
     private val title: String,
-    private val titleCreatedAt: LocalDateTime
-) : DomainEvent(id) {
+    createdAt: LocalDateTime
+) : DomainEvent(aggregateId = id, occurredOn = createdAt) {
     fun title(): String {
         return title
-    }
-
-    fun titleCreatedAt(): LocalDateTime {
-        return titleCreatedAt
     }
 
     override fun name(): String {
@@ -21,6 +17,6 @@ class BookCreated(
     }
 
     override fun body(): String {
-        return "{'title': $title, 'titleCreatedAt': $titleCreatedAt}"
+        return "{'title': $title}"
     }
 }
