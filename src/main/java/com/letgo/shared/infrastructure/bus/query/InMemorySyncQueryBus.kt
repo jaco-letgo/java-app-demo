@@ -5,34 +5,30 @@ import com.letgo.shared.application.bus.query.QueryBus
 import com.letgo.shared.application.bus.query.QueryHandler
 import com.letgo.shared.application.bus.query.QueryResponse
 import com.letgo.shared.infrastructure.InfrastructureService
-import java.lang.reflect.ParameterizedType
-import java.lang.reflect.Type
 import java.util.function.Consumer
+import kotlin.reflect.KClass
 
 @InfrastructureService
 class InMemorySyncQueryBus(handlers: List<QueryHandler<out Query>>) : QueryBus {
-    private val handlers: MutableMap<Class<out Query>, QueryHandler<out Query>> = HashMap()
+    private val handlers: MutableMap<KClass<out Query>, QueryHandler<Query>> = mutableMapOf()
 
     init {
         handlers.forEach(Consumer { queryHandler: QueryHandler<out Query> ->
-            this.handlers[getQueryClass(queryHandler)] = queryHandler
+            this.handlers[getQueryClass(queryHandler)] = queryHandler as QueryHandler<Query>
         })
     }
 
     @Throws(Exception::class)
     override fun dispatch(query: Query): QueryResponse {
-        if (!handlers.containsKey(query.javaClass)) {
-            throw Exception(String.format("No handler found for %s", query.javaClass.name))
+        synchronized(this) {
+            return handlers[query::class]?.handle(query) ?: throw Exception("No handler found for ${query::class}")
         }
-        val queryHandler = handlers[query.javaClass] as QueryHandler<Query>
-        return queryHandler.handle(query)
     }
 
-    private fun getQueryClass(handler: QueryHandler<out Query>): Class<out Query> {
-        return actualTypeArgument(handler) as Class<out Query>
-    }
-
-    private fun actualTypeArgument(handler: QueryHandler<out Query>): Type {
-        return (handler.javaClass.genericInterfaces[0] as ParameterizedType).actualTypeArguments[0]
-    }
+    private fun getQueryClass(queryHandler: QueryHandler<out Query>) =
+        queryHandler::class
+            .supertypes.find { superClass -> superClass.classifier!!::class.isInstance(QueryHandler::class) }!!
+            .arguments.find { argument -> argument.type!!.classifier!!::class.isInstance(Query::class) }!!
+            .type!!
+            .classifier as KClass<out Query>
 }

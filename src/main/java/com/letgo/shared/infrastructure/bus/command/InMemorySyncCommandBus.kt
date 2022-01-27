@@ -4,36 +4,30 @@ import com.letgo.shared.application.bus.command.Command
 import com.letgo.shared.application.bus.command.CommandBus
 import com.letgo.shared.application.bus.command.CommandHandler
 import com.letgo.shared.infrastructure.InfrastructureService
-import java.lang.reflect.ParameterizedType
-import java.lang.reflect.Type
 import java.util.function.Consumer
+import kotlin.reflect.KClass
 
 @InfrastructureService
 class InMemorySyncCommandBus(handlers: List<CommandHandler<out Command>>) : CommandBus {
-    private val handlers: MutableMap<Class<out Command>, CommandHandler<out Command>> = HashMap()
+    private val handlers: MutableMap<KClass<out Command>, CommandHandler<Command>> = mutableMapOf()
 
     init {
         handlers.forEach(Consumer { commandHandler: CommandHandler<out Command> ->
-            this.handlers[getCommandClass(
-                commandHandler
-            )] = commandHandler
+            this.handlers[getCommandClass(commandHandler)] = commandHandler as CommandHandler<Command>
         })
     }
 
     @Throws(Exception::class)
     override fun dispatch(command: Command) {
-        if (!handlers.containsKey(command.javaClass)) {
-            throw Exception(String.format("No handler found for %s", command.javaClass.name))
+        synchronized(this) {
+            handlers[command::class]?.handle(command) ?: throw Exception("No handler found for ${command::class}")
         }
-        val commandHandler = handlers[command.javaClass] as CommandHandler<Command>
-        synchronized(this) { commandHandler.handle(command) }
     }
 
-    private fun getCommandClass(handler: CommandHandler<out Command>): Class<out Command> {
-        return actualTypeArgument(handler) as Class<out Command>
-    }
-
-    private fun actualTypeArgument(handler: CommandHandler<out Command>): Type {
-        return (handler.javaClass.genericInterfaces[0] as ParameterizedType).actualTypeArguments[0]
-    }
+    private fun getCommandClass(commandHandler: CommandHandler<out Command>) =
+        commandHandler::class
+            .supertypes.find { superClass -> superClass.classifier!!::class.isInstance(CommandHandler::class) }!!
+            .arguments.find { argument -> argument.type!!.classifier!!::class.isInstance(Command::class) }!!
+            .type!!
+            .classifier as KClass<out Command>
 }
