@@ -11,7 +11,7 @@ import com.letgo.book.unit.domain.BookIdMother;
 import com.letgo.book.unit.domain.BookTitleMother;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 final public class CreateBookCommandHandlerTest extends BookTestCase {
     private final CreateBookCommandHandler handler = new CreateBookCommandHandler(repository, publisher);
@@ -28,6 +28,7 @@ final public class CreateBookCommandHandlerTest extends BookTestCase {
         Book book = repository.find(id).orElseThrow();
         assertEquals(id, book.id());
         assertEquals(title, book.title());
+        assertFalse(book.hasBeenEdited());
 
         eventsShouldBePublished();
     }

@@ -4,6 +4,7 @@ import com.letgo.shared.domain.AggregateRoot
 
 class Book private constructor(
     private val id: BookId,
+    private var status: BookStatus,
     private var title: BookTitle
 ) : AggregateRoot() {
     init {
@@ -18,6 +19,10 @@ class Book private constructor(
         return title
     }
 
+    fun hasBeenEdited(): Boolean {
+        return status == BookStatus.Edited
+    }
+
     fun canChangeTitle(newTitle: BookTitle): Boolean {
         return title != newTitle && newTitle.isNewerThan(title)
     }
@@ -25,17 +30,16 @@ class Book private constructor(
     fun changeTitle(newTitle: BookTitle) {
         storeEvent(BookTitleChanged(id.value(), title.value(), newTitle.value(), newTitle.createdAt()))
         title = newTitle
+        status = BookStatus.Edited
     }
 
     companion object {
-        @JvmStatic
         fun create(id: String, title: String, createdAt: String): Book {
-            return Book(BookId.create(id), BookTitle.create(title, createdAt))
+            return create(BookId.create(id), BookTitle.create(title, createdAt))
         }
 
-        @JvmStatic
         fun create(id: BookId, title: BookTitle): Book {
-            return Book(id, title)
+            return Book(id, BookStatus.Created, title)
         }
     }
 }

@@ -1,11 +1,9 @@
 package com.letgo.book.infrastructure.persistence.mapping
 
 import com.letgo.book.domain.BookId
+import com.letgo.book.domain.BookStatus
 import org.hibernate.annotations.Type
-import javax.persistence.Embedded
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "books")
@@ -17,10 +15,14 @@ class HibernateBookEntity {
     @Embedded
     private var title: BookTitleEmbeddable? = null
 
+    @Enumerated(EnumType.ORDINAL)
+    private var status: BookStatus? = null
+
     constructor()
-    constructor(id: BookId, title: BookTitleEmbeddable) {
+    constructor(id: BookId, title: BookTitleEmbeddable, status: BookStatus) {
         this.id = id
         this.title = title
+        this.status = status
     }
 
     fun id(): BookId? {
@@ -29,5 +31,9 @@ class HibernateBookEntity {
 
     fun title(): BookTitleEmbeddable? {
         return title
+    }
+
+    fun status(): BookStatus? {
+        return status
     }
 }
