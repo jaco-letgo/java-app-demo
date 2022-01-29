@@ -1,6 +1,6 @@
 package com.letgo.shared.application.bus.command
 
 interface CommandBus {
-    @Throws(Exception::class)
+    @Throws(RuntimeException::class)
     fun dispatch(command: Command)
 }
