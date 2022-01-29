@@ -4,8 +4,8 @@ import com.letgo.shared.application.bus.command.CommandHandler
 import com.letgo.shared.application.bus.query.QueryHandler
 import com.letgo.shared.domain.DomainService
 import com.letgo.shared.infrastructure.InfrastructureService
-import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.FilterType
 
@@ -20,10 +20,7 @@ import org.springframework.context.annotation.FilterType
     )], basePackages = ["com.letgo.book", "com.letgo.shared"]
 )
 open class App {
-    companion object {
-        @JvmStatic
-        fun main(args: Array<String>) {
-            SpringApplication.run(App::class.java, *args)
-        }
+    fun main(args: Array<String>) {
+        runApplication<App>(*args)
     }
 }
