@@ -16,7 +16,7 @@ final public class CreateBookFeatureTest extends TestCase {
         assertSame(HttpStatus.CREATED, postResponse.getStatusCode());
         assertFalse(postResponse.hasBody());
 
-        weWaitForEventsToBeProcessed();
+        weWaitForMessagesToBeProcessed();
 
         ResponseEntity<String> getResponse = get("/book/" + id);
         assertEquals("OLAKEASE", getResponse.getBody());

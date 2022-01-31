@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class GetBookController(private val queryBus: QueryBus) : BookController() {
+class GetBookController(
+    private val queryBus: QueryBus
+) : BookController() {
     @GetMapping("/{id}")
-    @Throws(Exception::class)
     fun index(@PathVariable("id") id: String): ResponseEntity<String> {
         val response = queryBus.dispatch(FindBookQuery(id)) as FindBookQueryResponse
-        return ResponseEntity.accepted().body(response.title)
+        return ResponseEntity.ok().body(response.title)
     }
 }

@@ -16,7 +16,6 @@ class PostBookController(
 ) : BookController() {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @Throws(Exception::class)
     fun index(@RequestBody request: String) {
         val body = JSONObject(request)
         commandBus.dispatch(

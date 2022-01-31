@@ -15,17 +15,19 @@ final public class ChangeTitleFeatureTest extends TestCase {
         givenAnExistingBookWith(id.toString(), "OlaKeAse");
 
         ResponseEntity<String> putResponse = put("/book/" + id + "/title/whatever");
-        assertSame(HttpStatus.OK, putResponse.getStatusCode());
+        assertSame(HttpStatus.ACCEPTED, putResponse.getStatusCode());
         assertFalse(putResponse.hasBody());
 
-        ResponseEntity<String> secondGetResponse = get("/book/" + id);
-        assertEquals("whatever", secondGetResponse.getBody());
+        weWaitForMessagesToBeProcessed();
+
+        ResponseEntity<String> getResponse = get("/book/" + id);
+        assertEquals("whatever", getResponse.getBody());
     }
 
     @Test
-    public void itShouldReturnAnErrorWhenBookIsNotFoundForGivenId() {
+    public void itShouldReturnAcceptedResponseEvenWhenBookIsNotFoundForGivenId() {
         ResponseEntity<String> putResponse = put("/book/" + UUID.randomUUID() + "/title/olakease");
-        assertSame(HttpStatus.NOT_FOUND, putResponse.getStatusCode());
+        assertSame(HttpStatus.ACCEPTED, putResponse.getStatusCode());
         assertFalse(putResponse.hasBody());
     }
 }

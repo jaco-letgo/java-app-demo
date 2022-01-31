@@ -15,7 +15,7 @@ final public class FindBookFeatureTest extends TestCase {
         givenAnExistingBookWith(id.toString(), "OlaKeAse");
 
         ResponseEntity<String> getResponse = get("/book/" + id);
-        assertSame(HttpStatus.ACCEPTED, getResponse.getStatusCode());
+        assertSame(HttpStatus.OK, getResponse.getStatusCode());
         assertEquals("OLAKEASE", getResponse.getBody());
     }
 

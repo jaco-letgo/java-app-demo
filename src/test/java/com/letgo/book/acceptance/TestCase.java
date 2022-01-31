@@ -32,10 +32,10 @@ public abstract class TestCase {
 
     protected void givenAnExistingBookWith(String id, String title) {
         post("{'id': " + id + ", 'title': " + title + "}");
-        weWaitForEventsToBeProcessed();
+        weWaitForMessagesToBeProcessed();
     }
 
-    protected void weWaitForEventsToBeProcessed() {
+    protected void weWaitForMessagesToBeProcessed() {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {

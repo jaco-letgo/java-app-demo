@@ -14,10 +14,7 @@ class PutBookController(
     private val commandBus: CommandBus
 ) : BookController() {
     @PutMapping("/{id}/title/{title}")
-    @ResponseStatus(HttpStatus.OK)
-    @Throws(
-        Exception::class
-    )
+    @ResponseStatus(HttpStatus.ACCEPTED)
     fun index(@PathVariable id: String, @PathVariable title: String) {
         commandBus.dispatch(ChangeTitleCommand(id, title, LocalDateTime.now().toString()))
     }
