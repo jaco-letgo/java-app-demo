@@ -1,7 +1,9 @@
 package com.letgo.book.domain
 
+import com.letgo.shared.domain.DomainObject
 import java.time.LocalDateTime
 
+@DomainObject
 data class BookTitle private constructor(
     private val value: String,
     private val createdAt: LocalDateTime

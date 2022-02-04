@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.letgo.book.domain.Book" table="books">
+        <id column="id" name="id" length="36" type="com.letgo.book.infrastructure.persistence.mapping.BookIdType" access="field"/>
+        <component name="title" class="com.letgo.book.domain.BookTitle" access="field">
+            <property name="value" column="title" not-null="true" type="string" access="field" />
+            <property name="createdAt" column="title_updated_at" not-null="true" type="org.hibernate.type.LocalDateTimeType" access="field"/>
+        </component>
+        <property name="status" column="status" access="field" not-null="true">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">com.letgo.book.domain.BookStatus</param>
+                <param name="useNamed">false</param>
+            </type>
+        </property>
+    </class>
+</hibernate-mapping>
