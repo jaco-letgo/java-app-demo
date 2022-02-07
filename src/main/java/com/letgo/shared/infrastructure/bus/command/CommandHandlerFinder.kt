@@ -12,9 +12,7 @@ class CommandHandlerFinder(
     private val handlers: MutableMap<KClass<out Command>, CommandHandler<Command>> = mutableMapOf()
 
     init {
-        handlers.forEach { commandHandler ->
-            this.handlers[getCommandClass(commandHandler)] = commandHandler as CommandHandler<Command>
-        }
+        handlers.forEach { this.handlers[getCommandClass(it)] = it as CommandHandler<Command> }
     }
 
     fun forCommand(command: Command): CommandHandler<Command> =

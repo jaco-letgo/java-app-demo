@@ -17,11 +17,10 @@ class ShoutTitleOnBookCreated(
     private val commandBus: CommandBus
 ) : DomainEventSubscriber {
     override fun isSubscribedTo(event: DomainEvent): Boolean {
-        return BookCreated::class.java == event.javaClass
+        return event is BookCreated
     }
 
     @EventListener(BookCreated::class)
-    @Throws(Throwable::class)
     override fun consume(event: DomainEvent) {
         if (event is BookCreated) {
             commandBus.dispatch(

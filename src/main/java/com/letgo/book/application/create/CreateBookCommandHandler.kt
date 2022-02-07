@@ -11,11 +11,11 @@ class CreateBookCommandHandler(
     private val publisher: DomainEventPublisher
 ) : CommandHandler<CreateBookCommand> {
     override fun handle(command: CreateBookCommand) {
-        val id = BookId.create(command.id)
-        if (repository.find(id).isEmpty) {
-            val book = Book.create(id.value(), command.title, command.occurredOn)
-            repository.save(book)
-            publisher.publish(book.retrieveEvents())
+        repository.find(BookId.create(command.id)).let {
+            if (it.isEmpty) Book.create(command.id, command.title, command.occurredOn).apply {
+                repository.save(this)
+                publisher.publish(this.retrieveEvents())
+            }
         }
     }
 }

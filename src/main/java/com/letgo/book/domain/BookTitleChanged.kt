@@ -22,6 +22,11 @@ class BookTitleChanged(
     }
 
     override fun body(): String {
-        return "{'oldTitle': $oldTitle, 'newTitle': $newTitle}"
+        return """
+            {
+                "oldTitle": $oldTitle,
+                "newTitle": $newTitle,
+            }
+            """
     }
 }

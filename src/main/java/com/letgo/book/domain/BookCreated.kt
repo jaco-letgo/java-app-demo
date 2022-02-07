@@ -17,6 +17,10 @@ class BookCreated(
     }
 
     override fun body(): String {
-        return "{'title': $title}"
+        return """
+            {
+                "title": $title
+            }
+            """
     }
 }

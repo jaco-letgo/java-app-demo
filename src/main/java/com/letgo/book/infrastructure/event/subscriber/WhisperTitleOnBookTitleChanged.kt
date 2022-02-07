@@ -9,7 +9,7 @@ import org.springframework.context.event.EventListener
 @InfrastructureService
 class WhisperTitleOnBookTitleChanged : DomainEventSubscriber {
     override fun isSubscribedTo(event: DomainEvent): Boolean {
-        return BookTitleChanged::class.java == event.javaClass
+        return event is BookTitleChanged
     }
 
     @EventListener(BookTitleChanged::class)
