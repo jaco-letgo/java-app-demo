@@ -1,49 +1,32 @@
-package com.letgo.book.unit.application;
+package com.letgo.book.unit.application
 
-import com.letgo.book.domain.Book;
-import com.letgo.book.domain.BookRepository;
-import com.letgo.book.infrastructure.persistence.InMemoryBookRepository;
-import com.letgo.book.unit.domain.BookMother;
-import com.letgo.shared.application.event.DomainEventPublisher;
-import com.letgo.shared.application.event.DomainEventSubscriber;
-import com.letgo.shared.domain.DomainEvent;
-import com.letgo.shared.infrastructure.event.publisher.InMemorySyncDomainEventPublisher;
+import com.letgo.book.domain.Book
+import com.letgo.book.domain.BookRepository
+import com.letgo.book.infrastructure.persistence.InMemoryBookRepository
+import com.letgo.book.unit.domain.BookMother
+import com.letgo.shared.application.event.DomainEventPublisher
+import com.letgo.shared.application.event.DomainEventSubscriber
+import com.letgo.shared.domain.DomainEvent
+import com.letgo.shared.infrastructure.event.publisher.InMemorySyncDomainEventPublisher
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 
-import java.util.ArrayList;
-import java.util.List;
+abstract class BookTestCase {
+    protected val repository: BookRepository = InMemoryBookRepository()
+    private val subscribers: MutableList<DomainEventSubscriber> = mutableListOf()
+    protected val publisher: DomainEventPublisher = InMemorySyncDomainEventPublisher(subscribers)
 
-import static org.junit.jupiter.api.Assertions.*;
+    protected fun anExistingBook(): Book = BookMother.random().also { repository.save(it) }
 
-abstract public class BookTestCase {
-    protected final BookRepository repository = new InMemoryBookRepository();
-    protected final List<DomainEventSubscriber> subscribers = new ArrayList<>();
-    protected final DomainEventPublisher publisher = new InMemorySyncDomainEventPublisher(subscribers);
+    protected fun eventsShouldBePublished() = subscribers.forEach { assertTrue(subscriberHasBeenCalled(it)) }
 
-    protected Book anExistingBook() {
-        Book currentBook = BookMother.random();
-        repository.save(currentBook);
-        return currentBook;
+    protected fun eventsShouldNotBePublished() = subscribers.forEach { assertFalse(subscriberHasBeenCalled(it)) }
+
+    protected fun expectDomainEventsToBePublished(vararg events: DomainEvent) {
+        if (events.isEmpty()) subscribers.add(SpyDomainEventSubscriber())
+        else events.forEach { subscribers.add(SpyDomainEventSubscriber(it)) }
     }
 
-    protected void eventsShouldBePublished() {
-        subscribers.forEach(subscriber -> assertTrue(subscriberHasBeenCalled(subscriber)));
-    }
-
-    protected void eventsShouldNotBePublished() {
-        subscribers.forEach(subscriber -> assertFalse(subscriberHasBeenCalled(subscriber)));
-    }
-
-    protected void expectDomainEventsToBePublished(DomainEvent... events) {
-        if (0 == events.length) {
-            subscribers.add(new SpyDomainEventSubscriber());
-        }
-        for (DomainEvent event : events) {
-            subscribers.add(new SpyDomainEventSubscriber(event));
-        }
-    }
-
-    private static boolean subscriberHasBeenCalled(DomainEventSubscriber subscriber) {
-        return subscriber instanceof SpyDomainEventSubscriber
-                && ((SpyDomainEventSubscriber) subscriber).hasBeenCalled();
-    }
+    private fun subscriberHasBeenCalled(subscriber: DomainEventSubscriber): Boolean =
+        subscriber is SpyDomainEventSubscriber && subscriber.hasBeenCalled()
 }

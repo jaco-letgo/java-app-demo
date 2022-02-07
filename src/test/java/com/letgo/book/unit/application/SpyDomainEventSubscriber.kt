@@ -1,38 +1,27 @@
-package com.letgo.book.unit.application;
+package com.letgo.book.unit.application
 
-import com.letgo.shared.application.event.DomainEventSubscriber;
-import com.letgo.shared.domain.DomainEvent;
+import com.letgo.shared.application.event.DomainEventSubscriber
+import com.letgo.shared.domain.DomainEvent
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 
-import static org.junit.jupiter.api.Assertions.*;
+class SpyDomainEventSubscriber(
+    private val expectedEvent: DomainEvent? = null
+) : DomainEventSubscriber {
+    private var hasBeenCalled = false
 
-final public class SpyDomainEventSubscriber implements DomainEventSubscriber {
-    private boolean hasBeenCalled = false;
-    private final DomainEvent expectedEvent;
+    override fun isSubscribedTo(event: DomainEvent): Boolean = true
 
-    public SpyDomainEventSubscriber() {
-        this.expectedEvent = null;
+    override fun consume(event: DomainEvent) {
+        hasBeenCalled = true
+        expectedEvent.let {
+            assertNotNull(it)
+            assertEquals(it!!.aggregateId(), event.aggregateId())
+            assertEquals(it.name(), event.name())
+            assertEquals(it.body(), event.body())
+            assertEquals(it.occurredOn(), event.occurredOn())
+        }
     }
 
-    public SpyDomainEventSubscriber(DomainEvent expectedEvent) {
-        this.expectedEvent = expectedEvent;
-    }
-
-    @Override
-    public boolean isSubscribedTo(DomainEvent event) {
-        return true;
-    }
-
-    @Override
-    public void consume(DomainEvent event) {
-        hasBeenCalled = true;
-        assertNotNull(expectedEvent);
-        assertEquals(expectedEvent.aggregateId(), event.aggregateId());
-        assertEquals(expectedEvent.name(), event.name());
-        assertEquals(expectedEvent.body(), event.body());
-        assertEquals(expectedEvent.occurredOn(), event.occurredOn());
-    }
-
-    public boolean hasBeenCalled() {
-        return hasBeenCalled;
-    }
+    fun hasBeenCalled(): Boolean = hasBeenCalled
 }
