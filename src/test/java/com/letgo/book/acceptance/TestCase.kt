@@ -1,45 +1,42 @@
-package com.letgo.book.acceptance;
+package com.letgo.book.acceptance
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.*;
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.boot.web.server.LocalServerPort
+import org.springframework.http.*
+
+private const val DOMAIN_NAME = "http://localhost:"
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public abstract class TestCase {
-    public static final String DOMAIN_NAME = "http://localhost:";
+abstract class TestCase {
     @LocalServerPort
-    protected int port;
+    private var port = 0
+
     @Autowired
-    protected TestRestTemplate restTemplate;
+    private lateinit var restTemplate: TestRestTemplate
 
-    protected ResponseEntity<String> get(String endpoint) {
-        return restTemplate.getForEntity(DOMAIN_NAME + port + endpoint, String.class);
-    }
+    protected fun get(endpoint: String): ResponseEntity<String> =
+        restTemplate.getForEntity(apiEndpoint(endpoint), String::class.java)
 
-    protected ResponseEntity<String> post(String body) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> entity = new HttpEntity<>(body, headers);
-
-        return restTemplate.postForEntity(DOMAIN_NAME + port + "/book", entity, String.class);
-    }
-
-    protected ResponseEntity<String> put(String url) {
-        return restTemplate.exchange(url, HttpMethod.PUT, HttpEntity.EMPTY, String.class);
-    }
-
-    protected void givenAnExistingBookWith(String id, String title) {
-        post("{'id': " + id + ", 'title': " + title + "}");
-        weWaitForMessagesToBeProcessed();
-    }
-
-    protected void weWaitForMessagesToBeProcessed() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    protected fun post(body: String): ResponseEntity<String> {
+        val headers = HttpHeaders().also {
+            it.contentType = MediaType.APPLICATION_JSON
+        }
+        return HttpEntity(body, headers).run {
+            restTemplate.postForEntity(apiEndpoint("/book"), this, String::class.java)
         }
     }
+
+    protected fun put(url: String): ResponseEntity<String> =
+        restTemplate.exchange(url, HttpMethod.PUT, HttpEntity.EMPTY, String::class.java)
+
+    protected fun givenAnExistingBookWith(id: String, title: String) {
+        post("""{"id": $id, "title": $title}""")
+        weWaitForMessagesToBeProcessed()
+    }
+
+    protected fun weWaitForMessagesToBeProcessed() = Thread.sleep(1000)
+
+    private fun apiEndpoint(endpoint: String) = DOMAIN_NAME + port + endpoint
 }

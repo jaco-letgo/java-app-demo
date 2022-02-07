@@ -1,28 +1,26 @@
-package com.letgo.book.acceptance;
+package com.letgo.book.acceptance
 
-import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
+import org.springframework.http.HttpStatus
+import java.util.*
 
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-final public class FindBookFeatureTest extends TestCase {
+class FindBookFeatureTest : TestCase() {
     @Test
-    public void itShouldFindAnExistingBook() {
-        UUID id = UUID.randomUUID();
-        givenAnExistingBookWith(id.toString(), "OlaKeAse");
-
-        ResponseEntity<String> getResponse = get("/book/" + id);
-        assertSame(HttpStatus.OK, getResponse.getStatusCode());
-        assertEquals("OLAKEASE", getResponse.getBody());
+    fun `It should find an existing book`() {
+        val id = UUID.randomUUID()
+        givenAnExistingBookWith(id.toString(), "OlaKeAse")
+        get("/book/$id").run {
+            assertSame(HttpStatus.OK, this.statusCode)
+            assertEquals("OLAKEASE", this.body)
+        }
     }
 
     @Test
-    public void itShouldReturnAnErrorWhenBookIsNotFoundForGivenId() {
-        ResponseEntity<String> getResponse = get("/book/" + UUID.randomUUID());
-        assertSame(HttpStatus.NOT_FOUND, getResponse.getStatusCode());
-        assertFalse(getResponse.hasBody());
+    fun `It should return an error when book is not found for given id`() {
+        get("/book/" + UUID.randomUUID()).run {
+            assertSame(HttpStatus.NOT_FOUND, this.statusCode)
+            assertFalse(this.hasBody())
+        }
     }
 }

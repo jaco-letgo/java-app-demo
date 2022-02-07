@@ -1,24 +1,21 @@
-package com.letgo.book.acceptance;
+package com.letgo.book.acceptance
 
-import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
+import org.springframework.http.HttpStatus
+import java.util.*
 
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-final public class CreateBookFeatureTest extends TestCase {
+class CreateBookFeatureTest : TestCase() {
     @Test
-    public void itShouldCreateABook() {
-        UUID id = UUID.randomUUID();
-        ResponseEntity<String> postResponse = post("{'id': " + id + ", 'title': 'OlaKeAse'}");
-        assertSame(HttpStatus.CREATED, postResponse.getStatusCode());
-        assertFalse(postResponse.hasBody());
-
-        weWaitForMessagesToBeProcessed();
-
-        ResponseEntity<String> getResponse = get("/book/" + id);
-        assertEquals("OLAKEASE", getResponse.getBody());
+    fun `It should create a book`() {
+        val id = UUID.randomUUID()
+        post("""{"id": $id, "title": "OlaKeAse"}""").run {
+            assertSame(HttpStatus.CREATED, this.statusCode)
+            assertFalse(this.hasBody())
+        }
+        weWaitForMessagesToBeProcessed()
+        get("/book/$id").run {
+            assertEquals("OLAKEASE", this.body)
+        }
     }
 }
