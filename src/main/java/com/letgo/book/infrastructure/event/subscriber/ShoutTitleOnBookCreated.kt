@@ -16,9 +16,7 @@ import java.util.*
 class ShoutTitleOnBookCreated(
     private val commandBus: CommandBus
 ) : DomainEventSubscriber {
-    override fun isSubscribedTo(event: DomainEvent): Boolean {
-        return event is BookCreated
-    }
+    override fun isSubscribedTo(event: DomainEvent): Boolean = event is BookCreated
 
     @EventListener(BookCreated::class)
     override fun consume(event: DomainEvent) {

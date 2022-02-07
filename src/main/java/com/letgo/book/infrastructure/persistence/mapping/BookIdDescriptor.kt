@@ -6,31 +6,21 @@ import org.hibernate.type.descriptor.java.AbstractTypeDescriptor
 import org.hibernate.type.descriptor.java.ImmutableMutabilityPlan
 
 class BookIdDescriptor : AbstractTypeDescriptor<BookId>(BookId::class.java, ImmutableMutabilityPlan()) {
-    override fun toString(value: BookId): String {
-        return value.value()
-    }
+    override fun toString(value: BookId): String = value.value()
 
-    override fun fromString(string: String): BookId {
-        return BookId.create(string)
-    }
+    override fun fromString(string: String): BookId = BookId.create(string)
 
-    override fun <X> unwrap(value: BookId?, type: Class<X>, options: WrapperOptions): X? {
-        if (value == null) {
-            return null
+    override fun <X> unwrap(value: BookId?, type: Class<X>, options: WrapperOptions): X? =
+        value?.let {
+            if (String::class.java.isAssignableFrom(type)) toString(value) as X
+            else throw unknownUnwrap(type)
         }
-        if (String::class.java.isAssignableFrom(type)) {
-            return toString(value) as X
-        }
-        throw unknownUnwrap(type)
-    }
 
-    override fun <X> wrap(value: X?, options: WrapperOptions): BookId? {
-        if (value == null) {
-            return null
+    override fun <X> wrap(value: X?, options: WrapperOptions): BookId? =
+        value?.let {
+            when (it) {
+                is String -> fromString(value as String)
+                else -> throw unknownWrap(value.javaClass)
+            }
         }
-        if (value is String) {
-            return fromString(value as String)
-        }
-        throw unknownWrap(value.javaClass)
-    }
 }
