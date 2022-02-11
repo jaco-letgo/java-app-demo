@@ -3,7 +3,6 @@ package com.letgo.book.infrastructure.configuration
 import org.springframework.boot.jdbc.DatabaseDriver
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.env.Environment
 import org.springframework.core.io.FileSystemResource
 import org.springframework.jdbc.datasource.DriverManagerDataSource
 import org.springframework.orm.hibernate5.HibernateTransactionManager
@@ -16,7 +15,7 @@ import javax.sql.DataSource
 @Configuration
 @EnableTransactionManagement
 open class HibernateConfiguration(
-    private val environment: Environment
+    private val dbParameters: DatabaseParameters
 ) {
     @Bean
     open fun sessionFactory(): LocalSessionFactoryBean {
@@ -33,9 +32,9 @@ open class HibernateConfiguration(
     open fun dataSource(): DataSource {
         return DriverManagerDataSource().apply {
             setDriverClassName(DatabaseDriver.MYSQL.driverClassName)
-            url = databaseUrl()
-            username = databaseUser()
-            password = databasePassword()
+            url = dbParameters.databaseUrl
+            username = dbParameters.databaseUser
+            password = dbParameters.databasePassword
         }
     }
 
@@ -52,11 +51,4 @@ open class HibernateConfiguration(
             setProperty("hibernate.hbm2ddl.auto", "none")
         }
     }
-
-    private fun databaseName() = environment.getProperty("database.name")
-    private fun databaseHost() = environment.getProperty("database.host")
-    private fun databasePort() = environment.getProperty("database.port")
-    private fun databasePassword() = environment.getProperty("database.password")
-    private fun databaseUser() = environment.getProperty("database.user")
-    private fun databaseUrl() = "jdbc:mysql://${databaseHost()}:${databasePort()}/${databaseName()}"
 }
