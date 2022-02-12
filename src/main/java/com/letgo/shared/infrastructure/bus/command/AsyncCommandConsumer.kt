@@ -20,7 +20,8 @@ class AsyncCommandConsumer(
             try {
                 handler.handle(command)
             } catch (exception: Throwable) {
-                exception.printStackTrace()
+                // I should enqueue into a retry and/or dead letter queue
+                queue.enqueue(message)
             }
         }
     }
