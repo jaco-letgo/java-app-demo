@@ -19,7 +19,7 @@ class CreateBookCommandHandlerTest : BookTestCase() {
         val title = BookTitleMother.random()
         expectDomainEventsToBePublished(BookCreated(id.value(), title.value(), title.createdAt()))
         handler.handle(CreateBookCommand(id.value(), title.value(), title.createdAt().toString()))
-        repository.find(id).orElseThrow().run {
+        repository.find(id)!!.run {
             assertEquals(id, this.id())
             assertEquals(title, this.title())
             assertFalse(this.hasBeenEdited())
@@ -34,7 +34,7 @@ class CreateBookCommandHandlerTest : BookTestCase() {
         val title = currentBook.title()
         expectDomainEventsToBePublished()
         handler.handle(CreateBookCommand(id.value(), title.value(), title.createdAt().toString()))
-        assertEquals(currentBook, repository.find(id).orElseThrow())
+        assertEquals(currentBook, repository.find(id))
         eventsShouldNotBePublished()
     }
 }

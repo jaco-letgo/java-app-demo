@@ -6,8 +6,7 @@ import com.letgo.book.domain.BookFinder
 import com.letgo.book.domain.BookTitleChanged
 import com.letgo.book.unit.application.BookTestCase
 import com.letgo.book.unit.domain.BookTitleMother
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class ChangeTitleCommandHandlerTest : BookTestCase() {
@@ -27,7 +26,7 @@ class ChangeTitleCommandHandlerTest : BookTestCase() {
             )
         )
         handler.handle(ChangeTitleCommand(id.value(), newTitle.value(), newTitle.createdAt().toString()))
-        repository.find(id).orElseThrow().run {
+        repository.find(id)!!.run {
             assertEquals(id, this.id())
             assertEquals(newTitle, this.title())
             assertTrue(this.hasBeenEdited())
@@ -42,7 +41,7 @@ class ChangeTitleCommandHandlerTest : BookTestCase() {
         val title = currentBook.title()
         expectDomainEventsToBePublished()
         handler.handle(ChangeTitleCommand(id.value(), title.value(), title.createdAt().toString()))
-        assertEquals(currentBook, repository.find(id).orElseThrow())
+        assertEquals(currentBook, repository.find(id))
         eventsShouldNotBePublished()
     }
 }

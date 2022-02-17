@@ -7,16 +7,13 @@ import com.letgo.shared.infrastructure.InfrastructureService
 import org.hibernate.Session
 import org.hibernate.SessionFactory
 import org.springframework.transaction.annotation.Transactional
-import java.util.*
 
 @Transactional
 @InfrastructureService
 open class HibernateBookRepository(
     private val sessionFactory: SessionFactory
 ) : BookRepository {
-    override fun find(id: BookId): Optional<Book> {
-        return Optional.ofNullable(session().find(Book::class.java, id))
-    }
+    override fun find(id: BookId): Book? = session().find(Book::class.java, id)
 
     override fun save(book: Book) {
         session().saveOrUpdate(book)
@@ -24,7 +21,5 @@ open class HibernateBookRepository(
         session().clear()
     }
 
-    private fun session(): Session {
-        return sessionFactory.currentSession
-    }
+    private fun session(): Session = sessionFactory.currentSession
 }
