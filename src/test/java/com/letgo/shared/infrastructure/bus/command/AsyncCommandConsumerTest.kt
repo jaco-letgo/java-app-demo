@@ -22,7 +22,7 @@ internal class AsyncCommandConsumerTest {
         consumer.consume()
 
         verify { queue.dequeue() }
-        assertTrue(handler.hasBeenCalled)
+        assertTrue(handler.hasBeenCalled())
     }
 
     @Test

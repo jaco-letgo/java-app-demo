@@ -12,6 +12,6 @@ private class InMemorySyncCommandBusTest {
 
         commandBus.dispatch(command)
 
-        assertTrue(handler.hasBeenCalled)
+        assertTrue(handler.hasBeenCalled())
     }
 }

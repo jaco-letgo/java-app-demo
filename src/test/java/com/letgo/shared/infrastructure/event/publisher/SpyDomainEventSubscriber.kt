@@ -1,4 +1,4 @@
-package com.letgo.book.unit.application
+package com.letgo.shared.infrastructure.event.publisher
 
 import com.letgo.shared.application.event.DomainEventSubscriber
 import com.letgo.shared.domain.DomainEvent

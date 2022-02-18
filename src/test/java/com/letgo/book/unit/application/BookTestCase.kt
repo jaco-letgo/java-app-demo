@@ -8,6 +8,7 @@ import com.letgo.shared.application.event.DomainEventPublisher
 import com.letgo.shared.application.event.DomainEventSubscriber
 import com.letgo.shared.domain.DomainEvent
 import com.letgo.shared.infrastructure.event.publisher.InMemorySyncDomainEventPublisher
+import com.letgo.shared.infrastructure.event.publisher.SpyDomainEventSubscriber
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 
