@@ -2,12 +2,9 @@ package com.letgo.shared.domain
 
 @DomainObject
 abstract class AggregateRoot {
-    private var events: MutableList<DomainEvent> = ArrayList()
-    fun retrieveEvents(): List<DomainEvent> {
-        val events: List<DomainEvent> = events
-        this.events = ArrayList()
-        return events
-    }
+    private val events: MutableList<DomainEvent> = mutableListOf()
+
+    fun retrieveEvents(): List<DomainEvent> = events.apply { clear() }.run { toList() }
 
     protected fun storeEvent(event: DomainEvent) {
         events.add(event)
