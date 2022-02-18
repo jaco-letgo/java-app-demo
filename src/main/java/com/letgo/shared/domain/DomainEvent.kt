@@ -8,19 +8,13 @@ abstract class DomainEvent(
     private val aggregateId: String,
     private val occurredOn: LocalDateTime = LocalDateTime.now()
 ) {
-    fun id(): String {
-        return id.toString()
-    }
+    fun id(): String = id.toString()
+
+    fun aggregateId(): String = aggregateId
+
+    fun occurredOn(): String = occurredOn.toString()
 
     abstract fun name(): String
-
-    fun aggregateId(): String {
-        return aggregateId
-    }
-
-    fun occurredOn(): String {
-        return occurredOn.toString()
-    }
 
     abstract fun body(): String
 }
