@@ -10,10 +10,12 @@ private class CommandHandlerFinderTest {
     @Test
     fun `It should return the correct handler for a given command`() {
         val expectedHandler = BarCommandHandler()
-        val finder = CommandHandlerFinder(listOf(
-            FooCommandHandler(),
-            expectedHandler
-        ))
+        val finder = CommandHandlerFinder(
+            listOf(
+                FooCommandHandler(),
+                expectedHandler
+            )
+        )
 
         assertEquals(expectedHandler, finder.forCommand(BarCommand()))
     }

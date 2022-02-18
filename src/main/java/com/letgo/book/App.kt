@@ -13,17 +13,21 @@ import org.springframework.context.annotation.FilterType
 
 @SpringBootApplication(exclude = [HibernateJpaAutoConfiguration::class])
 @ComponentScan(
-    includeFilters = [ComponentScan.Filter(
-        type = FilterType.ASSIGNABLE_TYPE,
-        classes = [QueryHandler::class, CommandHandler::class]
-    ), ComponentScan.Filter(
-        type = FilterType.ANNOTATION,
-        classes = [DomainService::class, InfrastructureService::class]
-    )],
-    excludeFilters = [ComponentScan.Filter(
-        type = FilterType.CUSTOM,
-        classes = [TestClassesExcluder::class]
-    )],
+    includeFilters = [
+        ComponentScan.Filter(
+            type = FilterType.ASSIGNABLE_TYPE,
+            classes = [QueryHandler::class, CommandHandler::class]
+        ), ComponentScan.Filter(
+            type = FilterType.ANNOTATION,
+            classes = [DomainService::class, InfrastructureService::class]
+        )
+    ],
+    excludeFilters = [
+        ComponentScan.Filter(
+            type = FilterType.CUSTOM,
+            classes = [TestClassesExcluder::class]
+        )
+    ],
     basePackages = ["com.letgo.book", "com.letgo.shared"]
 )
 open class App {

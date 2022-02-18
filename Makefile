@@ -17,3 +17,11 @@ test:
 .PHONY: run
 run:
 	@docker exec -it java-app-demo-java ./gradlew bootrun
+
+.PHONY: lint
+lint:
+	@docker exec -it java-app-demo-java ./gradlew ktlintCheck
+
+.PHONY: fix
+fix:
+	@docker exec -it java-app-demo-java ./gradlew ktlintFormat

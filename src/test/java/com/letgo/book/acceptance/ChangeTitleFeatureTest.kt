@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 import java.util.*
 
-class ChangeTitleFeatureTest : TestCase() {
+private class ChangeTitleFeatureTest : TestCase() {
     @Test
     fun `It should change a book title`() {
         val id = UUID.randomUUID()

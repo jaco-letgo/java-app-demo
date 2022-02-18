@@ -8,9 +8,9 @@ import com.letgo.shared.application.bus.command.CommandHandler
 import com.letgo.shared.application.event.DomainEventPublisher
 
 class ChangeTitleCommandHandler(
-        private val repository: BookRepository,
-        private val finder: BookFinder,
-        private val publisher: DomainEventPublisher
+    private val repository: BookRepository,
+    private val finder: BookFinder,
+    private val publisher: DomainEventPublisher
 ) : CommandHandler<ChangeTitleCommand> {
     override fun handle(command: ChangeTitleCommand) {
         val book = finder.find(BookId.create(command.id))

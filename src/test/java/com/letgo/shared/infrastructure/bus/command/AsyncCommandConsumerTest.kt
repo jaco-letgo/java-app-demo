@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 
 internal class AsyncCommandConsumerTest {
     private val queue: Queue<String> = mockk()
-    private val serializer = FakeSerializer()
+    private val serializer = FakeCommandSerializer()
 
     @Test
     fun `It should dequeue, deserialize and pass a command into it's handler`() {

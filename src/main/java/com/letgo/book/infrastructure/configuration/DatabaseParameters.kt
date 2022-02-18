@@ -10,5 +10,5 @@ data class DatabaseParameters(
     @Value("\${database.port}") private val databasePort: String,
     @Value("\${database.user}") val databaseUser: String,
     @Value("\${database.password}") val databasePassword: String,
-    val databaseUrl: String = "jdbc:mysql://${databaseHost}:${databasePort}/${databaseName}"
+    val databaseUrl: String = "jdbc:mysql://$databaseHost:$databasePort/$databaseName"
 )

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 
 private class InMemoryAsyncCommandBusTest {
     private val queue: Queue<String> = mockk()
-    private val serializer = FakeSerializer()
+    private val serializer = FakeCommandSerializer()
     private val commandBus = InMemoryAsyncCommandBus(queue, serializer)
 
     @Test
