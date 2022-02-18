@@ -14,7 +14,6 @@ object BookMother {
         return book
     }
 
-    @JvmStatic
     fun random(): Book {
         return create()
     }

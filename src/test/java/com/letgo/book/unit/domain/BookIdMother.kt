@@ -10,7 +10,6 @@ object BookIdMother {
         return BookId.create(id)
     }
 
-    @JvmStatic
     fun random(): BookId {
         return create()
     }
