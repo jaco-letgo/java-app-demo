@@ -14,7 +14,18 @@ private class AggregateRootTest {
         assertEquals(emptyList<DomainEvent>(), aggregate.retrieveEvents())
     }
 
-    private class AnAggregate(event: DomainEvent) : AggregateRoot() {
+    @Test
+    fun `It should increase aggregate's version`() {
+        val aggregate = AnAggregate()
+
+        assertEquals(0, aggregate.version())
+
+        aggregate.increaseVersion()
+
+        assertEquals(1, aggregate.version())
+    }
+
+    private class AnAggregate(event: DomainEvent = AnEvent()) : AggregateRoot() {
         init {
             storeEvent(event)
         }

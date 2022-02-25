@@ -6,6 +6,7 @@
 <hibernate-mapping>
     <class name="com.letgo.book.domain.Book" table="books">
         <id column="id" name="id" length="36" type="com.letgo.book.infrastructure.persistence.mapping.BookIdType" access="field"/>
+        <version name="version" column="version" access="field"/>
         <component name="title" class="com.letgo.book.domain.BookTitle" access="field">
             <property name="value" column="title" not-null="true" type="string" access="field" />
             <property name="createdAt" column="title_updated_at" not-null="true" type="org.hibernate.type.LocalDateTimeType" access="field"/>

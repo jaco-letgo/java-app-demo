@@ -2,6 +2,7 @@ USE demo;
 
 CREATE TABLE IF NOT EXISTS books (
     id               CHAR(36)     NOT NULL,
+    version          BIGINT(20)   NOT NULL,
     title            VARCHAR(255) NOT NULL,
     status           INT(3)       NOT NULL,
     title_updated_at TIMESTAMP(6) NOT NULL,
