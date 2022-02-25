@@ -30,11 +30,8 @@ import org.springframework.context.annotation.FilterType
     ],
     basePackages = ["com.letgo.book", "com.letgo.shared"]
 )
-open class App {
-    companion object {
-        @JvmStatic
-        fun main(args: Array<String>) {
-            runApplication<App>(*args)
-        }
-    }
+open class App
+
+fun main(args: Array<String>) {
+    runApplication<App>(*args)
 }
