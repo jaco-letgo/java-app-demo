@@ -11,20 +11,21 @@ private class ChangeTitleFeatureTest : TestCase() {
         val id = UUID.randomUUID()
         givenAnExistingBookWith(id.toString(), "OlaKeAse")
         put("/book/$id/title/whatever").run {
-            assertSame(HttpStatus.ACCEPTED, this.statusCode)
-            assertFalse(this.hasBody())
+            assertSame(HttpStatus.ACCEPTED, statusCode)
+            assertFalse(hasBody())
         }
         weWaitForMessagesToBeProcessed()
         get("/book/$id").run {
-            assertEquals("whatever", this.body)
+            assertEquals("whatever", body)
         }
     }
 
     @Test
     fun `It should return accepted response even when book is not found for given id`() {
         put("/book/${UUID.randomUUID()}/title/olakease").run {
-            assertSame(HttpStatus.ACCEPTED, this.statusCode)
-            assertFalse(this.hasBody())
+            weWaitForMessagesToBeProcessed()
+            assertSame(HttpStatus.ACCEPTED, statusCode)
+            assertFalse(hasBody())
         }
     }
 }

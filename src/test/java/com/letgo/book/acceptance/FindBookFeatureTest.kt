@@ -5,22 +5,22 @@ import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 import java.util.*
 
-class FindBookFeatureTest : TestCase() {
+private class FindBookFeatureTest : TestCase() {
     @Test
     fun `It should find an existing book`() {
         val id = UUID.randomUUID()
-        givenAnExistingBookWith(id.toString(), "OlaKeAse")
+        givenAnExistingBookWith(id.toString(), "whatever")
         get("/book/$id").run {
-            assertSame(HttpStatus.OK, this.statusCode)
-            assertEquals("OLAKEASE", this.body)
+            assertSame(HttpStatus.OK, statusCode)
+            assertEquals("whatever", body)
         }
     }
 
     @Test
     fun `It should return an error when book is not found for given id`() {
         get("/book/" + UUID.randomUUID()).run {
-            assertSame(HttpStatus.NOT_FOUND, this.statusCode)
-            assertFalse(this.hasBody())
+            assertSame(HttpStatus.NOT_FOUND, statusCode)
+            assertFalse(hasBody())
         }
     }
 }

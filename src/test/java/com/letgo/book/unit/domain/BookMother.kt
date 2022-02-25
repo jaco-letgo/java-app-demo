@@ -14,6 +14,13 @@ object BookMother {
         return book
     }
 
+    fun create(
+        id: String,
+        title: String,
+    ): Book {
+        return create(id = BookIdMother.create(id), title = BookTitleMother.create(title = title))
+    }
+
     fun random(): Book {
         return create()
     }
