@@ -25,3 +25,7 @@ lint:
 .PHONY: fix
 fix:
 	@docker exec -it java-app-demo-java ./gradlew ktlintFormat
+
+.PHONY: mutations
+mutations:
+	@docker exec -it java-app-demo-java ./gradlew pitest

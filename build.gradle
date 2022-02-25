@@ -4,6 +4,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id "org.jetbrains.kotlin.plugin.noarg" version "1.6.10"
     id "org.jlleitschuh.gradle.ktlint" version "10.2.1"
+    id 'info.solidsoft.pitest' version '1.7.0'
     id 'java'
 }
 
@@ -50,4 +51,9 @@ compileTestKotlin {
 noArg {
     annotation("com.letgo.shared.domain.DomainObject")
     invokeInitializers = false
+}
+
+pitest {
+    junit5PluginVersion = '0.15'
+    threads = 6
 }
