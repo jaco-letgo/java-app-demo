@@ -2,7 +2,6 @@ package com.letgo.book.infrastructure.controller
 
 import com.letgo.book.application.create.CreateBookCommand
 import com.letgo.shared.application.bus.command.CommandBus
-import org.json.JSONObject
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -12,18 +11,19 @@ import java.time.LocalDateTime
 
 @RestController
 class PostBookController(
-    private val commandBus: CommandBus
+    private val commandBus: CommandBus,
 ) : BookController() {
-    @PostMapping
+    @PostMapping(consumes = ["application/json"])
     @ResponseStatus(HttpStatus.CREATED)
-    fun index(@RequestBody request: String) {
-        val body = JSONObject(request)
+    fun index(@RequestBody request: Request) {
         commandBus.dispatch(
             CreateBookCommand(
-                body.getString("id"),
-                body.getString("title"),
+                request.id,
+                request.title,
                 LocalDateTime.now().toString()
             )
         )
     }
+
+    data class Request(val id: String, val title: String)
 }

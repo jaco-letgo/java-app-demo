@@ -32,9 +32,12 @@ internal abstract class TestCase {
         val headers = HttpHeaders().also {
             it.contentType = MediaType.APPLICATION_JSON
         }
-        return HttpEntity(body, headers).run {
-            restTemplate.postForEntity(apiEndpoint("/book"), this, String::class.java)
-        }
+        return restTemplate.exchange(
+            apiEndpoint("/book"),
+            HttpMethod.POST,
+            HttpEntity(body, headers),
+            String::class.java
+        )
     }
 
     protected fun put(url: String): ResponseEntity<String> =

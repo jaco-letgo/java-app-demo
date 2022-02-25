@@ -9,7 +9,7 @@ private class CreateBookFeatureTest : TestCase() {
     @Test
     fun `It should create a book`() {
         val id = UUID.randomUUID()
-        post("""{"id": $id, "title": "OlaKeAse"}""").run {
+        post("""{"id": "$id", "title": "OlaKeAse"}""").run {
             assertSame(HttpStatus.CREATED, statusCode)
             assertFalse(hasBody())
         }
