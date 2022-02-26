@@ -23,7 +23,7 @@ private const val WORKERS = 10
 
 @InfrastructureService
 class AsyncCommandConsumer(
-    private val queueHandler: QueueHandler,
+    private val queueHandler: QueueHandler<String>,
     private val serializer: MessageSerializer<Command>,
     private val handlerFinder: CommandHandlerFinder,
 ) : Consumer, CoroutineScope {

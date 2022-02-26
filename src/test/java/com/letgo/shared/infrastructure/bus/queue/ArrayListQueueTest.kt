@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 private class ArrayListQueueTest {
-    private val queue = ArrayListQueue()
+    private val queue = ArrayListQueue<String>()
 
     @Test
     fun `It should enqueue messages`() {

@@ -9,7 +9,7 @@ import io.mockk.verify
 import org.junit.jupiter.api.Test
 
 private class InMemoryAsyncCommandBusTest {
-    private val queueHandler: QueueHandler = mockk()
+    private val queueHandler: QueueHandler<String> = mockk()
     private val commandBus = InMemoryAsyncCommandBus(queueHandler, FakeCommandSerializer())
 
     @Test

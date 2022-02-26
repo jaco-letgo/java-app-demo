@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 import java.lang.Thread.sleep
 
 private class AsyncCommandConsumerTest {
-    private val queueHandler = QueueHandler()
+    private val queueHandler = QueueHandler<String>()
     private val queue: Queue<String> = queueHandler.main
     private val deadLetter: Queue<String> = queueHandler.deadLetter
     private val serializer = FakeCommandSerializer()

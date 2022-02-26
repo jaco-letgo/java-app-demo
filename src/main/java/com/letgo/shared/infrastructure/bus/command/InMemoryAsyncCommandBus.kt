@@ -8,7 +8,7 @@ import com.letgo.shared.infrastructure.bus.serialize.MessageSerializer
 
 @InfrastructureService
 class InMemoryAsyncCommandBus(
-    private val queue: QueueHandler,
+    private val queue: QueueHandler<String>,
     private val serializer: MessageSerializer<Command>,
 ) : CommandBus {
     override fun dispatch(command: Command) {
