@@ -1,6 +1,5 @@
 package com.letgo.shared.domain
 
-import com.letgo.shared.infrastructure.event.publisher.AnEvent
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

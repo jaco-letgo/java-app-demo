@@ -1,6 +1,7 @@
 package com.letgo.shared.infrastructure.bus.command
 
 import com.letgo.shared.application.bus.command.CommandHandler
+import com.letgo.shared.infrastructure.bus.AsyncConsumer
 import com.letgo.shared.infrastructure.bus.queue.Queue
 import com.letgo.shared.infrastructure.bus.queue.QueueHandler
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -18,13 +19,12 @@ private class AsyncCommandConsumerTest {
     fun `It should dequeue, deserialize and pass a command into its handler`() {
         val serializedMessage = "olakease"
         val handler = SpyCommandHandler(ACommand(serializedMessage))
-        val consumer = AsyncCommandConsumer(queueHandler, serializer, CommandHandlerFinder(listOf(handler)))
+        val consumer = AsyncCommandConsumer(serializer, CommandHandlerFinder(listOf(handler)), AsyncConsumer(queueHandler))
 
         queue.enqueue(serializedMessage)
 
         consumer.consume()
         sleep(100)
-        consumer.stop()
 
         assertTrue(queue.isEmpty)
         assertTrue(deadLetter.isEmpty)
@@ -35,13 +35,12 @@ private class AsyncCommandConsumerTest {
     fun `It should re-enqueue a message when handler throws an exception`() {
         val serializedMessage = "olakease"
         val handler = FailingCommandHandler()
-        val consumer = AsyncCommandConsumer(queueHandler, serializer, CommandHandlerFinder(listOf(handler)))
+        val consumer = AsyncCommandConsumer(serializer, CommandHandlerFinder(listOf(handler)), AsyncConsumer(queueHandler))
 
         queue.enqueue(serializedMessage)
 
         consumer.consume()
         sleep(100)
-        consumer.stop()
 
         assertTrue(queue.isEmpty)
         assertFalse(deadLetter.isEmpty)

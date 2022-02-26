@@ -7,8 +7,8 @@ import com.letgo.book.unit.domain.BookMother
 import com.letgo.shared.application.event.DomainEventPublisher
 import com.letgo.shared.application.event.DomainEventSubscriber
 import com.letgo.shared.domain.DomainEvent
-import com.letgo.shared.infrastructure.event.publisher.InMemorySyncDomainEventPublisher
-import com.letgo.shared.infrastructure.event.publisher.SpyDomainEventSubscriber
+import com.letgo.shared.infrastructure.bus.event.InMemorySyncDomainEventPublisher
+import com.letgo.shared.infrastructure.bus.event.SpyDomainEventSubscriber
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 

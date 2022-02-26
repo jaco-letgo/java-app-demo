@@ -1,5 +1,6 @@
-package com.letgo.shared.infrastructure.event.publisher
+package com.letgo.shared.infrastructure.bus.event
 
+import com.letgo.shared.domain.AnEvent
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

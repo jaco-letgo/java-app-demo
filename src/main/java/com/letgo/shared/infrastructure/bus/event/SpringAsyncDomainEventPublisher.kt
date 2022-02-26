@@ -1,4 +1,4 @@
-package com.letgo.shared.infrastructure.event.publisher
+package com.letgo.shared.infrastructure.bus.event
 
 import com.letgo.shared.application.event.DomainEventPublisher
 import com.letgo.shared.domain.DomainEvent

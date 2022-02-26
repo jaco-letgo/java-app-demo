@@ -1,6 +1,4 @@
-package com.letgo.shared.infrastructure.event.publisher
-
-import com.letgo.shared.domain.DomainEvent
+package com.letgo.shared.domain
 
 class AnEvent : DomainEvent(aggregateId = "id") {
     override fun name(): String = "an_event"
