@@ -1,6 +1,6 @@
 package com.letgo.shared.infrastructure.bus.event
 
-import com.letgo.shared.application.event.DomainEventSubscriber
+import com.letgo.shared.application.bus.event.DomainEventSubscriber
 import com.letgo.shared.domain.DomainEvent
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull

@@ -5,7 +5,7 @@ import com.letgo.book.domain.BookId
 import com.letgo.book.domain.BookRepository
 import com.letgo.book.domain.BookTitle
 import com.letgo.shared.application.bus.command.CommandHandler
-import com.letgo.shared.application.event.DomainEventPublisher
+import com.letgo.shared.application.bus.event.DomainEventPublisher
 
 class ChangeTitleCommandHandler(
     private val repository: BookRepository,

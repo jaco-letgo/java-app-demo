@@ -4,8 +4,8 @@ import com.letgo.book.domain.Book
 import com.letgo.book.domain.BookRepository
 import com.letgo.book.infrastructure.persistence.InMemoryBookRepository
 import com.letgo.book.unit.domain.BookMother
-import com.letgo.shared.application.event.DomainEventPublisher
-import com.letgo.shared.application.event.DomainEventSubscriber
+import com.letgo.shared.application.bus.event.DomainEventPublisher
+import com.letgo.shared.application.bus.event.DomainEventSubscriber
 import com.letgo.shared.domain.DomainEvent
 import com.letgo.shared.infrastructure.bus.event.InMemorySyncDomainEventPublisher
 import com.letgo.shared.infrastructure.bus.event.SpyDomainEventSubscriber

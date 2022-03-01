@@ -1,4 +1,4 @@
-package com.letgo.shared.application.event
+package com.letgo.shared.application.bus.event
 
 import com.letgo.shared.domain.DomainEvent
 
