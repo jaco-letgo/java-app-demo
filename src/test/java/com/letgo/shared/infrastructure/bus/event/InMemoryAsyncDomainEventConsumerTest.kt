@@ -10,7 +10,8 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 private class InMemoryAsyncDomainEventConsumerTest {
-    private val queueHandler = DomainEventQueueHandler()
+    private val queueHandler = DomainEventQueueHandler(0)
+    private val consumer = DomainEventAsyncConsumer(queueHandler)
     private val queue: Queue<DomainEvent> = queueHandler.main
     private val deadLetter: Queue<DomainEvent> = queueHandler.deadLetter
 
@@ -18,7 +19,7 @@ private class InMemoryAsyncDomainEventConsumerTest {
     fun `It should dequeue and pass an event into its subscribers`() {
         val event = AnEvent()
         val subscriber = SpyDomainEventSubscriber(event)
-        val consumer = InMemoryAsyncDomainEventConsumer(queueHandler, listOf(subscriber))
+        val consumer = InMemoryAsyncDomainEventConsumer(consumer, listOf(subscriber))
 
         queue.enqueue(event)
 
@@ -34,7 +35,7 @@ private class InMemoryAsyncDomainEventConsumerTest {
     fun `It should re-enqueue a message when subscriber throws an exception`() {
         val event = AnEvent()
         val subscriber = FailingDomainEventSubscriber()
-        val consumer = InMemoryAsyncDomainEventConsumer(queueHandler, listOf(subscriber))
+        val consumer = InMemoryAsyncDomainEventConsumer(consumer, listOf(subscriber))
 
         queue.enqueue(event)
 

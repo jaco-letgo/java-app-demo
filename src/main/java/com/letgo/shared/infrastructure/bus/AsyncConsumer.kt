@@ -2,6 +2,7 @@ package com.letgo.shared.infrastructure.bus
 
 import com.letgo.shared.infrastructure.bus.queue.QueueHandler
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -14,21 +15,19 @@ import kotlinx.coroutines.yield
 import javax.annotation.PreDestroy
 import kotlin.coroutines.CoroutineContext
 
-private const val MAX_RETRIES = 5
-private const val WORKERS = 10
-
-class AsyncConsumer<T>(
+abstract class AsyncConsumer<T>(
     private val queueHandler: QueueHandler<T>,
+    private val numberOfWorkers: Int,
+    dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ) : CoroutineScope {
-    private val retries: HashMap<String, Int> = hashMapOf()
     private val supervisorJob = SupervisorJob()
-    override val coroutineContext: CoroutineContext = Dispatchers.Default + supervisorJob
+    override val coroutineContext: CoroutineContext = dispatcher + supervisorJob
 
     fun start(job: (message: T) -> Unit) {
         launch {
             val channel = Channel<T>()
             launchMessageReceiver(channel)
-            repeat(WORKERS) {
+            repeat(numberOfWorkers) {
                 launchWorker(channel, job)
             }
         }
@@ -41,10 +40,7 @@ class AsyncConsumer<T>(
 
     private fun CoroutineScope.launchMessageReceiver(channel: SendChannel<T>) = launch {
         repeatUntilCancelled {
-            queueHandler.main.dequeue()?.let { message ->
-                channel.send(message)
-                println("${Thread.currentThread().name} Message dequeued: $message, total messages: ${queueHandler.main.count}")
-            }
+            queueHandler.main.dequeue()?.let { channel.send(it) }
         }
     }
 
@@ -55,17 +51,7 @@ class AsyncConsumer<T>(
                     try {
                         process(message)
                     } catch (exception: Exception) {
-                        println("${Thread.currentThread().name} exception trying to process message $message: ${exception.message}")
-                        val messageKey = message.toString()
-                        retries[messageKey] = 1 + (retries[messageKey] ?: 0)
-                        if ((retries[messageKey] ?: 1) <= MAX_RETRIES) {
-                            println("${Thread.currentThread().name} re-enqueuing, current failures: ${retries[messageKey]}")
-                            queueHandler.main.enqueue(message)
-                        } else {
-                            println("${Thread.currentThread().name} sending to dead letter, current failures: ${retries[messageKey]}")
-                            retries.remove(messageKey)
-                            queueHandler.deadLetter.enqueue(message)
-                        }
+                        queueHandler.handleFailure(message)
                     }
                 }
             }

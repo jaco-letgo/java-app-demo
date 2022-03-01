@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test
 import java.lang.Thread.sleep
 
 private class InMemoryAsyncCommandConsumerTest {
-    private val queueHandler = SerializedCommandQueueHandler()
+    private val queueHandler = SerializedCommandQueueHandler(0)
+    private val consumer = SerializedCommandAsyncConsumer(queueHandler)
     private val queue: Queue<String> = queueHandler.main
     private val deadLetter: Queue<String> = queueHandler.deadLetter
     private val serializer = FakeCommandSerializer()
@@ -18,7 +19,7 @@ private class InMemoryAsyncCommandConsumerTest {
     fun `It should dequeue, deserialize and pass a command into its handler`() {
         val serializedMessage = "olakease"
         val handler = SpyCommandHandler(ACommand(serializedMessage))
-        val consumer = InMemoryAsyncCommandConsumer(serializer, CommandHandlerFinder(listOf(handler)), queueHandler)
+        val consumer = InMemoryAsyncCommandConsumer(serializer, CommandHandlerFinder(listOf(handler)), consumer)
 
         queue.enqueue(serializedMessage)
 
@@ -34,7 +35,7 @@ private class InMemoryAsyncCommandConsumerTest {
     fun `It should re-enqueue a message when handler throws an exception`() {
         val serializedMessage = "olakease"
         val handler = FailingCommandHandler()
-        val consumer = InMemoryAsyncCommandConsumer(serializer, CommandHandlerFinder(listOf(handler)), queueHandler)
+        val consumer = InMemoryAsyncCommandConsumer(serializer, CommandHandlerFinder(listOf(handler)), consumer)
 
         queue.enqueue(serializedMessage)
 
