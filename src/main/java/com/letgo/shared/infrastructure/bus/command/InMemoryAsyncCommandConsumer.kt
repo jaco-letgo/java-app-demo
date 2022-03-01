@@ -7,12 +7,13 @@ import com.letgo.shared.infrastructure.bus.Consumer
 import com.letgo.shared.infrastructure.bus.serialize.MessageSerializer
 
 @InfrastructureService
-class AsyncCommandConsumer(
+class InMemoryAsyncCommandConsumer(
     private val serializer: MessageSerializer<Command>,
     private val handlerFinder: CommandHandlerFinder,
-    private val consumer: AsyncConsumer<String>,
+    private val queueHandler: SerializedCommandQueueHandler,
 ) : Consumer {
     override fun consume() {
+        val consumer = AsyncConsumer(queueHandler)
         consumer.start { message ->
             println("${Thread.currentThread().name} Started processing message: $message")
             val command = this.serializer.deserialize(message)

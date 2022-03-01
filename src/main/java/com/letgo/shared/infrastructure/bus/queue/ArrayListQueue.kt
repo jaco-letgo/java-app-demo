@@ -7,7 +7,9 @@ class ArrayListQueue<T> : Queue<T> {
         list.add(message)
     }
 
-    override fun dequeue(): T? = if (isEmpty) null else list.removeAt(0)
+    override fun dequeue(): T? = list.firstOrNull()?.also {
+        list.remove(it)
+    }
 
     override val count: Int
         get() = list.size

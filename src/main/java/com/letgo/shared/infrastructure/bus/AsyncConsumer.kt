@@ -1,6 +1,5 @@
 package com.letgo.shared.infrastructure.bus
 
-import com.letgo.shared.infrastructure.InfrastructureService
 import com.letgo.shared.infrastructure.bus.queue.QueueHandler
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -18,7 +17,6 @@ import kotlin.coroutines.CoroutineContext
 private const val MAX_RETRIES = 5
 private const val WORKERS = 10
 
-@InfrastructureService
 class AsyncConsumer<T>(
     private val queueHandler: QueueHandler<T>,
 ) : CoroutineScope {

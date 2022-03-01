@@ -1,6 +1,5 @@
 package com.letgo.shared.infrastructure.bus.command
 
-import com.letgo.shared.infrastructure.bus.queue.QueueHandler
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -9,7 +8,7 @@ import io.mockk.verify
 import org.junit.jupiter.api.Test
 
 private class InMemoryAsyncCommandBusTest {
-    private val queueHandler: QueueHandler<String> = mockk()
+    private val queueHandler: SerializedCommandQueueHandler = mockk()
     private val commandBus = InMemoryAsyncCommandBus(queueHandler, FakeCommandSerializer())
 
     @Test
