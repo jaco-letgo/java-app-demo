@@ -2,25 +2,11 @@ package com.letgo.book.domain
 
 import com.letgo.shared.domain.DomainEvent
 import java.time.LocalDateTime
+import java.util.UUID
 
-class BookCreated(
-    id: String,
-    private val title: String,
-    createdAt: LocalDateTime
-) : DomainEvent(aggregateId = id, occurredOn = createdAt) {
-    fun title(): String {
-        return title
-    }
-
-    override fun name(): String {
-        return "BookCreated"
-    }
-
-    override fun body(): String {
-        return """
-            {
-                "title": $title
-            }
-            """
-    }
-}
+data class BookCreated(
+    override val aggregateId: String,
+    val title: String,
+    override val occurredOn: LocalDateTime,
+    override val id: UUID = UUID.randomUUID(),
+) : DomainEvent

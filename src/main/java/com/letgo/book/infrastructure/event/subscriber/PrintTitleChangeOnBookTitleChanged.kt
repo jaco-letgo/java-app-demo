@@ -7,13 +7,11 @@ import com.letgo.shared.infrastructure.InfrastructureService
 import org.springframework.context.event.EventListener
 
 @InfrastructureService
-class WhisperTitleOnBookTitleChanged : DomainEventSubscriber {
+class PrintTitleChangeOnBookTitleChanged : DomainEventSubscriber {
     override fun isSubscribedTo(event: DomainEvent): Boolean = event is BookTitleChanged
 
     @EventListener(BookTitleChanged::class)
     override fun consume(event: DomainEvent) {
-        if (event is BookTitleChanged) {
-            println(event.oldTitle() + " -> " + event.newTitle())
-        }
+        if (event is BookTitleChanged) println("${event.oldTitle} -> ${event.newTitle}")
     }
 }

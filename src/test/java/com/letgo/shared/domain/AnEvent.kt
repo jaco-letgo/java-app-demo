@@ -1,6 +1,10 @@
 package com.letgo.shared.domain
 
-class AnEvent : DomainEvent(aggregateId = "id") {
-    override fun name(): String = "an_event"
-    override fun body(): String = "{}"
-}
+import java.time.LocalDateTime
+import java.util.UUID
+
+data class AnEvent(
+    override val id: UUID = UUID.randomUUID(),
+    override val aggregateId: String = "id",
+    override val occurredOn: LocalDateTime = LocalDateTime.now(),
+) : DomainEvent
