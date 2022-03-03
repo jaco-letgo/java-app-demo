@@ -56,4 +56,8 @@ noArg {
 pitest {
     junit5PluginVersion = '0.15'
     threads = 6
+    excludedClasses = [
+            "com.letgo.*.infrastructure.configuration.**",
+            "com.letgo.*.App.kt",
+    ]
 }
