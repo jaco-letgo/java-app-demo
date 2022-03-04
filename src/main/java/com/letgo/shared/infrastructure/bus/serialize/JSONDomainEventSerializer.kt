@@ -17,7 +17,7 @@ class JSONDomainEventSerializer(
         val attributes = message::class.memberProperties.filter {
             it.name !in listOf("id", "occurredOn", "aggregateId", "type")
         }.associate {
-            it.name to it.getter.call(message).toString()
+            it.name to it.getter.call(message)
         }
         return """
             {
@@ -45,15 +45,17 @@ class JSONDomainEventSerializer(
         return domainEventInstance(eventClass, properties)
     }
 
-    private fun domainEventInstance(eventClass: KClass<out DomainEvent>, attributes: Map<String, Any>): DomainEvent {
+    private fun domainEventInstance(eventClass: KClass<out DomainEvent>, properties: Map<String, Any>): DomainEvent {
         return eventClass.primaryConstructor!!.run {
-            callBy(parameters.associateWith {
-                itsType(it.name!!, attributes.getValue(it.name!!))
-            })
+            callBy(
+                parameters.associateWith {
+                    itsType(it.name, properties[it.name])
+                }
+            )
         }
     }
 
-    private fun itsType(parameterName: String, value: Any) = when (parameterName) {
+    private fun itsType(parameterName: String?, value: Any?) = when (parameterName) {
         "id" -> UUID.fromString(value.toString())
         "occurredOn" -> LocalDateTime.parse(value.toString())
         else -> value
