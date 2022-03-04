@@ -15,10 +15,13 @@ class ChangeTitleCommandHandler(
     override fun handle(command: ChangeTitleCommand) {
         val book = finder.find(BookId(command.id))
         val newTitle = BookTitle(command.newTitle, command.occurredOn)
-        if (book.canChangeTitle(newTitle)) {
-            book.changeTitle(newTitle)
-            repository.save(book)
-            publisher.publish(book.retrieveEvents())
+        book.takeIf {
+            it.canChangeTitle(newTitle)
+        }?.apply {
+            changeTitle(newTitle)
+        }?.also {
+            repository.save(it)
+            publisher.publish(it.retrieveEvents())
         }
     }
 }
