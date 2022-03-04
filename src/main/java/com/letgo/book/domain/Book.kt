@@ -5,8 +5,11 @@ import com.letgo.shared.domain.AggregateRoot
 class Book private constructor(
     private val id: BookId,
     private var status: BookStatus,
-    private var title: BookTitle
+    private var title: BookTitle,
 ) : AggregateRoot() {
+    constructor(id: String, title: String, createdAt: String) : this(BookId(id), BookTitle(title, createdAt))
+    constructor(id: BookId, title: BookTitle) : this(id, BookStatus.Created, title)
+
     init {
         storeEvent(BookCreated(id.value(), title.value(), title.createdAt()))
     }
@@ -31,15 +34,5 @@ class Book private constructor(
         storeEvent(BookTitleChanged(id.value(), title.value(), newTitle.value(), newTitle.createdAt()))
         title = newTitle
         status = BookStatus.Edited
-    }
-
-    companion object {
-        fun create(id: String, title: String, createdAt: String): Book {
-            return create(BookId.create(id), BookTitle.create(title, createdAt))
-        }
-
-        fun create(id: BookId, title: BookTitle): Book {
-            return Book(id, BookStatus.Created, title)
-        }
     }
 }

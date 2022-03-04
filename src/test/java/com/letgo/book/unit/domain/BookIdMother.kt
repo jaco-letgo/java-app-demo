@@ -1,13 +1,13 @@
 package com.letgo.book.unit.domain
 
 import com.letgo.book.domain.BookId
-import java.util.*
+import java.util.UUID
 
 object BookIdMother {
     fun create(
-        id: String = UUID.randomUUID().toString()
+        id: String = UUID.randomUUID().toString(),
     ): BookId {
-        return BookId.create(id)
+        return BookId(id)
     }
 
     fun random(): BookId {

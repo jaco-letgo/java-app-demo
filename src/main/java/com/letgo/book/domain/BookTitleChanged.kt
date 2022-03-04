@@ -4,7 +4,7 @@ import com.letgo.shared.domain.DomainEvent
 import java.time.LocalDateTime
 import java.util.UUID
 
-class BookTitleChanged(
+data class BookTitleChanged(
     override val aggregateId: String,
     val oldTitle: String,
     val newTitle: String,

@@ -8,7 +8,7 @@ import org.hibernate.type.descriptor.java.ImmutableMutabilityPlan
 class BookIdDescriptor : AbstractTypeDescriptor<BookId>(BookId::class.java, ImmutableMutabilityPlan()) {
     override fun toString(value: BookId): String = value.value()
 
-    override fun fromString(string: String): BookId = BookId.create(string)
+    override fun fromString(string: String): BookId = BookId(string)
 
     override fun <X> unwrap(value: BookId?, type: Class<X>, options: WrapperOptions): X? =
         value?.let {

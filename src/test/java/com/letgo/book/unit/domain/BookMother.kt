@@ -7,9 +7,9 @@ import com.letgo.book.domain.BookTitle
 object BookMother {
     fun create(
         id: BookId = BookIdMother.random(),
-        title: BookTitle = BookTitleMother.random()
+        title: BookTitle = BookTitleMother.random(),
     ): Book {
-        val book = Book.create(id, title)
+        val book = Book(id, title)
         book.retrieveEvents()
         return book
     }
