@@ -58,6 +58,9 @@ pitest {
     threads = 6
     excludedClasses = [
             "com.letgo.*.infrastructure.configuration.**",
-            "com.letgo.*.App.kt",
+    ]
+    avoidCallsTo = [
+            "kotlin.jvm.internal",
+            "kotlinx.coroutines",
     ]
 }
