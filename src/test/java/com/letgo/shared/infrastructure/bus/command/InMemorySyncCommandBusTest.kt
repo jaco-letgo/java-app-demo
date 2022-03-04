@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 private class InMemorySyncCommandBusTest {
     @Test
     fun `It should dispatch Command objects`() {
-        val command = ACommand("olakease")
+        val command = ACommand()
         val handler = SpyCommandHandler(command)
         val commandBus = InMemorySyncCommandBus(CommandHandlerFinder(listOf(handler)))
 
