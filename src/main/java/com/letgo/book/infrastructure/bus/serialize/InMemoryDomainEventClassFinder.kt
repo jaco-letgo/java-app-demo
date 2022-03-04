@@ -9,12 +9,11 @@ import kotlin.reflect.KClass
 
 @InfrastructureService
 object InMemoryDomainEventClassFinder : DomainEventClassFinder {
-    private val events = listOf(
+    private val mapping: Map<String, KClass<out DomainEvent>> = listOf(
         BookCreated::class,
         BookTitleChanged::class,
-    )
-    private val mapping: Map<String, KClass<out DomainEvent>> = events.associateBy { it.simpleName.toString() }
+    ).associateBy { it.simpleName.toString() }
 
     override fun find(type: String): KClass<out DomainEvent> =
-        mapping[type] ?: throw RuntimeException("No mapping for command with type $type")
+        mapping[type] ?: throw NoSuchElementException("No mapping for domain event with type $type")
 }

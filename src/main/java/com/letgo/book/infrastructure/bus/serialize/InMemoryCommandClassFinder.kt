@@ -9,10 +9,11 @@ import kotlin.reflect.KClass
 
 @InfrastructureService
 object InMemoryCommandClassFinder : CommandClassFinder {
-    private val mapping: Map<String, KClass<out Command>> = mapOf(
-        Pair("CreateBookCommand", CreateBookCommand::class),
-        Pair("ChangeTitleCommand", ChangeTitleCommand::class)
-    )
+    private val mapping: Map<String, KClass<out Command>> = listOf(
+        CreateBookCommand::class,
+        ChangeTitleCommand::class,
+    ).associateBy { it.simpleName.toString() }
+
     override fun find(type: String): KClass<out Command> =
-        mapping[type] ?: throw RuntimeException("No mapping for command with type $type")
+        mapping[type] ?: throw NoSuchElementException("No mapping for command with type $type")
 }
