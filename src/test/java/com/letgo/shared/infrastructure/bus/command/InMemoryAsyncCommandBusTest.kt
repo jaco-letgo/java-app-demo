@@ -24,6 +24,6 @@ private class InMemoryAsyncCommandBusTest {
         commandBus.dispatch(command)
 
         assertFalse(queue.isEmpty)
-        assertEquals(command, queue.peek())
+        assertEquals(serializedCommand, queue.peek())
     }
 }
