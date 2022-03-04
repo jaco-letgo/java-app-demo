@@ -4,7 +4,7 @@ import com.letgo.shared.domain.DomainService
 
 @DomainService
 class BookFinder(
-    private val repository: BookRepository
+    private val repository: BookRepository,
 ) {
-    fun find(id: BookId): Book = repository.find(id) ?: throw BookNotFound.withId(id)
+    fun find(id: BookId): Book = repository.find(id) ?: throw BookNotFound.with(id)
 }

@@ -1,9 +1,7 @@
 package com.letgo.book.domain
 
-class BookNotFound private constructor(message: String) : IndexOutOfBoundsException(message) {
+class BookNotFound private constructor(message: String) : NoSuchElementException(message) {
     companion object {
-        fun withId(id: BookId): BookNotFound {
-            return BookNotFound("Book not found with id " + id.value())
-        }
+        fun with(id: BookId) = BookNotFound("Book not found with id ${id.value()}")
     }
 }
