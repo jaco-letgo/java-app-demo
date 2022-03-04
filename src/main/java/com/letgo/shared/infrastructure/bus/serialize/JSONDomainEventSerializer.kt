@@ -6,13 +6,12 @@ import org.json.JSONObject
 import java.time.LocalDateTime
 import java.util.UUID
 import kotlin.reflect.KClass
-import kotlin.reflect.KParameter
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.full.primaryConstructor
 
 @InfrastructureService
 class JSONDomainEventSerializer(
-    private val commandClassFinder: DomainEventClassFinder,
+    private val domainEventClassFinder: DomainEventClassFinder,
 ) : MessageSerializer<DomainEvent> {
     override fun serialize(message: DomainEvent): String {
         val attributes = message::class.memberProperties.filter {
@@ -28,12 +27,12 @@ class JSONDomainEventSerializer(
                 "aggregate_id":"${message.aggregateId}",
                 "attributes":${JSONObject(attributes)}
             }
-            """.trimIndent()
+        """.trimIndent()
     }
 
     override fun deserialize(message: String): DomainEvent {
         val json = JSONObject(message)
-        val kClass = json.getString("type").let { commandClassFinder.find(it) }
+        val eventClass = json.getString("type").let { domainEventClassFinder.find(it) }
         val properties = json.getJSONObject("attributes").toMap().apply {
             putAll(
                 mapOf(
@@ -43,24 +42,20 @@ class JSONDomainEventSerializer(
                 )
             )
         }
-        return domainEventInstance(kClass, properties)
+        return domainEventInstance(eventClass, properties)
     }
 
-    private fun domainEventInstance(
-        kClass: KClass<out DomainEvent>,
-        attributes: Map<String, Any>,
-    ): DomainEvent {
-        val params = mutableMapOf<KParameter, Any?>()
-        kClass.primaryConstructor!!.apply {
-            this.parameters.forEach {
-                when (it.name) {
-                    "id" -> params[it] = UUID.fromString(attributes.getValue(it.name.toString()).toString())
-                    "occurredOn" -> params[it] = LocalDateTime.parse(attributes.getValue(it.name.toString()).toString())
-                    else -> params[it] = attributes.getValue(it.name.toString())
-                }
-            }
-        }.also {
-            return it.callBy(params)
+    private fun domainEventInstance(eventClass: KClass<out DomainEvent>, attributes: Map<String, Any>): DomainEvent {
+        return eventClass.primaryConstructor!!.run {
+            callBy(parameters.associateWith {
+                itsType(it.name!!, attributes.getValue(it.name!!))
+            })
         }
+    }
+
+    private fun itsType(parameterName: String, value: Any) = when (parameterName) {
+        "id" -> UUID.fromString(value.toString())
+        "occurredOn" -> LocalDateTime.parse(value.toString())
+        else -> value
     }
 }
