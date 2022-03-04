@@ -7,23 +7,41 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 private const val MESSAGE =
-    "{\"type\":\"ACommand\",\"attributes\":{\"third\":\"ase\",\"first\":\"ola\",\"second\":\"ke\"}}"
+    """
+        {
+            "type":"ACommand",
+            "attributes":{"boolean":true,"integer":123,"string":"olakease","array":["ola","ke","ase"]}
+        }
+    """
 
 private class JSONCommandSerializerTest {
     private val commandClassFinder: CommandClassFinder = mockk()
     private val serializer: JSONCommandSerializer = JSONCommandSerializer(commandClassFinder)
-    private val command = ACommand("ola", "ke", "ase")
+    private val command = ACommand(
+        nullable = null,
+        string = "olakease",
+        integer = 123,
+        boolean = true,
+        array = listOf("ola", "ke", "ase"),
+    )
 
     @Test
     fun `It should serialize a command into JSON`() {
-        assertEquals(MESSAGE, serializer.serialize(command))
+        assertEquals(MESSAGE.trimIndent(), serializer.serialize(command))
     }
 
     @Test
     fun `It should deserialize a JSON into a command`() {
         every { commandClassFinder.find("ACommand") } answers { ACommand::class }
-        assertEquals(this.command, serializer.deserialize(MESSAGE))
+        val deserialize = serializer.deserialize(MESSAGE)
+        assertEquals(command, deserialize)
     }
 }
 
-data class ACommand(val first: String, val second: String, val third: String) : Command
+data class ACommand(
+    val nullable: String?,
+    val string: String,
+    val integer: Int,
+    val boolean: Boolean,
+    val array: List<String>,
+) : Command
