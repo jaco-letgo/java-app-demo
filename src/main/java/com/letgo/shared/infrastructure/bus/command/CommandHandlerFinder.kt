@@ -6,14 +6,9 @@ import com.letgo.shared.infrastructure.InfrastructureService
 import kotlin.reflect.KClass
 
 @InfrastructureService
-class CommandHandlerFinder(
-    handlers: List<CommandHandler<out Command>>
-) {
-    private val handlers: MutableMap<KClass<out Command>, CommandHandler<Command>> = mutableMapOf()
-
-    init {
-        handlers.forEach { this.handlers[getCommandClass(it)] = it as CommandHandler<Command> }
-    }
+class CommandHandlerFinder(handlers: List<CommandHandler<out Command>>) {
+    private val handlers =
+        handlers.associate { getCommandClass(it) to it as CommandHandler<Command> }
 
     fun forCommand(command: Command): CommandHandler<Command> =
         handlers[command::class] ?: throw RuntimeException("No handler found for ${command::class}")

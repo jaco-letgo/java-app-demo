@@ -6,7 +6,7 @@ import com.letgo.shared.application.bus.query.QueryHandler
 
 class FindBookQueryHandler(
     private val finder: BookFinder,
-) : QueryHandler<FindBookQuery> {
+) : QueryHandler<FindBookQuery, FindBookQueryResponse> {
     override fun handle(query: FindBookQuery): FindBookQueryResponse {
         val book = finder.find(BookId(query.id))
         return FindBookQueryResponse(book.title().value())

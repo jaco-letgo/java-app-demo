@@ -3,7 +3,8 @@ package com.letgo.shared.infrastructure.bus.query
 import com.letgo.shared.application.bus.query.Query
 import com.letgo.shared.application.bus.query.QueryHandler
 import com.letgo.shared.application.bus.query.QueryResponse
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
@@ -14,7 +15,7 @@ private class InMemorySyncQueryBusTest {
         val queryBus = InMemorySyncQueryBus(
             listOf(
                 FooQueryHandler(),
-                BarQueryHandler()
+                BarQueryHandler(),
             )
         )
 
@@ -29,7 +30,7 @@ private class InMemorySyncQueryBusTest {
         val query = BarQuery("olakease")
         val queryBus = InMemorySyncQueryBus(
             listOf(
-                FooQueryHandler()
+                FooQueryHandler(),
             )
         )
 
@@ -44,11 +45,11 @@ private class InMemorySyncQueryBusTest {
     private data class FooQueryResponse(override val query: Query) : AQueryResponse
     private data class BarQueryResponse(override val query: Query) : AQueryResponse
 
-    private class FooQueryHandler : QueryHandler<FooQuery> {
-        override fun handle(query: FooQuery): QueryResponse = FooQueryResponse(query)
+    private class FooQueryHandler : QueryHandler<FooQuery, AQueryResponse> {
+        override fun handle(query: FooQuery): AQueryResponse = FooQueryResponse(query)
     }
 
-    private class BarQueryHandler : QueryHandler<BarQuery> {
-        override fun handle(query: BarQuery): QueryResponse = BarQueryResponse(query)
+    private class BarQueryHandler : QueryHandler<BarQuery, AQueryResponse> {
+        override fun handle(query: BarQuery): AQueryResponse = BarQueryResponse(query)
     }
 }
