@@ -32,7 +32,7 @@ private class InMemoryAsyncDomainEventConsumerTest {
     }
 
     @Test
-    fun `It should re-enqueue a message when subscriber throws an exception`() {
+    fun `It should send a message to the dead letter when a subscriber always throws an exception`() {
         val event = AnEvent()
         val subscriber = FailingDomainEventSubscriber()
         val consumer = InMemoryAsyncDomainEventConsumer(consumer, listOf(subscriber))
