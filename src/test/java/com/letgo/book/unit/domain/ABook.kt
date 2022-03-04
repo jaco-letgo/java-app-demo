@@ -4,24 +4,22 @@ import com.letgo.book.domain.Book
 import com.letgo.book.domain.BookId
 import com.letgo.book.domain.BookTitle
 
-object BookMother {
-    fun create(
-        id: BookId = BookIdMother.random(),
-        title: BookTitle = BookTitleMother.random(),
+object ABook {
+    fun with(
+        id: BookId = ABookId.random(),
+        title: BookTitle = ABookTitle.random(),
     ): Book {
         val book = Book(id, title)
         book.retrieveEvents()
         return book
     }
 
-    fun create(
+    fun with(
         id: String,
         title: String,
     ): Book {
-        return create(id = BookIdMother.create(id), title = BookTitleMother.create(title = title))
+        return with(id = ABookId.with(id = id), title = ABookTitle.with(title = title))
     }
 
-    fun random(): Book {
-        return create()
-    }
+    fun random(): Book = with()
 }

@@ -4,8 +4,8 @@ import com.letgo.book.application.create.CreateBookCommand
 import com.letgo.book.application.create.CreateBookCommandHandler
 import com.letgo.book.domain.BookCreated
 import com.letgo.book.unit.application.BookTestCase
-import com.letgo.book.unit.domain.BookIdMother
-import com.letgo.book.unit.domain.BookTitleMother
+import com.letgo.book.unit.domain.ABookId
+import com.letgo.book.unit.domain.ABookTitle
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
@@ -15,26 +15,52 @@ class CreateBookCommandHandlerTest : BookTestCase() {
 
     @Test
     fun `It should create a book`() {
-        val id = BookIdMother.random()
-        val title = BookTitleMother.random()
-        expectDomainEventsToBePublished(BookCreated(id.value(), title.value(), title.createdAt()))
-        handler.handle(CreateBookCommand(id.value(), title.value(), title.createdAt().toString()))
+        val id = ABookId.random()
+        val title = ABookTitle.random()
+
+        expectDomainEventsToBePublished(
+            BookCreated(
+                aggregateId = id.value(),
+                title = title.value(),
+                occurredOn = title.createdAt(),
+            )
+        )
+
+        handler.handle(
+            CreateBookCommand(
+                id = id.value(),
+                title = title.value(),
+                occurredOn = title.createdAt().toString(),
+            )
+        )
+
         repository.find(id)!!.run {
-            assertEquals(id, this.id())
-            assertEquals(title, this.title())
-            assertFalse(this.hasBeenEdited())
+            assertEquals(id, id())
+            assertEquals(title, title())
+            assertFalse(hasBeenEdited())
         }
+
         eventsShouldBePublished()
     }
 
     @Test
     fun `It should be idempotent`() {
         val currentBook = anExistingBook()
-        val id = currentBook.id()
-        val title = currentBook.title()
+        val currentBookId = currentBook.id()
+        val currentTitle = currentBook.title()
+
         expectDomainEventsToBePublished()
-        handler.handle(CreateBookCommand(id.value(), title.value(), title.createdAt().toString()))
-        assertEquals(currentBook, repository.find(id))
+
+        handler.handle(
+            CreateBookCommand(
+                id = currentBookId.value(),
+                title = currentTitle.value(),
+                occurredOn = currentTitle.createdAt().toString(),
+            )
+        )
+
+        assertEquals(currentBook, repository.find(currentBookId))
+
         eventsShouldNotBePublished()
     }
 }

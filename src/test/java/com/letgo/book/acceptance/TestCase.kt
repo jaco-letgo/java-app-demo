@@ -1,7 +1,7 @@
 package com.letgo.book.acceptance
 
 import com.letgo.book.domain.BookRepository
-import com.letgo.book.unit.domain.BookMother
+import com.letgo.book.unit.domain.ABook
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
@@ -40,12 +40,13 @@ internal abstract class TestCase {
         )
     }
 
-    protected fun put(url: String): ResponseEntity<String> =
-        restTemplate.exchange(url, HttpMethod.PUT, HttpEntity.EMPTY, String::class.java)
+    protected fun put(endpoint: String): ResponseEntity<String> =
+        restTemplate.exchange(endpoint, HttpMethod.PUT, HttpEntity.EMPTY, String::class.java)
 
-    protected fun givenAnExistingBookWith(id: String, title: String) {
-        bookRepository.save(BookMother.create(id = id, title = title))
-    }
+    protected fun givenAnExistingBookWith(id: String, title: String) =
+        ABook.with(id = id, title = title).also {
+            bookRepository.save(it)
+        }
 
     protected fun weWaitForMessagesToBeProcessed() = Thread.sleep(1000)
 

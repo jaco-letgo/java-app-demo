@@ -4,8 +4,8 @@ import com.letgo.book.domain.BookTitle
 import java.time.LocalDateTime
 import java.util.UUID
 
-object BookTitleMother {
-    fun create(
+object ABookTitle {
+    fun with(
         title: String = UUID.randomUUID().toString(),
         createdAt: LocalDateTime = LocalDateTime.now(),
     ): BookTitle {
@@ -13,6 +13,6 @@ object BookTitleMother {
     }
 
     fun random(): BookTitle {
-        return create()
+        return with()
     }
 }
