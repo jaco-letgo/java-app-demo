@@ -25,7 +25,7 @@ private class CommandHandlerFinderTest {
         val command = BarCommand()
         val finder = CommandHandlerFinder(listOf(FooCommandHandler()))
 
-        assertThrows<Exception> { finder.forCommand(command) }.run {
+        assertThrows<NoSuchElementException> { finder.forCommand(command) }.run {
             assertEquals("No handler found for ${command::class}", message)
         }
     }
