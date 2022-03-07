@@ -58,7 +58,8 @@ class ChangeTitleCommandHandlerTest : BookTestCase() {
             ChangeTitleCommand(
                 id = currentBookId.value(),
                 newTitle = currentTitle.value(),
-                occurredOn = currentTitle.createdAt().toString()),
+                occurredOn = currentTitle.createdAt().toString(),
+            )
         )
 
         assertEquals(currentBook, repository.find(currentBookId))

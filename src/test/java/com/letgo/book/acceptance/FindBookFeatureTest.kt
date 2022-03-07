@@ -1,11 +1,11 @@
 package com.letgo.book.acceptance
 
-import java.util.UUID
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
+import java.util.UUID
 
 private class FindBookFeatureTest : TestCase() {
     @Test
