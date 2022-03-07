@@ -6,11 +6,11 @@ import com.letgo.shared.application.bus.query.QueryResponse
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-private class InMemorySyncQueryBusTest {
+private class InMemoryAsyncQueryBusTest {
     @Test
     fun `It should dispatch a query and return its response`() {
         val query = AQuery("olakease")
-        val queryBus = InMemorySyncQueryBus(QueryHandlerFinder(listOf(AQueryHandler())))
+        val queryBus = InMemoryAsyncQueryBus(QueryHandlerFinder(listOf(AQueryHandler())))
 
         assertEquals(AQueryResponse(query.property), queryBus.dispatch(query))
     }
