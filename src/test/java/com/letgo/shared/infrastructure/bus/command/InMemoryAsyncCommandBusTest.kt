@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 
 private class InMemoryAsyncCommandBusTest {
-    private val queueHandler = SerializedCommandQueueHandler(0)
+    private val queueHandler = SerializedCommandQueueHandler(maxRetries = 0)
     private val queue = queueHandler.main
     private val serializer: MessageSerializer<Command> = mockk()
     private val commandBus = InMemoryAsyncCommandBus(queueHandler, serializer)

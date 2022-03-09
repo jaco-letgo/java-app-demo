@@ -6,11 +6,7 @@ import java.util.UUID
 object ABookId {
     fun with(
         id: String = UUID.randomUUID().toString(),
-    ): BookId {
-        return BookId(id)
-    }
+    ): BookId = BookId(id)
 
-    fun random(): BookId {
-        return with()
-    }
+    fun random(): BookId = with()
 }

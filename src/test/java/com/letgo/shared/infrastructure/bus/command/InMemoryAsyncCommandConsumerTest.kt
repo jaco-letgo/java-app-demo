@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 import java.lang.Thread.sleep
 
 private class InMemoryAsyncCommandConsumerTest {
-    private val queueHandler = SerializedCommandQueueHandler(0)
+    private val queueHandler = SerializedCommandQueueHandler(maxRetries = 0)
     private val consumer = SerializedCommandAsyncConsumer(queueHandler)
     private val queue: Queue<String> = queueHandler.main
     private val deadLetter: Queue<String> = queueHandler.deadLetter

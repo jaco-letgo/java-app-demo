@@ -8,11 +8,7 @@ object ABookTitle {
     fun with(
         title: String = UUID.randomUUID().toString(),
         createdAt: LocalDateTime = LocalDateTime.now(),
-    ): BookTitle {
-        return BookTitle(title, createdAt)
-    }
+    ): BookTitle = BookTitle(title, createdAt)
 
-    fun random(): BookTitle {
-        return with()
-    }
+    fun random(): BookTitle = with()
 }

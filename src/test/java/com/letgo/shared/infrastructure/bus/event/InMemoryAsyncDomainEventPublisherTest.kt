@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 
 private class InMemoryAsyncDomainEventPublisherTest {
-    private val queueHandler = DomainEventQueueHandler(0)
+    private val queueHandler = DomainEventQueueHandler(maxRetries = 0)
     private val queue = queueHandler.main
     private val eventPublisher = InMemoryAsyncDomainEventPublisher(queueHandler)
 

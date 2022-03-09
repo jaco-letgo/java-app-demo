@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 
 private class InMemoryAsyncSerializedDomainEventPublisherTest {
-    private val queueHandler = SerializedDomainEventQueueHandler(0)
+    private val queueHandler = SerializedDomainEventQueueHandler(maxRetries = 0)
     private val queue = queueHandler.main
     private val serializer: MessageSerializer<DomainEvent> = mockk()
     private val eventPublisher = InMemoryAsyncSerializedDomainEventPublisher(queueHandler, serializer)

@@ -8,18 +8,15 @@ object ABook {
     fun with(
         id: BookId = ABookId.random(),
         title: BookTitle = ABookTitle.random(),
-    ): Book {
-        val book = Book(id, title)
-        book.retrieveEvents()
-        return book
-    }
+    ): Book = Book(id, title).apply { retrieveEvents() }
 
     fun with(
         id: String,
         title: String,
-    ): Book {
-        return with(id = ABookId.with(id = id), title = ABookTitle.with(title = title))
-    }
+    ): Book = with(
+        id = ABookId.with(id = id),
+        title = ABookTitle.with(title = title),
+    )
 
     fun random(): Book = with()
 }

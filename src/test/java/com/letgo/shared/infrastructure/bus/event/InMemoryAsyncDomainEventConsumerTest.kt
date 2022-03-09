@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 private class InMemoryAsyncDomainEventConsumerTest {
-    private val queueHandler = DomainEventQueueHandler(0)
+    private val queueHandler = DomainEventQueueHandler(maxRetries = 0)
     private val consumer = DomainEventAsyncConsumer(queueHandler)
     private val queue: Queue<DomainEvent> = queueHandler.main
     private val deadLetter: Queue<DomainEvent> = queueHandler.deadLetter

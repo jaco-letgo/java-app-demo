@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 import java.lang.Thread.sleep
 
 private class InMemoryAsyncSerializedDomainEventConsumerTest {
-    private val queueHandler = SerializedDomainEventQueueHandler(0)
+    private val queueHandler = SerializedDomainEventQueueHandler(maxRetries = 0)
     private val consumer = SerializedDomainEventAsyncConsumer(queueHandler)
     private val queue = queueHandler.main
     private val deadLetter = queueHandler.deadLetter

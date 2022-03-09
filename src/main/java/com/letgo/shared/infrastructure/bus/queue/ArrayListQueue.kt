@@ -7,12 +7,10 @@ class ArrayListQueue<T> : Queue<T> {
         list.add(message)
     }
 
-    override fun dequeue(): T? = list.firstOrNull()?.also {
-        list.remove(it)
-    }
+    override fun dequeue(): T? = list.firstOrNull()?.also { list.remove(it) }
 
     override val count: Int
         get() = list.size
 
-    override fun peek(): T? = list.getOrNull(0)
+    override fun peek(): T? = list.firstOrNull()
 }
