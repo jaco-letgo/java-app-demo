@@ -17,15 +17,26 @@ private class FindBookFeatureTest : TestCase() {
             title = "whatever",
         )
 
-        get(endpoint = "/book/$id").run {
+        get(endpoint = "/$id").run {
             assertSame(HttpStatus.OK, statusCode)
-            assertEquals("whatever", body)
+            assertEquals(
+                aJsonBodyWith(
+                    """
+                        {
+                            "id":"$id",
+                            "title":"whatever",
+                            "edited":false
+                        }
+                    """
+                ),
+                body
+            )
         }
     }
 
     @Test
     fun `It should return an error when book is not found for given id`() {
-        get(endpoint = "/book/${UUID.randomUUID()}").run {
+        get(endpoint = "/${UUID.randomUUID()}").run {
             assertSame(HttpStatus.NOT_FOUND, statusCode)
             assertFalse(hasBody())
         }

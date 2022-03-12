@@ -2,6 +2,7 @@ package com.letgo.book.acceptance
 
 import com.letgo.book.domain.BookRepository
 import com.letgo.book.unit.domain.ABook
+import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
@@ -11,8 +12,10 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import javax.sql.DataSource
 
 private const val DOMAIN_NAME = "http://localhost:"
+private const val BASE_ENDPOINT = "/books"
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 internal abstract class TestCase {
@@ -25,7 +28,10 @@ internal abstract class TestCase {
     @Autowired
     private lateinit var bookRepository: BookRepository
 
-    protected fun get(endpoint: String): ResponseEntity<String> =
+    @Autowired
+    private lateinit var dataSource: DataSource
+
+    protected fun get(endpoint: String = ""): ResponseEntity<String> =
         restTemplate.getForEntity(apiEndpoint(endpoint), String::class.java)
 
     protected fun post(body: String): ResponseEntity<String> {
@@ -33,7 +39,7 @@ internal abstract class TestCase {
             it.contentType = MediaType.APPLICATION_JSON
         }
         return restTemplate.exchange(
-            apiEndpoint("/book"),
+            apiEndpoint(),
             HttpMethod.POST,
             HttpEntity(body, headers),
             String::class.java
@@ -41,7 +47,7 @@ internal abstract class TestCase {
     }
 
     protected fun put(endpoint: String): ResponseEntity<String> =
-        restTemplate.exchange(endpoint, HttpMethod.PUT, HttpEntity.EMPTY, String::class.java)
+        restTemplate.exchange(apiEndpoint(endpoint), HttpMethod.PUT, HttpEntity.EMPTY, String::class.java)
 
     protected fun givenAnExistingBookWith(id: String, title: String) =
         ABook.with(id = id, title = title).also {
@@ -50,5 +56,12 @@ internal abstract class TestCase {
 
     protected fun weWaitForMessagesToBeProcessed() = Thread.sleep(1000)
 
-    private fun apiEndpoint(endpoint: String) = DOMAIN_NAME + port + endpoint
+    protected fun aJsonBodyWith(body: String) = body.replace("\n", "").replace(" ", "")
+
+    @BeforeEach
+    private fun clearDatabase() {
+        dataSource.connection.prepareStatement("delete from books").execute()
+    }
+
+    private fun apiEndpoint(endpoint: String = "") = DOMAIN_NAME + port + BASE_ENDPOINT + endpoint
 }

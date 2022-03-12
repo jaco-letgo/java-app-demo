@@ -10,6 +10,6 @@ open class WebConfiguration(
     private val customInterceptor: CustomInterceptor
 ) : WebMvcConfigurer {
     override fun addInterceptors(registry: InterceptorRegistry) {
-        registry.addInterceptor(customInterceptor).addPathPatterns("/book/**")
+        registry.addInterceptor(customInterceptor).addPathPatterns("/books/**")
     }
 }

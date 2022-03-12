@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class GetBookController(
-    private val queryBus: QueryBus
+    private val queryBus: QueryBus,
 ) : BookController() {
     @GetMapping("/{id}")
-    fun index(@PathVariable("id") id: String): ResponseEntity<String> {
+    fun index(@PathVariable("id") id: String): ResponseEntity<FindBookQueryResponse> {
         val response = queryBus.dispatch(FindBookQuery(id)) as FindBookQueryResponse
-        return ResponseEntity.ok().body(response.title)
+        return ResponseEntity.ok().body(response)
     }
 }

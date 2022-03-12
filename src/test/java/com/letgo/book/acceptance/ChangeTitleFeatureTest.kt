@@ -17,21 +17,32 @@ private class ChangeTitleFeatureTest : TestCase() {
             title = "OlaKeAse"
         )
 
-        put(endpoint = "/book/$id/title/whatever").run {
+        put(endpoint = "/$id/title/whatever").run {
             assertSame(HttpStatus.ACCEPTED, statusCode)
             assertFalse(hasBody())
         }
 
         weWaitForMessagesToBeProcessed()
 
-        get(endpoint = "/book/$id").run {
-            assertEquals("whatever", body)
+        get(endpoint = "/$id").run {
+            assertEquals(
+                aJsonBodyWith(
+                    """
+                        {
+                            "id":"$id",
+                            "title":"whatever",
+                            "edited":true
+                        }
+                    """
+                ),
+                body
+            )
         }
     }
 
     @Test
     fun `It should return accepted response even when book is not found for given id`() {
-        put(endpoint = "/book/${UUID.randomUUID()}/title/olakease").run {
+        put(endpoint = "/${UUID.randomUUID()}/title/olakease").run {
             weWaitForMessagesToBeProcessed()
             assertSame(HttpStatus.ACCEPTED, statusCode)
             assertFalse(hasBody())

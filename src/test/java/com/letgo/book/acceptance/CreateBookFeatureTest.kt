@@ -26,8 +26,19 @@ private class CreateBookFeatureTest : TestCase() {
 
         weWaitForMessagesToBeProcessed()
 
-        get(endpoint = "/book/$id").run {
-            assertEquals("OLAKEASE", body)
+        get(endpoint = "/$id").run {
+            assertEquals(
+                aJsonBodyWith(
+                    """
+                        {
+                            "id":"$id",
+                            "title":"OLAKEASE",
+                            "edited":true
+                        }
+                    """
+                ),
+                body
+            )
         }
     }
 }
