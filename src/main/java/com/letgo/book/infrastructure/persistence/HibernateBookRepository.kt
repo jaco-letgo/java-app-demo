@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional
 open class HibernateBookRepository(
     private val sessionFactory: SessionFactory
 ) : BookRepository {
+    override fun all(): List<Book> = session().createQuery("from Book").list() as List<Book>
+
     override fun find(id: BookId): Book? = session().find(Book::class.java, id)
 
     override fun save(book: Book) {
