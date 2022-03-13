@@ -4,19 +4,18 @@ import com.letgo.book.application.create.CreateBookCommand
 import com.letgo.book.application.create.CreateBookCommandHandler
 import com.letgo.book.domain.BookCreated
 import com.letgo.book.unit.application.BookTestCase
-import com.letgo.book.unit.domain.ABookId
-import com.letgo.book.unit.domain.ABookTitle
+import com.letgo.book.unit.domain.ABook
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 
-class CreateBookCommandHandlerTest : BookTestCase() {
+private class CreateBookCommandHandlerTest : BookTestCase() {
     private val handler = CreateBookCommandHandler(repository, publisher)
 
     @Test
     fun `It should create a book`() {
-        val id = ABookId.random()
-        val title = ABookTitle.random()
+        val expectedBook = ABook.random()
+        val id = expectedBook.id()
+        val title = expectedBook.title()
 
         expectDomainEventsToBePublished(
             BookCreated(
@@ -34,11 +33,7 @@ class CreateBookCommandHandlerTest : BookTestCase() {
             )
         )
 
-        repository.find(id)!!.run {
-            assertEquals(id, id())
-            assertEquals(title, title())
-            assertFalse(hasBeenEdited())
-        }
+        assertEquals(expectedBook, repository.find(id))
 
         eventsShouldBePublished()
     }

@@ -2,7 +2,7 @@ package com.letgo.book.domain
 
 import com.letgo.shared.domain.AggregateRoot
 
-class Book private constructor(
+data class Book(
     private val id: BookId,
     private var status: BookStatus,
     private var title: BookTitle,
@@ -14,21 +14,13 @@ class Book private constructor(
         storeEvent(BookCreated(id.value(), title.value(), title.createdAt()))
     }
 
-    fun id(): BookId {
-        return id
-    }
+    fun id(): BookId = id
 
-    fun title(): BookTitle {
-        return title
-    }
+    fun title(): BookTitle = title
 
-    fun hasBeenEdited(): Boolean {
-        return status == BookStatus.Edited
-    }
+    fun hasBeenEdited(): Boolean = status == BookStatus.Edited
 
-    fun canChangeTitle(newTitle: BookTitle): Boolean {
-        return title != newTitle && newTitle.isNewerThan(title)
-    }
+    fun canChangeTitle(newTitle: BookTitle): Boolean = title != newTitle && newTitle.isNewerThan(title)
 
     fun changeTitle(newTitle: BookTitle) {
         storeEvent(BookTitleChanged(id.value(), title.value(), newTitle.value(), newTitle.createdAt()))
