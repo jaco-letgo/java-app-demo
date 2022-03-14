@@ -4,14 +4,23 @@ import com.letgo.book.domain.Book
 import com.letgo.book.domain.BookId
 import com.letgo.book.domain.BookRepository
 import com.letgo.shared.domain.OptimisticConcurrencyLock
+import com.letgo.shared.domain.criteria.Criteria
+import com.letgo.shared.infrastructure.persistance.specification.SpecificationBuilder
 
-class InMemoryBookRepository : BookRepository {
+class InMemoryBookRepository(
+    private val specificationBuilder: SpecificationBuilder,
+) : BookRepository {
     private val storage: MutableMap<BookId, Book> = mutableMapOf()
 
-    override fun all(): List<Book> = storage.values.toList().map { it.duplicate() }
+    override fun all(): List<Book> = storage.values.map { it.duplicate() }
 
     override fun find(id: BookId): Book? {
         return storage[id]?.duplicate()
+    }
+
+    override fun findBy(criteria: Criteria): List<Book> {
+        val specification = specificationBuilder.build(criteria)
+        return storage.filter { specification.isSatisfiedBy(it.value) }.values.map { it.duplicate() }
     }
 
     override fun save(book: Book) {
