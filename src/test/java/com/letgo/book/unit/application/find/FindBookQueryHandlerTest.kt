@@ -1,9 +1,9 @@
 package com.letgo.book.unit.application.find
 
+import com.letgo.book.application.BookResponse
 import com.letgo.book.application.BookResponseMapper
 import com.letgo.book.application.find.FindBookQuery
 import com.letgo.book.application.find.FindBookQueryHandler
-import com.letgo.book.application.BookResponse
 import com.letgo.book.domain.BookFinder
 import com.letgo.book.domain.BookNotFound
 import com.letgo.book.unit.application.BookTestCase

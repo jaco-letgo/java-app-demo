@@ -1,10 +1,10 @@
 package com.letgo.book.unit.application.find_all
 
-import com.letgo.book.application.BookResponseMapper
 import com.letgo.book.application.BookResponse
+import com.letgo.book.application.BookResponseMapper
+import com.letgo.book.application.BooksResponse
 import com.letgo.book.application.find_all.FindAllBooksQuery
 import com.letgo.book.application.find_all.FindAllBooksQueryHandler
-import com.letgo.book.application.BooksResponse
 import com.letgo.book.unit.application.BookTestCase
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

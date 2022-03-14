@@ -1,7 +1,7 @@
 package com.letgo.book.infrastructure.controller
 
-import com.letgo.book.application.find.FindBookQuery
 import com.letgo.book.application.BookResponse
+import com.letgo.book.application.find.FindBookQuery
 import com.letgo.shared.application.bus.query.QueryBus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
