@@ -1,10 +1,10 @@
 package com.letgo.book.unit.application.find_all
 
 import com.letgo.book.application.BookResponseMapper
-import com.letgo.book.application.find.FindBookQueryResponse
+import com.letgo.book.application.BookResponse
 import com.letgo.book.application.find_all.FindAllBooksQuery
 import com.letgo.book.application.find_all.FindAllBooksQueryHandler
-import com.letgo.book.application.find_all.FindAllBooksQueryResponse
+import com.letgo.book.application.BooksQueryResponse
 import com.letgo.book.unit.application.BookTestCase
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -18,13 +18,13 @@ private class FindAllBooksQueryHandlerTest : BookTestCase() {
         val anotherExistingBook = anExistingBook()
 
         assertEquals(
-            FindAllBooksQueryResponse(
-                FindBookQueryResponse(
+            BooksQueryResponse(
+                BookResponse(
                     id = anExistingBook.id().value(),
                     title = anExistingBook.title().value(),
                     isEdited = anExistingBook.hasBeenEdited(),
                 ),
-                FindBookQueryResponse(
+                BookResponse(
                     id = anotherExistingBook.id().value(),
                     title = anotherExistingBook.title().value(),
                     isEdited = anotherExistingBook.hasBeenEdited(),
@@ -37,7 +37,7 @@ private class FindAllBooksQueryHandlerTest : BookTestCase() {
     @Test
     fun `It should return an empty list when there are no books`() {
         assertEquals(
-            listOf<FindBookQueryResponse>(),
+            listOf<BookResponse>(),
             handler.handle(FindAllBooksQuery()).books
         )
     }

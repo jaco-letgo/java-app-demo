@@ -3,7 +3,7 @@ package com.letgo.book.unit.application.find
 import com.letgo.book.application.BookResponseMapper
 import com.letgo.book.application.find.FindBookQuery
 import com.letgo.book.application.find.FindBookQueryHandler
-import com.letgo.book.application.find.FindBookQueryResponse
+import com.letgo.book.application.BookResponse
 import com.letgo.book.domain.BookFinder
 import com.letgo.book.domain.BookNotFound
 import com.letgo.book.unit.application.BookTestCase
@@ -21,7 +21,7 @@ private class FindBookQueryHandlerTest : BookTestCase() {
         val id = currentBook.id().value()
 
         assertEquals(
-            FindBookQueryResponse(
+            BookResponse(
                 id = id,
                 title = currentBook.title().value(),
                 isEdited = currentBook.hasBeenEdited(),
