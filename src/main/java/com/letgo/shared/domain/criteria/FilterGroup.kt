@@ -3,7 +3,7 @@ package com.letgo.shared.domain.criteria
 class FilterGroup private constructor(
     val behaviour: Behaviour,
     val filterGroups: List<FilterGroup> = listOf(),
-    val filters: List<Filter> = listOf(),
+    val filters: List<Filter<*>> = listOf(),
 ) {
     init {
         if (hasFilters() && filterGroups.isNotEmpty()) {
@@ -25,11 +25,11 @@ class FilterGroup private constructor(
             return FilterGroup(Behaviour.Any, filterGroups = filterGroups.toList())
         }
 
-        fun withAll(vararg filters: Filter): FilterGroup {
+        fun withAll(vararg filters: Filter<*>): FilterGroup {
             return FilterGroup(Behaviour.All, filters = filters.toList())
         }
 
-        fun withAny(vararg filters: Filter): FilterGroup {
+        fun withAny(vararg filters: Filter<*>): FilterGroup {
             return FilterGroup(Behaviour.Any, filters = filters.toList())
         }
     }

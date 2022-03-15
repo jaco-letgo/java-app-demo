@@ -5,10 +5,9 @@ import com.letgo.book.application.BooksResponse
 import com.letgo.book.domain.BookId
 import com.letgo.book.domain.BookRepository
 import com.letgo.book.domain.BookStatus
-import com.letgo.book.domain.criteria.BookIdFilter
-import com.letgo.book.domain.criteria.BookStatusFilter
 import com.letgo.shared.application.bus.query.QueryHandler
 import com.letgo.shared.domain.criteria.Criteria
+import com.letgo.shared.domain.criteria.Filter
 import com.letgo.shared.domain.criteria.FilterGroup
 
 class FindBooksByCriteriaQueryHandler(
@@ -18,11 +17,11 @@ class FindBooksByCriteriaQueryHandler(
     override fun handle(query: FindBooksByCriteriaQuery): BooksResponse {
         val criteria = Criteria.matchingAny(
             FilterGroup.withAll(
-                BookIdFilter.equalTo(BookId(query.bookId)),
-                BookStatusFilter.equalTo(BookStatus.Created)
+                Filter.equalTo(BookId(query.bookId)),
+                Filter.equalTo(BookStatus.Created),
             ),
             FilterGroup.withAll(
-                BookStatusFilter.equalTo(BookStatus.Edited)
+                Filter.equalTo(BookStatus.Edited),
             )
         )
         val books = repository.findBy(criteria)
