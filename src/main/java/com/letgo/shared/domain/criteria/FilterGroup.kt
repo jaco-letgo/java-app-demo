@@ -5,6 +5,17 @@ class FilterGroup private constructor(
     val filterGroups: List<FilterGroup> = listOf(),
     val filters: List<Filter> = listOf(),
 ) {
+    init {
+        if (hasFilters() && filterGroups.isNotEmpty()) {
+            throw IllegalArgumentException("It can't have both filters and filter groups")
+        }
+        if (!hasFilters() && filterGroups.isEmpty()) {
+            throw IllegalArgumentException("It must have any filter or filter groups")
+        }
+    }
+
+    fun hasFilters() = filters.isNotEmpty()
+
     companion object {
         fun withAll(vararg filterGroups: FilterGroup): FilterGroup {
             return FilterGroup(Behaviour.All, filterGroups = filterGroups.toList())
