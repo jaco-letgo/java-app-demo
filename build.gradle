@@ -18,18 +18,19 @@ repositories {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.3'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.3'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.4'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.4'
     implementation 'org.hibernate:hibernate-core:5.6.5.Final'
-    implementation 'org.springframework:spring-orm:5.3.15'
-    implementation 'mysql:mysql-connector-java:8.0.25'
+    implementation 'org.springframework:spring-orm:5.3.16'
+    implementation 'mysql:mysql-connector-java:8.0.28'
     implementation 'org.jetbrains.kotlin:kotlin-reflect'
     implementation 'org.json:json:20211205'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
+    implementation 'org.reflections:reflections:0.10.2'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.mockk:mockk:1.12.2'
-    testImplementation 'com.pinterest:ktlint:0.43.2'
+    testImplementation 'com.pinterest:ktlint:0.44.0'
 }
 
 test {
