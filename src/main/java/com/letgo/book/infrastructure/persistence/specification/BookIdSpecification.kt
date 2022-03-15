@@ -7,10 +7,10 @@ import com.letgo.shared.infrastructure.persistance.specification.Specification
 
 class BookIdSpecification(
     private val filter: BookIdFilter,
-) : Specification {
-    override fun isSatisfiedBy(entity: Any): Boolean {
+) : Specification<Book> {
+    override fun isSatisfiedBy(entity: Book): Boolean {
         return when (filter.operator) {
-            Operator.Equal -> filter.value == (entity as Book).id()
+            Operator.Equal -> filter.value == entity.id()
             else -> throw Exception("not defined operation")
         }
     }

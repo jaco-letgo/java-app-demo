@@ -1,5 +1,6 @@
 package com.letgo.book.infrastructure.persistence.specification
 
+import com.letgo.book.domain.Book
 import com.letgo.book.domain.criteria.BookStatusFilter
 import com.letgo.shared.domain.criteria.Filter
 import com.letgo.shared.infrastructure.persistance.specification.Specification
@@ -10,7 +11,7 @@ object BookStatusSpecificationFilterMapper : SpecificationFilterMapper {
         return filter is BookStatusFilter
     }
 
-    override fun map(filter: Filter): Specification {
+    override fun map(filter: Filter): Specification<Book> {
         return BookStatusSpecification(filter as BookStatusFilter)
     }
 }
