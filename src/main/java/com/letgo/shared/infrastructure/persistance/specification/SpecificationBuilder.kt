@@ -15,7 +15,7 @@ class SpecificationBuilder(
     private fun fromFilterGroup(filterGroup: FilterGroup): Specification<AggregateRoot> {
         val specifications = if (filterGroup.hasFilters()) {
             filterGroup.filters.flatMap { filter ->
-                specificationFilterMappers.filter { it.uses(filter) }.map { it.map(filter) }
+                specificationFilterMappers.filter { it.shouldMap(filter) }.map { it.map(filter) }
             }
         } else {
             filterGroup.filterGroups.map { fromFilterGroup(it) }
