@@ -5,7 +5,9 @@ import com.letgo.shared.domain.criteria.Behaviour
 import com.letgo.shared.domain.criteria.Criteria
 import com.letgo.shared.domain.criteria.Filter
 import com.letgo.shared.domain.criteria.FilterGroup
+import com.letgo.shared.infrastructure.InfrastructureService
 
+@InfrastructureService
 class SpecificationBuilder(repositories: List<SpecificationStrategies>) {
     private val specificationStrategyRepository = repositories.reduce { current, next ->
         object : SpecificationStrategies {
