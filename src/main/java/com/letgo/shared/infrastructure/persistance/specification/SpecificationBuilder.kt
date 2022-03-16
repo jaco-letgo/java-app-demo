@@ -6,11 +6,11 @@ import com.letgo.shared.domain.criteria.Criteria
 import com.letgo.shared.domain.criteria.Filter
 import com.letgo.shared.domain.criteria.FilterGroup
 
-class SpecificationBuilder(
-    repositories: List<SpecificationStrategies>,
-) {
+class SpecificationBuilder(repositories: List<SpecificationStrategies>) {
     private val specificationStrategyRepository = repositories.reduce { current, next ->
-        object : SpecificationStrategies { override val map = current.map + next.map }
+        object : SpecificationStrategies {
+            override val map = current.map + next.map
+        }
     }
 
     fun build(criteria: Criteria): Specification<AggregateRoot> {
@@ -29,7 +29,9 @@ class SpecificationBuilder(
 
     private fun buildSpecification(filter: Filter): Specification<AggregateRoot> {
         val strategy = specificationStrategyRepository.map[filter.name]?.get(filter.operator)
-            ?: throw Exception("specification not found for ${filter.name} ${filter.operator.name} operation")
+            ?: throw NoSuchElementException(
+                "specification not found for ${filter.name} ${filter.operator.name} operation"
+            )
         return StrategySpecification(filter.value, strategy)
     }
 }
