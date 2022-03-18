@@ -19,10 +19,10 @@ class FindBooksByCriteriaQueryHandler(
         val criteria = Criteria.matchingAny(
             FilterGroup.withAll(
                 BookIdFilter.equalTo(BookId(query.bookId)),
-                BookStatusFilter.equalTo(BookStatus.Created)
+                BookStatusFilter.equalTo(BookStatus.Edited)
             ),
             FilterGroup.withAll(
-                BookStatusFilter.equalTo(BookStatus.Edited)
+                BookStatusFilter.equalTo(BookStatus.Created)
             )
         )
         val books = repository.findBy(criteria)

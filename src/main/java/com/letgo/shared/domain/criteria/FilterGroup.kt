@@ -1,7 +1,7 @@
 package com.letgo.shared.domain.criteria
 
 class FilterGroup private constructor(
-    val behaviour: Behaviour,
+    private val behaviour: Behaviour,
     val filterGroups: List<FilterGroup> = listOf(),
     val filters: List<Filter> = listOf(),
 ) {
@@ -15,6 +15,7 @@ class FilterGroup private constructor(
     }
 
     fun hasFilters() = filters.isNotEmpty()
+    fun isGroupingAll() = behaviour == Behaviour.All
 
     companion object {
         fun withAll(vararg filterGroups: FilterGroup): FilterGroup {

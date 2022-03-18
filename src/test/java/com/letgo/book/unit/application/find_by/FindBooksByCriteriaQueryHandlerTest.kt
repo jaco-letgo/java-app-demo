@@ -16,26 +16,26 @@ private class FindBooksByCriteriaQueryHandlerTest : BookTestCase() {
 
     @Test
     fun `It should return a list with criteria specified books`() {
-        val createdBookWithConcreteId = anExistingBook()
-        val nonMatchingCriteriaBook = anExistingBook()
-        val editedBook = ABook.random().copy(status = BookStatus.Edited).also { repository.save(it) }
+        val editedBookWithConcreteId = ABook.random().copy(status = BookStatus.Edited).also { repository.save(it) }
+        val nonMatchingCriteriaBook = ABook.random().copy(status = BookStatus.Edited).also { repository.save(it) }
+        val createdBook = anExistingBook()
 
         val response = handler.handle(
             FindBooksByCriteriaQuery(
-                createdBookWithConcreteId.id().value()
+                editedBookWithConcreteId.id().value()
             )
         )
         assertEquals(
             BooksResponse(
                 BookResponse(
-                    id = createdBookWithConcreteId.id().value(),
-                    title = createdBookWithConcreteId.title().value(),
-                    isEdited = createdBookWithConcreteId.hasBeenEdited(),
+                    id = editedBookWithConcreteId.id().value(),
+                    title = editedBookWithConcreteId.title().value(),
+                    isEdited = editedBookWithConcreteId.hasBeenEdited(),
                 ),
                 BookResponse(
-                    id = editedBook.id().value(),
-                    title = editedBook.title().value(),
-                    isEdited = editedBook.hasBeenEdited(),
+                    id = createdBook.id().value(),
+                    title = createdBook.title().value(),
+                    isEdited = createdBook.hasBeenEdited(),
                 )
             ),
             response
