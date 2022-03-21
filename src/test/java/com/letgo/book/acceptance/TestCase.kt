@@ -26,7 +26,7 @@ internal abstract class TestCase {
     private lateinit var restTemplate: TestRestTemplate
 
     @Autowired
-    private lateinit var bookRepository: BookRepository
+    lateinit var bookRepository: BookRepository
 
     @Autowired
     private lateinit var dataSource: DataSource
