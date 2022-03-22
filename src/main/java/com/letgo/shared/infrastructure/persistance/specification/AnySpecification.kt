@@ -1,9 +1,7 @@
 package com.letgo.shared.infrastructure.persistance.specification
 
-import com.letgo.shared.domain.AggregateRoot
-
-internal class AnySpecification(
-    private val specifications: List<Specification<AggregateRoot>>,
-) : Specification<AggregateRoot> {
-    override fun isSatisfiedBy(entity: AggregateRoot): Boolean = specifications.any { it.isSatisfiedBy(entity) }
+internal class AnySpecification<T>(
+    private val specifications: List<Specification<T>>,
+) : Specification<T> {
+    override fun isSatisfiedBy(entity: T): Boolean = specifications.any { it.isSatisfiedBy(entity) }
 }

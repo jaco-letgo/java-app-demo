@@ -4,14 +4,13 @@ import com.letgo.book.domain.Book
 import com.letgo.book.domain.BookId
 import com.letgo.book.domain.BookStatus
 import com.letgo.book.domain.BookTitle
-import com.letgo.shared.domain.AggregateRoot
 import com.letgo.shared.domain.criteria.Operator
 import com.letgo.shared.infrastructure.InfrastructureService
 import com.letgo.shared.infrastructure.persistance.specification.SpecificationStrategies
 
 @InfrastructureService
-object BookSpecificationStrategies : SpecificationStrategies {
-    override val map: Map<String, Map<Operator, (Any, AggregateRoot) -> Boolean>> = mapOf(
+object BookSpecificationStrategies : SpecificationStrategies<Book> {
+    override val map: Map<String, Map<Operator, (Any, Book) -> Boolean>> = mapOf(
         "book_id" to mapOf(
             Operator.Equal to equalsBookId(),
         ),
@@ -26,17 +25,17 @@ object BookSpecificationStrategies : SpecificationStrategies {
 
     private fun equalsBookId() = { id: BookId, book: Book ->
         id == book.id()
-    } as (Any, AggregateRoot) -> Boolean
+    } as (Any, Book) -> Boolean
 
     private fun equalsBookStatus() = { status: BookStatus, book: Book ->
         status == if (book.hasBeenEdited()) BookStatus.Edited else BookStatus.Created
-    } as (Any, AggregateRoot) -> Boolean
+    } as (Any, Book) -> Boolean
 
     private fun equalsBookTitle() = { title: BookTitle, book: Book ->
         title == book.title()
-    } as (Any, AggregateRoot) -> Boolean
+    } as (Any, Book) -> Boolean
 
     private fun containsBookTitle() = { titleExcerpt: String, book: Book ->
         book.title().value().contains(titleExcerpt)
-    } as (Any, AggregateRoot) -> Boolean
+    } as (Any, Book) -> Boolean
 }

@@ -15,14 +15,7 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 
 abstract class BookTestCase {
-    protected val repository: BookRepository =
-        InMemoryBookRepository(
-            SpecificationBuilder(
-                listOf(
-                    BookSpecificationStrategies,
-                )
-            )
-        )
+    protected val repository: BookRepository = InMemoryBookRepository(SpecificationBuilder(BookSpecificationStrategies))
     private val subscribers: MutableList<DomainEventSubscriber> = mutableListOf()
     protected val publisher: DomainEventPublisher = InMemorySyncDomainEventPublisher(subscribers)
 

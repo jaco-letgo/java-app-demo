@@ -1,10 +1,8 @@
 package com.letgo.shared.infrastructure.persistance.specification
 
-import com.letgo.shared.domain.AggregateRoot
-
-internal class StrategySpecification(
+internal class StrategySpecification<T>(
     private val value: Any,
-    private val strategy: (Any, AggregateRoot) -> Boolean,
-) : Specification<AggregateRoot> {
-    override fun isSatisfiedBy(entity: AggregateRoot): Boolean = strategy(value, entity)
+    private val strategy: (Any, T) -> Boolean,
+) : Specification<T> {
+    override fun isSatisfiedBy(entity: T): Boolean = strategy(value, entity)
 }

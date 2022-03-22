@@ -8,7 +8,7 @@ import com.letgo.shared.domain.criteria.Criteria
 import com.letgo.shared.infrastructure.persistance.specification.SpecificationBuilder
 
 class InMemoryBookRepository(
-    private val specificationBuilder: SpecificationBuilder,
+    private val specificationBuilder: SpecificationBuilder<Book>,
 ) : BookRepository {
     private val storage: MutableMap<BookId, Book> = mutableMapOf()
 

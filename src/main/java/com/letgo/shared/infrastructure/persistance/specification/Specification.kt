@@ -1,7 +1,5 @@
 package com.letgo.shared.infrastructure.persistance.specification
 
-import com.letgo.shared.domain.AggregateRoot
-
-interface Specification<T : AggregateRoot> {
+interface Specification<T> {
     fun isSatisfiedBy(entity: T): Boolean
 }
