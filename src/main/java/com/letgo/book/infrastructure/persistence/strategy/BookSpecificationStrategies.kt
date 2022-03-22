@@ -1,4 +1,4 @@
-package com.letgo.book.infrastructure.persistence.specification
+package com.letgo.book.infrastructure.persistence.strategy
 
 import com.letgo.book.domain.Book
 import com.letgo.book.domain.BookId

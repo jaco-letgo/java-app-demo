@@ -3,7 +3,7 @@ package com.letgo.book.unit.application
 import com.letgo.book.domain.Book
 import com.letgo.book.domain.BookRepository
 import com.letgo.book.infrastructure.persistence.InMemoryBookRepository
-import com.letgo.book.infrastructure.persistence.specification.BookSpecificationStrategies
+import com.letgo.book.infrastructure.persistence.strategy.BookSpecificationStrategies
 import com.letgo.book.unit.domain.ABook
 import com.letgo.shared.application.bus.event.DomainEventPublisher
 import com.letgo.shared.application.bus.event.DomainEventSubscriber
