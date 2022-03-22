@@ -29,7 +29,7 @@ class SpecificationBuilder<T>(
 
     private fun findStrategy(filter: Filter): (Any, T) -> Boolean {
         return strategies.map[filter.name]?.get(filter.operator) ?: throw NoSuchElementException(
-            "specification not found for ${filter.name} ${filter.operator.name} operation"
+            "strategy not found for ${filter.name} ${filter.operator.name} operation"
         )
     }
 }

@@ -39,8 +39,10 @@ class PredicateBuilder<T>(
         filter: Filter,
         root: Root<T>,
         criteriaBuilder: CriteriaBuilder,
-    ): Predicate {
-        return strategies.map[filter.name]?.get(filter.operator)?.invoke(filter, root, criteriaBuilder)
-            ?: throw Exception("strategy not found")
-    }
+    ): Predicate = findStrategy(filter).invoke(filter, root, criteriaBuilder)
+
+    private fun findStrategy(filter: Filter): (Filter, Root<T>, CriteriaBuilder) -> Predicate =
+        strategies.map[filter.name]?.get(filter.operator) ?: throw NoSuchElementException(
+            "strategy not found for ${filter.name} ${filter.operator.name} operation"
+        )
 }
