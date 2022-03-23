@@ -36,6 +36,6 @@ object BookSpecificationStrategies : SpecificationStrategies<Book> {
     } as (Any, Book) -> Boolean
 
     private fun containsBookTitle() = { titleExcerpt: String, book: Book ->
-        book.title().value().contains(titleExcerpt)
+        book.title().value().contains(titleExcerpt, true)
     } as (Any, Book) -> Boolean
 }
