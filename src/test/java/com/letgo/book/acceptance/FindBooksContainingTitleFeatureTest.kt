@@ -16,11 +16,11 @@ private class FindBooksContainingTitleFeatureTest : TestCase() {
 
         givenAnExistingBookWith(
             id = id1.toString(),
-            title = "aaaaab",
+            title = "AAAAAA",
         )
         givenAnExistingBookWith(
             id = id2.toString(),
-            title = "AAAAAA",
+            title = "aaaaab",
         )
         givenAnExistingBookWith(
             id = id3.toString(),
@@ -39,12 +39,12 @@ private class FindBooksContainingTitleFeatureTest : TestCase() {
                         {
                             "books": [
                                 {
-                                    "id":"$id2",
+                                    "id":"$id1",
                                     "title":"AAAAAA",
                                     "edited":false
                                 },
                                 {
-                                    "id":"$id1",
+                                    "id":"$id2",
                                     "title":"aaaaab",
                                     "edited":false
                                 },

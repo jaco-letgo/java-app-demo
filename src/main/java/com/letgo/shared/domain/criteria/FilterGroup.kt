@@ -9,9 +9,6 @@ class FilterGroup private constructor(
         if (hasFilters() && filterGroups.isNotEmpty()) {
             throw IllegalArgumentException("It can't have both filters and filter groups")
         }
-        if (!hasFilters() && filterGroups.isEmpty()) {
-            throw IllegalArgumentException("It must have any filter or filter groups")
-        }
     }
 
     fun hasFilters() = filters.isNotEmpty()

@@ -13,7 +13,7 @@ class GetAllBooksController(
 ) : BookController() {
     @GetMapping
     fun index(): ResponseEntity<BooksResponse> {
-        val response = queryBus.dispatch(FindAllBooksQuery()) as BooksResponse
+        val response = queryBus.dispatch(FindAllBooksQuery(2, 2)) as BooksResponse
         return ResponseEntity.ok().body(response)
     }
 }

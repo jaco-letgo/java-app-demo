@@ -18,11 +18,11 @@ private class FindCreatedBooksAndIdFeatureTest : TestCase() {
 
         givenAnExistingBookWith(
             id = id1,
-            title = "aaaaab",
+            title = "AAAAAA",
         )
         givenAnExistingBookWith(
             id = id2,
-            title = "AAAAAA",
+            title = "aaaaab",
         )
         ABook.with(id = id3.toString(), title = "bbbbbb").copy(status = BookStatus.Edited).also {
             bookRepository.save(it)
@@ -40,12 +40,12 @@ private class FindCreatedBooksAndIdFeatureTest : TestCase() {
                         {
                             "books": [
                                 {
-                                    "id":"$id2",
+                                    "id":"$id1",
                                     "title":"AAAAAA",
                                     "edited":false
                                 },
                                 {
-                                    "id":"$id1",
+                                    "id":"$id2",
                                     "title":"aaaaab",
                                     "edited":false
                                 },

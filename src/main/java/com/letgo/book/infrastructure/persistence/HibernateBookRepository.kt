@@ -21,8 +21,6 @@ open class HibernateBookRepository(
     private val sessionFactory: SessionFactory,
     private val predicateBuilder: PredicateBuilder<Book>,
 ) : BookRepository {
-    override fun all(): List<Book> = session().createQuery("from Book").list() as List<Book>
-
     override fun find(id: BookId): Book? = session().find(Book::class.java, id)
 
     override fun findBy(criteria: Criteria): List<Book> {
@@ -34,7 +32,11 @@ open class HibernateBookRepository(
             .where(predicateBuilder.build(criteria, root, criteriaBuilder))
             .orderBy(criteriaBuilder.asc(root.get<BookTitle>("title")))
 
-        return session().createQuery(criteriaQuery).resultList
+        val query = session().createQuery(criteriaQuery).setFirstResult(criteria.dismiss())
+        if (criteria.hasLimit()) {
+            query.maxResults = criteria.chunkSize
+        }
+        return query.resultList
     }
 
     override fun save(book: Book) {

@@ -16,9 +16,7 @@ class PredicateBuilder<T>(
         criteria: Criteria,
         root: Root<T>,
         criteriaBuilder: CriteriaBuilder,
-    ): Predicate {
-        return fromFilterGroup(criteria.filterGroup, root, criteriaBuilder)
-    }
+    ): Predicate = fromFilterGroup(criteria.filterGroup, root, criteriaBuilder)
 
     private fun fromFilterGroup(
         filterGroup: FilterGroup,

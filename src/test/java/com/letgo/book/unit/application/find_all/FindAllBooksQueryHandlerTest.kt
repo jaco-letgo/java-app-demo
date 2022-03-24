@@ -14,8 +14,12 @@ private class FindAllBooksQueryHandlerTest : BookTestCase() {
 
     @Test
     fun `It should return a list with all existing books`() {
+        anExistingBook()
+        anExistingBook()
         val anExistingBook = anExistingBook()
         val anotherExistingBook = anExistingBook()
+        anExistingBook()
+        anExistingBook()
 
         assertEquals(
             BooksResponse(
@@ -30,15 +34,15 @@ private class FindAllBooksQueryHandlerTest : BookTestCase() {
                     isEdited = anotherExistingBook.hasBeenEdited(),
                 )
             ),
-            handler.handle(FindAllBooksQuery())
+            handler.handle(FindAllBooksQuery(2, 1))
         )
     }
 
     @Test
     fun `It should return an empty list when there are no books`() {
         assertEquals(
-            listOf<BookResponse>(),
-            handler.handle(FindAllBooksQuery()).books
+            emptyList<BookResponse>(),
+            handler.handle(FindAllBooksQuery(100, 1)).books
         )
     }
 }

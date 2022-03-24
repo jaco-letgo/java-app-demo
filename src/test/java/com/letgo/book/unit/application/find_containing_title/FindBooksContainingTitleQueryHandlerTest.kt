@@ -17,10 +17,10 @@ private class FindBooksContainingTitleQueryHandlerTest : BookTestCase() {
     @Test
     fun `It should return a list with criteria specified books`() {
         val book1 = aBookWithTitle("aaaa")
-        val book2 = aBookWithTitle("ccac")
+        val book2 = aBookWithTitle("ccAc")
         val book3 = aBookWithTitle("ddd a")
 
-        aBookWithTitle("bbAb")
+        aBookWithTitle("cccc")
         aBookWithTitle("bbbb")
 
         val response = handler.handle(

@@ -9,9 +9,7 @@ import com.letgo.shared.infrastructure.InfrastructureService
 class SpecificationBuilder<T>(
     private val strategies: SpecificationStrategies<T>,
 ) {
-    fun build(criteria: Criteria): Specification<T> {
-        return fromFilterGroup(criteria.filterGroup)
-    }
+    fun build(criteria: Criteria): Specification<T> = fromFilterGroup(criteria.filterGroup)
 
     private fun fromFilterGroup(filterGroup: FilterGroup): Specification<T> {
         val specifications = if (filterGroup.hasFilters()) {
@@ -23,13 +21,11 @@ class SpecificationBuilder<T>(
         else AnySpecification(specifications)
     }
 
-    private fun buildSpecification(filter: Filter): Specification<T> {
-        return StrategySpecification(filter.value, findStrategy(filter))
-    }
+    private fun buildSpecification(filter: Filter): Specification<T> =
+        StrategySpecification(filter.value, findStrategy(filter))
 
-    private fun findStrategy(filter: Filter): (Any, T) -> Boolean {
-        return strategies.map[filter.name]?.get(filter.operator) ?: throw NoSuchElementException(
+    private fun findStrategy(filter: Filter): (Any, T) -> Boolean =
+        strategies.map[filter.name]?.get(filter.operator) ?: throw NoSuchElementException(
             "strategy not found for ${filter.name} ${filter.operator.name} operation"
         )
-    }
 }
