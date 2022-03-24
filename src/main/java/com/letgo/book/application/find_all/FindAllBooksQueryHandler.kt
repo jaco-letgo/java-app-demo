@@ -13,8 +13,8 @@ class FindAllBooksQueryHandler(
     override fun handle(query: FindAllBooksQuery): BooksResponse {
         return repository.findBy(
             Criteria.matchingEverything()
-            .inChunksOf(query.chunkSize)
-            .takingChunkNumber(query.chunkNumber)
+                .inChunksOf(query.chunkSize)
+                .takingChunkNumber(query.chunkNumber)
         ).map { mapper.map(it) }.let { BooksResponse(it) }
     }
 }

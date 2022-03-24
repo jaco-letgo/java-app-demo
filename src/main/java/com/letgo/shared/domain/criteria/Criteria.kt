@@ -8,7 +8,7 @@ class Criteria private constructor(
     fun takingChunkNumber(position: Int): Criteria = Criteria(this.filterGroup, position, this.chunkSize)
     fun inChunksOf(size: Int): Criteria = Criteria(this.filterGroup, this.chunkNumber, size)
     fun hasLimit(): Boolean = chunkSize < Int.MAX_VALUE
-    fun dismiss(): Int = chunkNumber* if (hasLimit()) chunkSize else 1
+    fun dismiss(): Int = chunkNumber * if (hasLimit()) chunkSize else 1
 
     companion object {
         fun matching(filter: Filter): Criteria {
