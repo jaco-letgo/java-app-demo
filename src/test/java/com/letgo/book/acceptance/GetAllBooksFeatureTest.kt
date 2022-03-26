@@ -9,6 +9,44 @@ private class GetAllBooksFeatureTest : TestCase() {
     @Test
     fun `It should return all existing books`() {
         givenAnExistingBookWith(
+            id = "8a1ea4da-e75f-4acd-8432-2adb2adcdf02",
+            title = "whatever",
+        )
+
+        givenAnExistingBookWith(
+            id = "5bca2b51-84aa-4b30-8cc6-087637720444",
+            title = "olakease",
+        )
+
+        get().run {
+            assertSame(HttpStatus.OK, statusCode)
+            assertEquals(
+                aJsonBodyWith(
+                    """
+                        {
+                            "books": [
+                                {
+                                    "id":"5bca2b51-84aa-4b30-8cc6-087637720444",
+                                    "title":"olakease",
+                                    "edited":false
+                                },
+                                {
+                                    "id":"8a1ea4da-e75f-4acd-8432-2adb2adcdf02",
+                                    "title":"whatever",
+                                    "edited":false
+                                }
+                            ]
+                        }
+                    """
+                ),
+                body
+            )
+        }
+    }
+
+    @Test
+    fun `It should return paginated books`() {
+        givenAnExistingBookWith(
             id = "8a1ea4da-e75f-4acd-8432-2adb2adcdf03",
             title = "1",
         )
@@ -38,7 +76,7 @@ private class GetAllBooksFeatureTest : TestCase() {
             title = "olakease",
         )
 
-        get().run {
+        get("?elements=2&page=3").run {
             assertSame(HttpStatus.OK, statusCode)
             assertEquals(
                 aJsonBodyWith(

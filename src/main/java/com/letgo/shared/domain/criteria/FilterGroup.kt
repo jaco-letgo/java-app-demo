@@ -30,5 +30,9 @@ class FilterGroup private constructor(
         fun withAny(vararg filters: Filter): FilterGroup {
             return FilterGroup(Behaviour.Any, filters = filters.toList())
         }
+
+        fun empty(): FilterGroup {
+            return FilterGroup(Behaviour.All)
+        }
     }
 }

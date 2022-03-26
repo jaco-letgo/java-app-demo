@@ -34,7 +34,7 @@ private class FindAllBooksQueryHandlerTest : BookTestCase() {
                     isEdited = anotherExistingBook.hasBeenEdited(),
                 )
             ),
-            handler.handle(FindAllBooksQuery(2, 1))
+            handler.handle(FindAllBooksQuery(2, 2))
         )
     }
 

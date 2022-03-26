@@ -32,11 +32,10 @@ open class HibernateBookRepository(
             .where(predicateBuilder.build(criteria, root, criteriaBuilder))
             .orderBy(criteriaBuilder.asc(root.get<BookTitle>("title")))
 
-        val query = session().createQuery(criteriaQuery).setFirstResult(criteria.dismiss())
-        if (criteria.hasLimit()) {
-            query.maxResults = criteria.chunkSize
-        }
-        return query.resultList
+        return session().createQuery(criteriaQuery).apply {
+            firstResult = criteria.pagination.elementsToDismiss
+            maxResults = criteria.pagination.size
+        }.resultList
     }
 
     override fun save(book: Book) {

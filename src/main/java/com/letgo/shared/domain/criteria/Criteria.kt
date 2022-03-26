@@ -2,13 +2,9 @@ package com.letgo.shared.domain.criteria
 
 class Criteria private constructor(
     val filterGroup: FilterGroup,
-    private val chunkNumber: Int = 0,
-    val chunkSize: Int = Int.MAX_VALUE,
+    val pagination: Pagination = Pagination.ofDefaultPageSize(),
 ) {
-    fun takingChunkNumber(position: Int): Criteria = Criteria(this.filterGroup, position, this.chunkSize)
-    fun inChunksOf(size: Int): Criteria = Criteria(this.filterGroup, this.chunkNumber, size)
-    fun hasLimit(): Boolean = chunkSize < Int.MAX_VALUE
-    fun dismiss(): Int = chunkNumber * if (hasLimit()) chunkSize else 1
+    fun paginatedBy(pagination: Pagination): Criteria = Criteria(this.filterGroup, pagination)
 
     companion object {
         fun matching(filter: Filter): Criteria {
@@ -32,7 +28,7 @@ class Criteria private constructor(
         }
 
         fun matchingEverything(): Criteria {
-            return Criteria(FilterGroup.withAll(*emptyArray<Filter>()))
+            return Criteria(FilterGroup.empty())
         }
     }
 }

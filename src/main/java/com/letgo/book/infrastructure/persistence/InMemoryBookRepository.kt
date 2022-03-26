@@ -12,19 +12,17 @@ class InMemoryBookRepository(
 ) : BookRepository {
     private val storage: MutableMap<BookId, Book> = mutableMapOf()
 
-    override fun find(id: BookId): Book? {
-        return storage[id]?.duplicate()
-    }
+    override fun find(id: BookId): Book? = storage[id]?.duplicate()
 
     override fun findBy(criteria: Criteria): List<Book> {
         val specification = specificationBuilder.build(criteria)
-        var filtered = storage.filter { specification.isSatisfiedBy(it.value) }.values
-        if (filtered.isNotEmpty() && criteria.hasLimit()) {
-            filtered = filtered.drop(criteria.dismiss())
-            filtered = filtered.chunked(criteria.chunkSize).first()
-        }
+        val eligibleBooks = storage.filter { specification.isSatisfiedBy(it.value) }.values
 
-        return filtered.map { it.duplicate() }
+        return if (eligibleBooks.isEmpty()) emptyList() else eligibleBooks
+            .drop(criteria.pagination.elementsToDismiss)
+            .chunked(criteria.pagination.size)
+            .first()
+            .map { it.duplicate() }
     }
 
     override fun save(book: Book) {
