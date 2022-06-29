@@ -7,15 +7,15 @@ class Criteria private constructor(
     fun paginatedBy(pagination: Pagination): Criteria = Criteria(this.filterGroup, pagination)
 
     companion object {
-        fun matching(filter: Filter): Criteria {
+        fun matching(filter: Filter<*>): Criteria {
             return Criteria(FilterGroup.withAll(filter))
         }
 
-        fun matchingAll(vararg filters: Filter): Criteria {
+        fun matchingAll(vararg filters: Filter<*>): Criteria {
             return Criteria(FilterGroup.withAll(*filters))
         }
 
-        fun matchingAny(vararg filters: Filter): Criteria {
+        fun matchingAny(vararg filters: Filter<*>): Criteria {
             return Criteria(FilterGroup.withAny(*filters))
         }
 

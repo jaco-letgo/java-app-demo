@@ -29,7 +29,7 @@ open class HibernateBookRepository(
         val root: Root<Book> = criteriaQuery.from(Book::class.java)
         criteriaQuery
             .select(root)
-            .where(predicateBuilder.build(criteria, root, criteriaBuilder))
+            .where(predicateBuilder.build(criteria.filterGroup, root, criteriaBuilder))
             .orderBy(criteriaBuilder.asc(root.get<BookTitle>("title")))
 
         return session().createQuery(criteriaQuery).apply {

@@ -5,6 +5,7 @@ import com.letgo.book.domain.Book
 import com.letgo.book.domain.BookRepository
 import com.letgo.book.infrastructure.persistence.InMemoryBookRepository
 import com.letgo.book.infrastructure.persistence.strategy.BookSpecificationStrategies
+import com.letgo.book.infrastructure.persistence.strategy.BookSpecificationStrategyFactory
 import com.letgo.shared.application.bus.event.DomainEventPublisher
 import com.letgo.shared.application.bus.event.DomainEventSubscriber
 import com.letgo.shared.domain.DomainEvent
@@ -15,7 +16,8 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 
 abstract class BookTestCase {
-    protected val repository: BookRepository = InMemoryBookRepository(SpecificationBuilder(BookSpecificationStrategies))
+    protected val repository: BookRepository =
+        InMemoryBookRepository(SpecificationBuilder(BookSpecificationStrategyFactory()))
     private val subscribers: MutableList<DomainEventSubscriber> = mutableListOf()
     protected val publisher: DomainEventPublisher = InMemorySyncDomainEventPublisher(subscribers)
 

@@ -15,7 +15,7 @@ class InMemoryBookRepository(
     override fun find(id: BookId): Book? = storage[id]?.duplicate()
 
     override fun findBy(criteria: Criteria): List<Book> {
-        val specification = specificationBuilder.build(criteria)
+        val specification = specificationBuilder.build(criteria.filterGroup)
         val eligibleBooks = storage.filter { specification.isSatisfiedBy(it.value) }.values
 
         return if (eligibleBooks.isEmpty()) emptyList() else eligibleBooks

@@ -18,9 +18,7 @@ class BookIdDescriptor : AbstractTypeDescriptor<BookId>(BookId::class.java, Immu
 
     override fun <X> wrap(value: X?, options: WrapperOptions): BookId? =
         value?.let {
-            when (it) {
-                is String -> fromString(value as String)
-                else -> throw unknownWrap(value.javaClass)
-            }
+            if (it is String) fromString(it)
+            else throw unknownWrap(it.javaClass)
         }
 }
