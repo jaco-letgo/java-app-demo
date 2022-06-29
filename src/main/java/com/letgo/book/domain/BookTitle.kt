@@ -9,16 +9,13 @@ data class BookTitle(
     private val createdAt: LocalDateTime,
 ) {
     constructor(value: String, createdAt: String) : this(value, LocalDateTime.parse(createdAt))
+    constructor(value: String) : this(value, LocalDateTime.now())
 
-    fun value(): String {
-        return value
-    }
+    override fun toString(): String = value
 
-    fun createdAt(): LocalDateTime {
-        return createdAt
-    }
+    fun value(): String = value
 
-    fun isNewerThan(title: BookTitle): Boolean {
-        return createdAt.isAfter(title.createdAt())
-    }
+    fun createdAt(): LocalDateTime = createdAt
+
+    fun isNewerThan(title: BookTitle): Boolean = createdAt.isAfter(title.createdAt())
 }

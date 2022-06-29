@@ -5,7 +5,5 @@ import org.hibernate.type.AbstractSingleColumnStandardBasicType
 import org.hibernate.type.descriptor.sql.CharTypeDescriptor
 
 class BookIdType : AbstractSingleColumnStandardBasicType<BookId>(CharTypeDescriptor(), BookIdDescriptor()) {
-    override fun getName(): String {
-        return "BookId"
-    }
+    override fun getName(): String = "BookId"
 }

@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
 open class WebConfiguration(
-    private val customInterceptor: CustomInterceptor
+    private val customInterceptor: CustomInterceptor,
 ) : WebMvcConfigurer {
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(customInterceptor).addPathPatterns("/books/**")

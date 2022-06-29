@@ -18,37 +18,29 @@ open class HibernateConfiguration(
     private val dbParameters: DatabaseParameters
 ) {
     @Bean
-    open fun sessionFactory(): LocalSessionFactoryBean {
-        return LocalSessionFactoryBean().apply {
-            setDataSource(dataSource())
-            setMappingDirectoryLocations(
-                FileSystemResource("./src/main/java/com/letgo/book/infrastructure/persistence/mapping")
-            )
-            hibernateProperties = hibernateProperties()
-        }
+    open fun sessionFactory(): LocalSessionFactoryBean = LocalSessionFactoryBean().apply {
+        setDataSource(dataSource())
+        setMappingDirectoryLocations(
+            FileSystemResource("./src/main/java/com/letgo/book/infrastructure/persistence/mapping")
+        )
+        hibernateProperties = hibernateProperties()
     }
 
     @Bean
-    open fun dataSource(): DataSource {
-        return DriverManagerDataSource().apply {
-            setDriverClassName(DatabaseDriver.MYSQL.driverClassName)
-            url = dbParameters.databaseUrl
-            username = dbParameters.databaseUser
-            password = dbParameters.databasePassword
-        }
+    open fun dataSource(): DataSource = DriverManagerDataSource().apply {
+        setDriverClassName(DatabaseDriver.MYSQL.driverClassName)
+        url = dbParameters.databaseUrl
+        username = dbParameters.databaseUser
+        password = dbParameters.databasePassword
     }
 
     @Bean
-    open fun hibernateTransactionManager(): PlatformTransactionManager {
-        return HibernateTransactionManager().apply {
-            sessionFactory = sessionFactory().getObject()
-        }
+    open fun hibernateTransactionManager(): PlatformTransactionManager = HibernateTransactionManager().apply {
+        sessionFactory = sessionFactory().getObject()
     }
 
-    private fun hibernateProperties(): Properties {
-        return Properties(2).apply {
-            setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect")
-            setProperty("hibernate.hbm2ddl.auto", "none")
-        }
+    private fun hibernateProperties(): Properties = Properties(2).apply {
+        setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect")
+        setProperty("hibernate.hbm2ddl.auto", "none")
     }
 }
