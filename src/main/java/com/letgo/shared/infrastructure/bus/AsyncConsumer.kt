@@ -48,9 +48,9 @@ abstract class AsyncConsumer<T>(
         launch {
             repeatUntilCancelled {
                 for (message in channel) {
-                    try {
+                    runCatching {
                         process(message)
-                    } catch (exception: Exception) {
+                    }.onFailure {
                         queueHandler.handleFailure(message)
                     }
                 }
@@ -59,14 +59,17 @@ abstract class AsyncConsumer<T>(
 
     private suspend fun repeatUntilCancelled(block: suspend () -> Unit) {
         while (isActive) {
-            try {
+            runCatching {
                 block()
                 yield()
-            } catch (exception: CancellationException) {
-                println("coroutine on ${Thread.currentThread().name} cancelled")
-            } catch (exception: Exception) {
-                println("${Thread.currentThread().name} failed with {$exception}. Retrying...")
-                exception.printStackTrace()
+            }.onFailure { exception ->
+                when (exception) {
+                    is CancellationException -> println("coroutine on ${Thread.currentThread().name} cancelled")
+                    else -> exception.let {
+                        println("${Thread.currentThread().name} failed with {$it}. Retrying...")
+                        it.printStackTrace()
+                    }
+                }
             }
         }
 

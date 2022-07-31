@@ -39,12 +39,14 @@ open class HibernateBookRepository(
     }
 
     override fun save(book: Book) {
-        try {
+        runCatching {
             session().saveOrUpdate(book)
             session().flush()
             session().clear()
-        } catch (exception: OptimisticLockException) {
-            throw OptimisticConcurrencyLock.causedBy(exception)
+        }.onFailure { cause ->
+            when (cause) {
+                is OptimisticLockException -> throw OptimisticConcurrencyLock.causedBy(cause)
+            }
         }
     }
 
