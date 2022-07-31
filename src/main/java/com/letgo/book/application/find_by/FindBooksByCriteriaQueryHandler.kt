@@ -1,7 +1,7 @@
 package com.letgo.book.application.find_by
 
-import com.letgo.book.application.BookResponseMapper
 import com.letgo.book.application.BooksResponse
+import com.letgo.book.application.toResponse
 import com.letgo.book.domain.BookId
 import com.letgo.book.domain.BookRepository
 import com.letgo.book.domain.BookStatus
@@ -13,7 +13,6 @@ import com.letgo.shared.domain.criteria.FilterGroup
 
 class FindBooksByCriteriaQueryHandler(
     private val repository: BookRepository,
-    private val mapper: BookResponseMapper,
 ) : QueryHandler<FindBooksByCriteriaQuery, BooksResponse> {
     override fun handle(query: FindBooksByCriteriaQuery) =
         repository.findBy(
@@ -26,5 +25,5 @@ class FindBooksByCriteriaQueryHandler(
                     BookStatusFilter.equalTo(BookStatus.Created)
                 )
             )
-        ).map { mapper.map(it) }.let { BooksResponse(it) }
+        ).map { it.toResponse() }.toResponse()
 }

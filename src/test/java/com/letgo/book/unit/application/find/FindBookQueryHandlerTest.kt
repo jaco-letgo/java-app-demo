@@ -1,7 +1,6 @@
 package com.letgo.book.unit.application.find
 
 import com.letgo.book.application.BookResponse
-import com.letgo.book.application.BookResponseMapper
 import com.letgo.book.application.find.FindBookQuery
 import com.letgo.book.application.find.FindBookQueryHandler
 import com.letgo.book.domain.BookFinder
@@ -13,7 +12,7 @@ import org.junit.jupiter.api.Assertions.assertThrowsExactly
 import org.junit.jupiter.api.Test
 
 private class FindBookQueryHandlerTest : BookTestCase() {
-    private val handler = FindBookQueryHandler(BookFinder(repository), BookResponseMapper)
+    private val handler = FindBookQueryHandler(BookFinder(repository))
 
     @Test
     fun `It should find a book`() {

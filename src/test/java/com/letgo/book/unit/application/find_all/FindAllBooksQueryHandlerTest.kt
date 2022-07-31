@@ -1,7 +1,6 @@
 package com.letgo.book.unit.application.find_all
 
 import com.letgo.book.application.BookResponse
-import com.letgo.book.application.BookResponseMapper
 import com.letgo.book.application.BooksResponse
 import com.letgo.book.application.find_all.FindAllBooksQuery
 import com.letgo.book.application.find_all.FindAllBooksQueryHandler
@@ -10,7 +9,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 private class FindAllBooksQueryHandlerTest : BookTestCase() {
-    private val handler = FindAllBooksQueryHandler(repository, BookResponseMapper)
+    private val handler = FindAllBooksQueryHandler(repository)
 
     @Test
     fun `It should return a list with all existing books`() {

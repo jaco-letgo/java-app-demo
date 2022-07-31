@@ -1,7 +1,6 @@
 package com.letgo.book.unit.application.find_containing_title
 
 import com.letgo.book.application.BookResponse
-import com.letgo.book.application.BookResponseMapper
 import com.letgo.book.application.BooksResponse
 import com.letgo.book.application.find_containing_title.FindBooksContainingTitleQuery
 import com.letgo.book.application.find_containing_title.FindBooksContainingTitleQueryHandler
@@ -12,7 +11,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 private class FindBooksContainingTitleQueryHandlerTest : BookTestCase() {
-    private val handler = FindBooksContainingTitleQueryHandler(repository, BookResponseMapper)
+    private val handler = FindBooksContainingTitleQueryHandler(repository)
 
     @Test
     fun `It should return a list with criteria specified books`() {

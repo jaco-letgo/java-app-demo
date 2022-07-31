@@ -1,18 +1,17 @@
 package com.letgo.book.unit.application.find_by
 
 import com.letgo.book.application.BookResponse
-import com.letgo.book.application.BookResponseMapper
 import com.letgo.book.application.BooksResponse
 import com.letgo.book.application.find_by.FindBooksByCriteriaQuery
 import com.letgo.book.application.find_by.FindBooksByCriteriaQueryHandler
 import com.letgo.book.domain.BookStatus
 import com.letgo.book.unit.application.BookTestCase
 import com.letgo.book.unit.domain.ABook
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 private class FindBooksByCriteriaQueryHandlerTest : BookTestCase() {
-    private val handler = FindBooksByCriteriaQueryHandler(repository, BookResponseMapper)
+    private val handler = FindBooksByCriteriaQueryHandler(repository)
 
     @Test
     fun `It should return a list with criteria specified books`() {
