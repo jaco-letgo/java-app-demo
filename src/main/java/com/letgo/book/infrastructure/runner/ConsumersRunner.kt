@@ -9,7 +9,7 @@ import org.springframework.boot.ApplicationRunner
 class ConsumersRunner(
     private val consumers: List<Consumer>,
 ) : ApplicationRunner {
-    override fun run(args: ApplicationArguments?) {
+    override fun run(args: ApplicationArguments) {
         consumers.forEach { it.consume() }
     }
 }
