@@ -12,3 +12,5 @@ out
 
 # Ignore Mac files
 .DS_Store
+
+/docker/mysql/data
