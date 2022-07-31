@@ -25,5 +25,5 @@ class FindBooksByCriteriaQueryHandler(
                     BookStatusFilter.equalTo(BookStatus.Created)
                 )
             )
-        ).map { it.toResponse() }.toResponse()
+        ).toResponse()
 }

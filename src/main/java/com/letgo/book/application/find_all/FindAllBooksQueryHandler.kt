@@ -15,5 +15,5 @@ class FindAllBooksQueryHandler(
             Criteria.matchingEverything().paginatedBy(
                 Pagination.ofPageSize(query.pageSize).showingPage(query.pageNumber)
             )
-        ).map { it.toResponse() }.toResponse()
+        ).toResponse()
 }

@@ -8,4 +8,4 @@ fun Book.toResponse(): BookResponse = BookResponse(
     isEdited = hasBeenEdited(),
 )
 
-fun List<BookResponse>.toResponse(): BooksResponse = BooksResponse(this)
+fun List<Book>.toResponse(): BooksResponse = BooksResponse(map { it.toResponse() })

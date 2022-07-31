@@ -13,5 +13,5 @@ class FindBooksContainingTitleQueryHandler(
     override fun handle(query: FindBooksContainingTitleQuery) =
         repository.findBy(
             Criteria.matching(BookTitleFilter.containing(query.titleExcerpt))
-        ).map { it.toResponse() }.toResponse()
+        ).toResponse()
 }
