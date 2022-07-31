@@ -38,13 +38,13 @@ abstract class AsyncConsumer<T>(
         supervisorJob.cancel()
     }
 
-    private fun CoroutineScope.launchMessageReceiver(channel: SendChannel<T>) = launch {
+    private fun launchMessageReceiver(channel: SendChannel<T>) = launch {
         repeatUntilCancelled {
             queueHandler.main.dequeue()?.let { channel.send(it) }
         }
     }
 
-    private fun CoroutineScope.launchWorker(channel: ReceiveChannel<T>, process: (message: T) -> Unit) =
+    private fun launchWorker(channel: ReceiveChannel<T>, process: (message: T) -> Unit) =
         launch {
             repeatUntilCancelled {
                 for (message in channel) {
@@ -57,7 +57,7 @@ abstract class AsyncConsumer<T>(
             }
         }
 
-    private suspend fun CoroutineScope.repeatUntilCancelled(block: suspend () -> Unit) {
+    private suspend fun repeatUntilCancelled(block: suspend () -> Unit) {
         while (isActive) {
             try {
                 block()
