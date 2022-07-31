@@ -11,11 +11,10 @@ class FindAllBooksQueryHandler(
     private val repository: BookRepository,
     private val mapper: BookResponseMapper,
 ) : QueryHandler<FindAllBooksQuery, BooksResponse> {
-    override fun handle(query: FindAllBooksQuery): BooksResponse {
-        return repository.findBy(
+    override fun handle(query: FindAllBooksQuery) =
+        repository.findBy(
             Criteria.matchingEverything().paginatedBy(
                 Pagination.ofPageSize(query.pageSize).showingPage(query.pageNumber)
             )
         ).map { mapper.map(it) }.let { BooksResponse(it) }
-    }
 }

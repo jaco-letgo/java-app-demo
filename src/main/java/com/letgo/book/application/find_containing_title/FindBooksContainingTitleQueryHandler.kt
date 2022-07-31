@@ -11,9 +11,8 @@ class FindBooksContainingTitleQueryHandler(
     private val repository: BookRepository,
     private val mapper: BookResponseMapper,
 ) : QueryHandler<FindBooksContainingTitleQuery, BooksResponse> {
-    override fun handle(query: FindBooksContainingTitleQuery): BooksResponse {
-        val criteria = Criteria.matching(BookTitleFilter.containing(query.titleExcerpt))
-        val books = repository.findBy(criteria)
-        return BooksResponse(books.map { mapper.map(it) })
-    }
+    override fun handle(query: FindBooksContainingTitleQuery) =
+        repository.findBy(
+            Criteria.matching(BookTitleFilter.containing(query.titleExcerpt))
+        ).map { mapper.map(it) }.let { BooksResponse(it) }
 }

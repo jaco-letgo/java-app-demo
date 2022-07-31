@@ -10,7 +10,6 @@ class FindBookQueryHandler(
     private val finder: BookFinder,
     private val mapper: BookResponseMapper,
 ) : QueryHandler<FindBookQuery, BookResponse> {
-    override fun handle(query: FindBookQuery): BookResponse {
-        return finder.find(BookId(query.id)).let { mapper.map(it) }
-    }
+    override fun handle(query: FindBookQuery) =
+        finder.find(BookId(query.id)).let { mapper.map(it) }
 }

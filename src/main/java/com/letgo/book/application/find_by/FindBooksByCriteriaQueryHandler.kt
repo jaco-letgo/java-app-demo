@@ -15,17 +15,16 @@ class FindBooksByCriteriaQueryHandler(
     private val repository: BookRepository,
     private val mapper: BookResponseMapper,
 ) : QueryHandler<FindBooksByCriteriaQuery, BooksResponse> {
-    override fun handle(query: FindBooksByCriteriaQuery): BooksResponse {
-        val criteria = Criteria.matchingAny(
-            FilterGroup.withAll(
-                BookIdFilter.equalTo(BookId(query.bookId)),
-                BookStatusFilter.equalTo(BookStatus.Edited)
-            ),
-            FilterGroup.withAll(
-                BookStatusFilter.equalTo(BookStatus.Created)
+    override fun handle(query: FindBooksByCriteriaQuery) =
+        repository.findBy(
+            Criteria.matchingAny(
+                FilterGroup.withAll(
+                    BookIdFilter.equalTo(BookId(query.bookId)),
+                    BookStatusFilter.equalTo(BookStatus.Edited)
+                ),
+                FilterGroup.withAll(
+                    BookStatusFilter.equalTo(BookStatus.Created)
+                )
             )
-        )
-        val books = repository.findBy(criteria)
-        return BooksResponse(books.map { mapper.map(it) })
-    }
+        ).map { mapper.map(it) }.let { BooksResponse(it) }
 }
