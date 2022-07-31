@@ -29,3 +29,7 @@ fix:
 .PHONY: mutations
 mutations:
 	@docker exec -it java-app-demo-java ./gradlew pitest
+
+.PHONY: precommit
+precommit:
+	git config core.hooksPath .git-hooks

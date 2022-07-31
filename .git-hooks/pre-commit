@@ -1,0 +1,17 @@
+#!/bin/sh
+# Redirect output to stderr.
+exec 1>&2
+
+echo "Running pre commit..."
+
+exit_code=0
+./gradlew clean ktlintCheck test || exit_code=$?
+
+if [ $exit_code -ne 0 ]; then
+	cat <<\EOF
+You are the worst developer ever
+
+Consider becoming a farmer
+EOF
+	exit 1
+fi
