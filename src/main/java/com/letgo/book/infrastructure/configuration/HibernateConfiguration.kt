@@ -1,5 +1,6 @@
 package com.letgo.book.infrastructure.configuration
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.jdbc.DatabaseDriver
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -9,13 +10,14 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean
 import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.annotation.EnableTransactionManagement
-import java.util.*
+import java.util.Properties
 import javax.sql.DataSource
 
 @Configuration
 @EnableTransactionManagement
+@EnableConfigurationProperties(DatabaseParameters::class)
 open class HibernateConfiguration(
-    private val dbParameters: DatabaseParameters
+    private val dbParameters: DatabaseParameters,
 ) {
     @Bean
     open fun sessionFactory(): LocalSessionFactoryBean = LocalSessionFactoryBean().apply {
@@ -29,9 +31,9 @@ open class HibernateConfiguration(
     @Bean
     open fun dataSource(): DataSource = DriverManagerDataSource().apply {
         setDriverClassName(DatabaseDriver.MYSQL.driverClassName)
-        url = dbParameters.databaseUrl
-        username = dbParameters.databaseUser
-        password = dbParameters.databasePassword
+        url = "jdbc:mysql://${dbParameters.host}:${dbParameters.port}/${dbParameters.name}"
+        username = dbParameters.user
+        password = dbParameters.password
     }
 
     @Bean
