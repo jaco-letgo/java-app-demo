@@ -25,11 +25,12 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.7.0")
     implementation("org.hibernate:hibernate-core:5.6.5.Final")
     implementation("org.springframework:spring-orm:5.3.20")
-    implementation("mysql:mysql-connector-java:8.0.29")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.json:json:20211205")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
     implementation("org.reflections:reflections:0.10.2")
+
+    runtimeOnly("mysql:mysql-connector-java:8.0.29")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.7.0")
     testImplementation("io.mockk:mockk:1.12.4")
