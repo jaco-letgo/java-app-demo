@@ -1,0 +1,14 @@
+database:
+    host: ${DATABASE_HOST:localhost}
+    port: ${DATABASE_PORT:3360}
+    name: ${DATABASE_NAME:demo}
+    user: ${DATABASE_USER:root}
+    password: ${DATABASE_PASSWORD:}
+
+bus:
+    event:
+        max_retries: 5
+        workers: 2
+    command:
+        max_retries: 5
+        workers: 2
