@@ -31,8 +31,8 @@ private class QueryHandlerFinderTest {
         }
     }
 
-    private class FooQuery : Query
-    private class BarQuery : Query
+    private class FooQuery : Query<AQueryResponse>
+    private class BarQuery : Query<AQueryResponse>
     private class AQueryResponse : QueryResponse
 
     private class FooQueryHandler : QueryHandler<FooQuery, AQueryResponse> {

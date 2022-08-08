@@ -13,11 +13,11 @@ import kotlinx.coroutines.withContext
 class InMemoryAsyncQueryBus(
     private val handlerFinder: QueryHandlerFinder,
 ) : QueryBus {
-    override fun dispatch(query: Query): QueryResponse = runBlocking {
+    override fun <Q : Query<R>, R : QueryResponse> dispatch(query: Q): R = runBlocking {
         handleAsync(query)
     }
 
-    private suspend fun handleAsync(query: Query): QueryResponse = coroutineScope {
+    private suspend fun <Q : Query<R>, R : QueryResponse> handleAsync(query: Q): R = coroutineScope {
         withContext(Dispatchers.Default) {
             handlerFinder.forQuery(query).handle(query)
         }

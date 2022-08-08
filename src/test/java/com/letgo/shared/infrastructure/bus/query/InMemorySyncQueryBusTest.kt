@@ -15,7 +15,7 @@ private class InMemorySyncQueryBusTest {
         assertEquals(AQueryResponse(query.property), queryBus.dispatch(query))
     }
 
-    private data class AQuery(val property: String) : Query
+    private data class AQuery(val property: String) : Query<AQueryResponse>
     private data class AQueryResponse(val property: String) : QueryResponse
 
     private class AQueryHandler : QueryHandler<AQuery, AQueryResponse> {
