@@ -1,7 +1,7 @@
 package com.letgo.shared.infrastructure.bus.event
 
 import com.letgo.shared.domain.AnEvent
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 private class InMemorySyncDomainEventPublisherTest {

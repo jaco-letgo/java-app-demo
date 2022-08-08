@@ -1,7 +1,11 @@
 package com.letgo.shared.infrastructure.bus.event
 
 import com.letgo.shared.domain.AnEvent
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.springframework.context.ApplicationEventPublisher
 

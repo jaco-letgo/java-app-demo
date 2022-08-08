@@ -8,7 +8,7 @@ import com.letgo.shared.domain.DomainEvent
 import com.letgo.shared.infrastructure.InfrastructureService
 import org.springframework.context.event.EventListener
 import org.springframework.scheduling.annotation.Async
-import java.util.*
+import java.util.Locale
 
 @Async
 @InfrastructureService

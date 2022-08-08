@@ -1,7 +1,7 @@
 package com.letgo.shared.domain
 
 import java.time.LocalDateTime
-import java.util.*
+import java.util.UUID
 
 interface DomainEvent {
     val id: UUID

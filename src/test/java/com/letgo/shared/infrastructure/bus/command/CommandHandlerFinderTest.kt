@@ -2,7 +2,7 @@ package com.letgo.shared.infrastructure.bus.command
 
 import com.letgo.shared.application.bus.command.Command
 import com.letgo.shared.application.bus.command.CommandHandler
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
