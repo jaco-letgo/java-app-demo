@@ -13,8 +13,13 @@ class GetAllBooksController(
     private val queryBus: QueryBus,
 ) : BookController() {
     @GetMapping
-    fun index(@RequestParam elements: Int?, @RequestParam page: Int?): ResponseEntity<BooksResponse> {
-        val response = queryBus.dispatch(FindAllBooksQuery(elements ?: 100, page ?: 1)) as BooksResponse
-        return ResponseEntity.ok().body(response)
-    }
+    fun index(@RequestParam elements: Int?, @RequestParam page: Int?): ResponseEntity<BooksResponse> =
+        ResponseEntity.ok().body(
+            queryBus.dispatch(
+                FindAllBooksQuery(
+                    pageSize = elements ?: 100,
+                    pageNumber = page ?: 1,
+                )
+            )
+        )
 }

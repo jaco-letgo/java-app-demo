@@ -13,8 +13,6 @@ class GetBooksContainingTitleController(
     private val queryBus: QueryBus,
 ) : BookController() {
     @GetMapping("/containing/title/{excerpt}")
-    fun index(@PathVariable("excerpt") excerpt: String): ResponseEntity<BooksResponse> {
-        val response = queryBus.dispatch(FindBooksContainingTitleQuery(excerpt)) as BooksResponse
-        return ResponseEntity.ok().body(response)
-    }
+    fun index(@PathVariable("excerpt") excerpt: String): ResponseEntity<BooksResponse> =
+        ResponseEntity.ok().body(queryBus.dispatch(FindBooksContainingTitleQuery(excerpt)))
 }

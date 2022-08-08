@@ -13,8 +13,6 @@ class GetBookController(
     private val queryBus: QueryBus,
 ) : BookController() {
     @GetMapping("/{id}")
-    fun index(@PathVariable("id") id: String): ResponseEntity<BookResponse> {
-        val response = queryBus.dispatch(FindBookQuery(id)) as BookResponse
-        return ResponseEntity.ok().body(response)
-    }
+    fun index(@PathVariable("id") id: String): ResponseEntity<BookResponse> =
+        ResponseEntity.ok().body(queryBus.dispatch(FindBookQuery(id)))
 }

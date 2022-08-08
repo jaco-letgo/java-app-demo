@@ -13,8 +13,6 @@ class GetCreatedBooksAndIdController(
     private val queryBus: QueryBus,
 ) : BookController() {
     @GetMapping("/with/id/{id}")
-    fun index(@PathVariable("id") id: String): ResponseEntity<BooksResponse> {
-        val response = queryBus.dispatch(FindBooksByCriteriaQuery(id)) as BooksResponse
-        return ResponseEntity.ok().body(response)
-    }
+    fun index(@PathVariable("id") id: String): ResponseEntity<BooksResponse> =
+        ResponseEntity.ok().body(queryBus.dispatch(FindBooksByCriteriaQuery(id)))
 }

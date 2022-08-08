@@ -7,14 +7,13 @@ import com.letgo.shared.infrastructure.InfrastructureService
 
 @InfrastructureService
 class QueryHandlerFinder(handlers: List<QueryHandler<out Query<QueryResponse>, out QueryResponse>>) {
-    private val handlers = handlers.associate {
-        it.queryClass() to it as QueryHandler<Query<QueryResponse>, QueryResponse>
-    }
+    private val handlers = handlers.associateBy { it.queryClass() }
 
-    fun <Q : Query<R>, R : QueryResponse> forQuery(query: Q): QueryHandler<Q, R> =
-        (
-            handlers[query::class] ?: throw NoSuchElementException("No handler found for ${query::class}")
-            ) as QueryHandler<Q, R>
+    fun <Q : Query<R>, R : QueryResponse> forQuery(query: Q): QueryHandler<Q, R> = kotlin.runCatching {
+        handlers[query::class] as QueryHandler<Q, R>
+    }.getOrElse {
+        throw NoSuchElementException("No handler found for ${query::class}")
+    }
 
     private fun QueryHandler<out Query<QueryResponse>, out QueryResponse>.queryClass() = this::class
         .supertypes.firstNotNullOf { supertype ->
