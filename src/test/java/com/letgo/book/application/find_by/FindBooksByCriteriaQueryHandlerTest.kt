@@ -1,12 +1,10 @@
-package com.letgo.book.unit.application.find_by
+package com.letgo.book.application.find_by
 
 import com.letgo.book.application.BookResponse
+import com.letgo.book.application.BookTestCase
 import com.letgo.book.application.BooksResponse
-import com.letgo.book.application.find_by.FindBooksByCriteriaQuery
-import com.letgo.book.application.find_by.FindBooksByCriteriaQueryHandler
+import com.letgo.book.domain.ABook
 import com.letgo.book.domain.BookStatus
-import com.letgo.book.unit.application.BookTestCase
-import com.letgo.book.unit.domain.ABook
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

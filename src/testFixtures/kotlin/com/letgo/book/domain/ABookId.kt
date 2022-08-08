@@ -1,6 +1,5 @@
-package com.letgo.book.unit.domain
+package com.letgo.book.domain
 
-import com.letgo.book.domain.BookId
 import java.util.UUID
 
 object ABookId {

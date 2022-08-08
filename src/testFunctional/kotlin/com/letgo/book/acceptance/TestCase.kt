@@ -1,7 +1,7 @@
 package com.letgo.book.acceptance
 
+import com.letgo.book.domain.ABook
 import com.letgo.book.domain.BookRepository
-import com.letgo.book.unit.domain.ABook
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest

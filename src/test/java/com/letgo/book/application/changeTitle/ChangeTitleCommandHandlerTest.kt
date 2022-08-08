@@ -1,12 +1,10 @@
-package com.letgo.book.unit.application.changeTitle
+package com.letgo.book.application.changeTitle
 
-import com.letgo.book.application.changeTitle.ChangeTitleCommand
-import com.letgo.book.application.changeTitle.ChangeTitleCommandHandler
+import com.letgo.book.application.BookTestCase
+import com.letgo.book.domain.ABookTitle
 import com.letgo.book.domain.BookFinder
 import com.letgo.book.domain.BookStatus
 import com.letgo.book.domain.BookTitleChanged
-import com.letgo.book.unit.application.BookTestCase
-import com.letgo.book.unit.domain.ABookTitle
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

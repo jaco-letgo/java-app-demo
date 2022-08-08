@@ -1,6 +1,5 @@
 package com.letgo.book
 
-import com.letgo.book.infrastructure.configuration.TestClassesExcluder
 import com.letgo.shared.application.bus.command.CommandHandler
 import com.letgo.shared.application.bus.query.QueryHandler
 import com.letgo.shared.domain.DomainService
@@ -20,12 +19,6 @@ import org.springframework.context.annotation.FilterType
         ), ComponentScan.Filter(
             type = FilterType.ANNOTATION,
             classes = [DomainService::class, InfrastructureService::class]
-        )
-    ],
-    excludeFilters = [
-        ComponentScan.Filter(
-            type = FilterType.CUSTOM,
-            classes = [TestClassesExcluder::class]
         )
     ],
     basePackages = ["com.letgo.book", "com.letgo.shared"]

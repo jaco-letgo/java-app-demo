@@ -1,10 +1,8 @@
-package com.letgo.book.unit.application.create
+package com.letgo.book.application.create
 
-import com.letgo.book.application.create.CreateBookCommand
-import com.letgo.book.application.create.CreateBookCommandHandler
+import com.letgo.book.application.BookTestCase
+import com.letgo.book.domain.ABook
 import com.letgo.book.domain.BookCreated
-import com.letgo.book.unit.application.BookTestCase
-import com.letgo.book.unit.domain.ABook
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

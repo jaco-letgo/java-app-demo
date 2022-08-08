@@ -1,7 +1,7 @@
 package com.letgo.book.acceptance
 
+import com.letgo.book.domain.ABook
 import com.letgo.book.domain.BookStatus
-import com.letgo.book.unit.domain.ABook
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Test

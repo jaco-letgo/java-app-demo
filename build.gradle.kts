@@ -1,5 +1,7 @@
 plugins {
+    idea
     java
+    `java-test-fixtures`
     kotlin("jvm") version "1.6.21"
     id("org.springframework.boot") version "2.7.0"
     id("org.jetbrains.kotlin.plugin.noarg") version "1.6.10"
@@ -37,9 +39,38 @@ dependencies {
     testImplementation("com.pinterest:ktlint:0.45.2")
 }
 
+testing {
+    suites {
+        val testFunctional by registering(JvmTestSuite::class) {
+            testType.set(TestSuiteType.FUNCTIONAL_TEST)
+            idea.module { testSourceDirs.addAll(sourceSets[this@registering.name].allSource.srcDirs) }
+
+            dependencies {
+                implementation(project)
+                implementation(project.dependencies.testFixtures(project))
+                implementation("org.springframework.boot:spring-boot-starter-web:2.7.0")
+                implementation("org.springframework.boot:spring-boot-starter-test:2.7.0")
+            }
+
+            targets {
+                all {
+                    testTask.configure {
+                        systemProperties["cucumber.publish.quiet"] = "true"
+                        systemProperties["cucumber.execution.parallel.enabled"] = "true"
+                    }
+                }
+            }
+        }
+    }
+}
+
 tasks {
     test {
         useJUnitPlatform()
+    }
+
+    check {
+        dependsOn(project.testing.suites)
     }
 
     compileKotlin {

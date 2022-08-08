@@ -1,12 +1,10 @@
-package com.letgo.book.unit.application.find_containing_title
+package com.letgo.book.application.find_containing_title
 
 import com.letgo.book.application.BookResponse
+import com.letgo.book.application.BookTestCase
 import com.letgo.book.application.BooksResponse
-import com.letgo.book.application.find_containing_title.FindBooksContainingTitleQuery
-import com.letgo.book.application.find_containing_title.FindBooksContainingTitleQueryHandler
-import com.letgo.book.unit.application.BookTestCase
-import com.letgo.book.unit.domain.ABook
-import com.letgo.book.unit.domain.ABookTitle
+import com.letgo.book.domain.ABook
+import com.letgo.book.domain.ABookTitle
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

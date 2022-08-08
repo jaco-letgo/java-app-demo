@@ -1,8 +1,4 @@
-package com.letgo.book.unit.domain
-
-import com.letgo.book.domain.Book
-import com.letgo.book.domain.BookId
-import com.letgo.book.domain.BookTitle
+package com.letgo.book.domain
 
 object ABook {
     fun with(
