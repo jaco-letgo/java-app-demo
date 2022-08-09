@@ -23,7 +23,7 @@ open class HibernateConfiguration(
     open fun sessionFactory(): LocalSessionFactoryBean = LocalSessionFactoryBean().apply {
         setDataSource(dataSource())
         setMappingDirectoryLocations(
-            FileSystemResource("./src/main/java/com/letgo/book/infrastructure/persistence/mapping")
+            FileSystemResource("./src/main/kotlin/com/letgo/book/infrastructure/persistence/mapping")
         )
         hibernateProperties = hibernateProperties()
     }
