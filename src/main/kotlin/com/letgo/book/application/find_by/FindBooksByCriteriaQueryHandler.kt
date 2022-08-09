@@ -7,8 +7,8 @@ import com.letgo.book.domain.BookRepository
 import com.letgo.book.domain.BookStatus
 import com.letgo.shared.application.bus.query.QueryHandler
 import com.letgo.shared.domain.criteria.Criteria
-import com.letgo.shared.domain.criteria.FilterGroup
 import com.letgo.shared.domain.criteria.Filter
+import com.letgo.shared.domain.criteria.FilterGroup
 
 class FindBooksByCriteriaQueryHandler(
     private val repository: BookRepository,
