@@ -1,4 +1,4 @@
-package com.letgo.book
+package com.letgo
 
 import com.letgo.shared.application.bus.command.CommandHandler
 import com.letgo.shared.application.bus.query.QueryHandler
@@ -21,7 +21,6 @@ import org.springframework.context.annotation.FilterType
             classes = [DomainService::class, InfrastructureService::class]
         )
     ],
-    basePackages = ["com.letgo.book", "com.letgo.shared"]
 )
 open class App
 
