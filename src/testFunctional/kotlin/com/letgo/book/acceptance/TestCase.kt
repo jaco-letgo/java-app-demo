@@ -34,20 +34,19 @@ internal abstract class TestCase {
     protected fun get(endpoint: String = ""): ResponseEntity<String> =
         restTemplate.getForEntity(apiEndpoint(endpoint), String::class.java)
 
-    protected fun post(body: String): ResponseEntity<String> {
-        val headers = HttpHeaders().also {
-            it.contentType = MediaType.APPLICATION_JSON
-        }
-        return restTemplate.exchange(
-            apiEndpoint(),
-            HttpMethod.POST,
-            HttpEntity(body, headers),
-            String::class.java
-        )
-    }
+    protected fun post(body: String): ResponseEntity<String> = restTemplate.exchange(
+        apiEndpoint(),
+        HttpMethod.POST,
+        HttpEntity(body, applicationJsonHeaders()),
+        String::class.java
+    )
 
-    protected fun put(endpoint: String): ResponseEntity<String> =
-        restTemplate.exchange(apiEndpoint(endpoint), HttpMethod.PUT, HttpEntity.EMPTY, String::class.java)
+    protected fun put(endpoint: String, body: String): ResponseEntity<String> = restTemplate.exchange(
+        apiEndpoint(endpoint),
+        HttpMethod.PUT,
+        HttpEntity(body, applicationJsonHeaders()),
+        String::class.java
+    )
 
     protected fun givenAnExistingBookWith(id: String, title: String) =
         ABook.with(id = id, title = title).also {
@@ -64,4 +63,8 @@ internal abstract class TestCase {
     }
 
     private fun apiEndpoint(endpoint: String = "") = DOMAIN_NAME + port + BASE_ENDPOINT + endpoint
+
+    private fun applicationJsonHeaders(): HttpHeaders = HttpHeaders().also {
+        it.contentType = MediaType.APPLICATION_JSON
+    }
 }

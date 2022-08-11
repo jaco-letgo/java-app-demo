@@ -28,12 +28,12 @@ private class GetAllBooksFeatureTest : TestCase() {
                                 {
                                     "id":"5bca2b51-84aa-4b30-8cc6-087637720444",
                                     "title":"olakease",
-                                    "edited":false
+                                    "isEdited":false
                                 },
                                 {
                                     "id":"8a1ea4da-e75f-4acd-8432-2adb2adcdf02",
                                     "title":"whatever",
-                                    "edited":false
+                                    "isEdited":false
                                 }
                             ]
                         }
@@ -86,12 +86,12 @@ private class GetAllBooksFeatureTest : TestCase() {
                                 {
                                     "id":"5bca2b51-84aa-4b30-8cc6-087637720444",
                                     "title":"olakease",
-                                    "edited":false
+                                    "isEdited":false
                                 },
                                 {
                                     "id":"8a1ea4da-e75f-4acd-8432-2adb2adcdf02",
                                     "title":"whatever",
-                                    "edited":false
+                                    "isEdited":false
                                 }
                             ]
                         }

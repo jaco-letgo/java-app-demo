@@ -33,7 +33,7 @@ private class CreateBookFeatureTest : TestCase() {
                         {
                             "id":"$id",
                             "title":"OLAKEASE",
-                            "edited":true
+                            "isEdited":true
                         }
                     """
                 ),

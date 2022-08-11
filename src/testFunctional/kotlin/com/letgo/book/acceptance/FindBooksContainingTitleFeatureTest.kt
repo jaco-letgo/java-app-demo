@@ -41,17 +41,17 @@ private class FindBooksContainingTitleFeatureTest : TestCase() {
                                 {
                                     "id":"$id1",
                                     "title":"AAAAAA",
-                                    "edited":false
+                                    "isEdited":false
                                 },
                                 {
                                     "id":"$id2",
                                     "title":"aaaaab",
-                                    "edited":false
+                                    "isEdited":false
                                 },
                                 {
                                     "id":"$id4",
                                     "title":"cccccacccc",
-                                    "edited":false
+                                    "isEdited":false
                                 }
                             ]
                         }

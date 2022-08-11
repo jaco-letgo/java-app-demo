@@ -31,6 +31,7 @@ dependencies {
     implementation("org.json:json:20211205")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
     implementation("org.reflections:reflections:0.10.2")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3")
 
     runtimeOnly("mysql:mysql-connector-java:8.0.29")
 

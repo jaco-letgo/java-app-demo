@@ -25,7 +25,7 @@ private class FindBookFeatureTest : TestCase() {
                         {
                             "id":"$id",
                             "title":"whatever",
-                            "edited":false
+                            "isEdited":false
                         }
                     """
                 ),
