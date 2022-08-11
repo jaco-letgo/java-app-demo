@@ -10,7 +10,7 @@ import kotlin.reflect.full.memberProperties
 import kotlin.reflect.full.primaryConstructor
 
 @InfrastructureService
-class JSONDomainEventSerializer(
+class JsonDomainEventSerializer(
     private val domainEventClassFinder: DomainEventClassFinder,
 ) : MessageSerializer<DomainEvent> {
     override fun serialize(message: DomainEvent): String {

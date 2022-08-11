@@ -19,9 +19,9 @@ private const val MESSAGE =
         }
     """
 
-private class JSONDomainEventSerializerTest {
+private class JsonDomainEventSerializerTest {
     private val classFinder: DomainEventClassFinder = mockk()
-    private val serializer = JSONDomainEventSerializer(classFinder)
+    private val serializer = JsonDomainEventSerializer(classFinder)
     private val event = AnEvent(
         nullable = null,
         string = "olakease",
@@ -43,15 +43,15 @@ private class JSONDomainEventSerializerTest {
         every { classFinder.find("AnEvent") } answers { AnEvent::class }
         assertEquals(event, serializer.deserialize(MESSAGE))
     }
-}
 
-data class AnEvent(
-    override val id: UUID,
-    override val aggregateId: String,
-    override val occurredOn: LocalDateTime,
-    val nullable: String?,
-    val string: String,
-    val integer: Int,
-    val boolean: Boolean,
-    val array: List<String>,
-) : DomainEvent
+    data class AnEvent(
+        override val id: UUID,
+        override val aggregateId: String,
+        override val occurredOn: LocalDateTime,
+        val nullable: String?,
+        val string: String,
+        val integer: Int,
+        val boolean: Boolean,
+        val array: List<String>,
+    ) : DomainEvent
+}

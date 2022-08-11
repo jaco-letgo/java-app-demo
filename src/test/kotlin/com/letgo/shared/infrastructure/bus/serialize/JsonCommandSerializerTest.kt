@@ -14,9 +14,9 @@ private const val MESSAGE =
         }
     """
 
-private class JSONCommandSerializerTest {
+private class JsonCommandSerializerTest {
     private val commandClassFinder: CommandClassFinder = mockk()
-    private val serializer: JSONCommandSerializer = JSONCommandSerializer(commandClassFinder)
+    private val serializer: JsonCommandSerializer = JsonCommandSerializer(commandClassFinder)
     private val command = ACommand(
         nullable = null,
         string = "olakease",
@@ -36,12 +36,12 @@ private class JSONCommandSerializerTest {
         val deserialize = serializer.deserialize(MESSAGE)
         assertEquals(command, deserialize)
     }
-}
 
-data class ACommand(
-    val nullable: String?,
-    val string: String,
-    val integer: Int,
-    val boolean: Boolean,
-    val array: List<String>,
-) : Command
+    data class ACommand(
+        val nullable: String?,
+        val string: String,
+        val integer: Int,
+        val boolean: Boolean,
+        val array: List<String>,
+    ) : Command
+}

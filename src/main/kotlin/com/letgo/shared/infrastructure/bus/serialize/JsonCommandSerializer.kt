@@ -8,7 +8,7 @@ import kotlin.reflect.full.memberProperties
 import kotlin.reflect.full.primaryConstructor
 
 @InfrastructureService
-class JSONCommandSerializer(
+class JsonCommandSerializer(
     private val commandClassFinder: CommandClassFinder,
 ) : MessageSerializer<Command> {
     override fun serialize(message: Command): String {
