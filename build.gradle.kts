@@ -50,13 +50,19 @@ testing {
                 implementation(project.dependencies.testFixtures(project))
                 implementation("org.springframework.boot:spring-boot-starter-web:2.7.0")
                 implementation("org.springframework.boot:spring-boot-starter-test:2.7.0")
+                implementation("io.cucumber:cucumber-java:7.0.0")
+                implementation("io.cucumber:cucumber-junit:7.0.0")
+                implementation("io.cucumber:cucumber-spring:7.4.1")
+                implementation("io.cucumber:cucumber-junit-platform-engine:7.3.3")
+                implementation("org.junit.platform:junit-platform-suite:1.8.2")
+                implementation("io.rest-assured:kotlin-extensions:5.1.1")
             }
 
             targets {
                 all {
                     testTask.configure {
                         systemProperties["cucumber.publish.quiet"] = "true"
-                        systemProperties["cucumber.execution.parallel.enabled"] = "true"
+//                        systemProperties["cucumber.execution.parallel.enabled"] = "true"
                     }
                 }
             }
