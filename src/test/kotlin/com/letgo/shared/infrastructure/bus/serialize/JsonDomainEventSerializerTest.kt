@@ -53,5 +53,7 @@ private class JsonDomainEventSerializerTest {
         val integer: Int,
         val boolean: Boolean,
         val array: List<String>,
-    ) : DomainEvent
+    ) : DomainEvent {
+        override val type: String = "AnEvent"
+    }
 }

@@ -9,4 +9,6 @@ data class BookCreated(
     val title: String,
     override val occurredOn: LocalDateTime,
     override val id: UUID = UUID.randomUUID(),
-) : DomainEvent
+) : DomainEvent {
+    override val type: String = "BookCreated"
+}

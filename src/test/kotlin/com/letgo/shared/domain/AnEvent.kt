@@ -7,4 +7,6 @@ data class AnEvent(
     override val id: UUID = UUID.randomUUID(),
     override val aggregateId: String = "id",
     override val occurredOn: LocalDateTime = LocalDateTime.now(),
-) : DomainEvent
+) : DomainEvent {
+    override val type: String = "AnEvent"
+}
