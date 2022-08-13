@@ -14,9 +14,10 @@ private class JsonCommandSerializerTest {
             {
                 "type":"ACommand",
                 "attributes":{
-                    "boolean":true,
-                    "integer":123,
+                    "nullable":null,
                     "string":"olakease",
+                    "integer":123,
+                    "boolean":true,
                     "array":["ola","ke","ase"]
                 }
             }

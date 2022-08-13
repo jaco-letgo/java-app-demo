@@ -1,42 +1,28 @@
 package com.letgo.shared.infrastructure.bus.serialize
 
+import com.fasterxml.jackson.databind.node.ObjectNode
+import com.fasterxml.jackson.module.kotlin.convertValue
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.letgo.shared.application.bus.command.Command
 import com.letgo.shared.infrastructure.InfrastructureService
-import org.json.JSONObject
-import kotlin.reflect.KClass
-import kotlin.reflect.full.memberProperties
-import kotlin.reflect.full.primaryConstructor
 
 @InfrastructureService
 class JsonCommandSerializer(
     private val commandClassFinder: CommandClassFinder,
 ) : MessageSerializer<Command> {
-    override fun serialize(message: Command): String {
-        val attributes = message::class.memberProperties.associate {
-            it.name to it.getter.call(message)
-        }
-        return """
-            {
-                "type":"${message::class.simpleName}",
-                "attributes":${JSONObject(attributes)}
-            }
-        """.trimIndent()
+    private val mapper = jacksonObjectMapper()
+
+    override fun serialize(message: Command): String = mapper.writeValueAsString(
+        CommandWrapper(
+            type = message::class.simpleName!!,
+            attributes = mapper.convertValue(message)
+        )
+    )
+
+    override fun deserialize(message: String): Command = mapper.readValue<CommandWrapper>(message).let {
+        mapper.convertValue(it.attributes, it.type.let { type -> commandClassFinder.find(type) }.java)
     }
 
-    override fun deserialize(message: String): Command {
-        val json = JSONObject(message)
-        val commandClass = json.getString("type").let { commandClassFinder.find(it) }
-        val properties = json.getJSONObject("attributes").toMap()
-        return commandInstance(commandClass, properties)
-    }
-
-    private fun commandInstance(commandClass: KClass<out Command>, properties: Map<String, Any>): Command {
-        return commandClass.primaryConstructor!!.run {
-            callBy(
-                parameters.associateWith {
-                    properties[it.name]
-                }
-            )
-        }
-    }
+    private data class CommandWrapper(val type: String, val attributes: ObjectNode)
 }

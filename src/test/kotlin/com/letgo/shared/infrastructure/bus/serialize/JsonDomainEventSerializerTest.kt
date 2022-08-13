@@ -19,9 +19,10 @@ private class JsonDomainEventSerializerTest {
                 "occurred_on":"2022-03-02T17:12:49.004349",
                 "aggregate_id":"1809d57e-8c94-492f-9e34-ed6ca4b60f06",
                 "attributes":{
-                    "boolean":true,
-                    "integer":123,
+                    "nullable":null,
                     "string":"olakease",
+                    "integer":123,
+                    "boolean":true,
                     "array":["ola","ke","ase"]
                 }
             }
