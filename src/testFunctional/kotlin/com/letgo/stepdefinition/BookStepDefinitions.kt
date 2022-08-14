@@ -86,6 +86,18 @@ class BookStepDefinitions(
         )
     }
 
+    @When("the user makes a GET call")
+    fun `when the user makes a get call`() {
+        context.set(
+            "response",
+            api.get(
+                endpoint = context.get<String>("endpoint").toString(),
+                headers = context.get("headers") ?: emptyMap(),
+                queryParams = context.get("query_params") ?: emptyMap()
+            )
+        )
+    }
+
     @When("we wait for the messages to be processed")
     fun waitForMessagesToBeProcessed() {
         Thread.sleep(2000)
@@ -94,6 +106,16 @@ class BookStepDefinitions(
     @Then("the user receives a {int} status code")
     fun assertStatusCode(statusCode: Int) {
         assertEquals(statusCode, context.get<Response>("response")?.statusCode)
+    }
+
+    @Then("a response with body")
+    fun `then a response with body`(body: String) {
+        assertEquals(body.trimIndent().replace("  ", "    "), context.get<Response>("response")?.body?.asPrettyString())
+    }
+
+    @Then("a response with no body")
+    fun `then a response with no body`() {
+        assertEquals("", context.get<Response>("response")?.body?.asString())
     }
 
     @Then("a book with id {string} exists")
@@ -158,10 +180,10 @@ class BookStepDefinitions(
         context.set("headers", mapOf("Content-Type" to "application/json"))
         setBody(
             """
-              {
-                "id": "${context.get<String>("id")}",
-                "title": "$title"
-              }
+                {
+                    "id": "${context.get<String>("id")}",
+                    "title": "$title"
+                }
             """
         )
         `when the user makes a post call`()
@@ -193,9 +215,9 @@ class BookStepDefinitions(
         context.set("headers", mapOf("Content-Type" to "application/json"))
         setBody(
             """
-              {
-                "title": "$title"
-              }
+                {
+                    "title": "$title"
+                }
             """
         )
         `when the user makes a put call`()
@@ -208,5 +230,25 @@ class BookStepDefinitions(
         assertBookWithIdExists(context.get<Book>("existing_book")!!.id().value())
         `it has been edited`()
         assertBookHasTitle(title)
+    }
+
+    @When("the user finds a book with id {string}")
+    fun `when the user finds a book with id`(id: String) {
+        setEndpoint("/books/$id")
+        `when the user makes a get call`()
+    }
+
+    @Then("a book titled {string} is found")
+    fun `then a book titled is found`(title: String) {
+        assertStatusCode(200)
+        `then a response with body`(
+            """
+                {
+                    "id": "6cdc1f93-f684-40c6-8581-c225e5c6bce6",
+                    "title": "$title",
+                    "isEdited": false
+                }
+            """.replace("    ", "  ")
+        )
     }
 }
