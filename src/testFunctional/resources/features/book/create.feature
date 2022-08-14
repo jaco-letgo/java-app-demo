@@ -13,7 +13,7 @@ Feature: Create a book
     When the user makes a POST call
     And we wait for the messages to be processed
     Then the user receives a 201 status code
-    And a book with id "6cdc1f93-f684-40c6-8581-c225e5c6bce6" is created
+    And a book with id "6cdc1f93-f684-40c6-8581-c225e5c6bce6" exists
     And its title is "MOBY DICK"
 
   Scenario: User wants to create a book
