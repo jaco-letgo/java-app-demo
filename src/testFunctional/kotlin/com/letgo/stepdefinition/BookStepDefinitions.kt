@@ -1,6 +1,6 @@
 package com.letgo.stepdefinition
 
-import com.letgo.api.Api
+import com.letgo.api.RestAssuredApi
 import com.letgo.book.domain.ABook
 import com.letgo.book.domain.ABookId
 import com.letgo.book.domain.ABookTitle
@@ -27,7 +27,7 @@ import javax.sql.DataSource
 class BookStepDefinitions(
     dataSource: DataSource,
     private val context: Context,
-    private val api: Api<Response>,
+    private val api: RestAssuredApi,
     private val repository: BookRepository,
 ) {
     private val connection = dataSource.connection
