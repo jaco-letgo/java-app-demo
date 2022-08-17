@@ -1,6 +1,5 @@
 package com.letgo.api
 
-import com.letgo.context.Context
 import io.cucumber.datatable.DataTable
 import io.cucumber.java.After
 import io.cucumber.java.Before
@@ -18,15 +17,21 @@ import io.restassured.module.kotlin.extensions.Given
 import io.restassured.module.kotlin.extensions.When
 import io.restassured.response.Response
 import io.restassured.specification.RequestSpecification
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.springframework.boot.test.web.server.LocalServerPort
 
-class RestAssuredApi(
-    private val context: Context,
-) {
+class RestAssuredApi {
     @LocalServerPort
     private val port = 0
     lateinit var requestSpecification: RequestSpecification
+    private var requestEndpoint: String = ""
+    private var requestHeaders: Map<String, String> = emptyMap()
+    private var requestQueryParams: Map<String, String> = emptyMap()
+    private var requestBody: String = ""
+    private var responseCode: Int? = null
+        get() = field ?: throw RuntimeException("no response from http call")
+    private var responseBody: String? = null
+        get() = field ?: throw RuntimeException("no response from http call")
 
     @Before
     fun setup() {
@@ -47,68 +52,56 @@ class RestAssuredApi(
         RestAssured.reset()
     }
 
-    fun get(
-        endpoint: String = requestEndpoint(),
-        headers: Map<String, String> = requestHeaders(),
-        queryParams: Map<String, String> = requestQueryParams()
-    ): Response =
+    private fun get(): Response =
         Given {
             spec(requestSpecification)
-            headers(headers)
+            headers(requestHeaders)
         } When {
-            get(endpoint, queryParams)
+            get(requestEndpoint, requestQueryParams)
         } Extract {
             response()
         }
 
-    fun post(
-        endpoint: String = requestEndpoint(),
-        headers: Map<String, String> = requestHeaders(),
-        body: String = requestBody()
-    ): Response =
+    private fun post(): Response =
         Given {
             spec(requestSpecification)
-            headers(headers)
-            body(body)
+            headers(requestHeaders)
+            body(requestBody)
         } When {
-            post(endpoint)
+            post(requestEndpoint)
         } Extract {
             response()
         }
 
-    fun put(
-        endpoint: String = requestEndpoint(),
-        headers: Map<String, String> = requestHeaders(),
-        body: String = requestBody()
-    ): Response =
+    private fun put(): Response =
         Given {
             spec(requestSpecification)
-            headers(headers)
-            body(body)
+            headers(requestHeaders)
+            body(requestBody)
         } When {
-            put(endpoint)
+            put(requestEndpoint)
         } Extract {
             response()
         }
 
-    @Given("the endpoint")
+    @Given("the endpoint {string}")
     fun `given the endpoint`(endpoint: String) {
-        context.set("endpoint", endpoint)
+        requestEndpoint = endpoint
     }
 
     @Given("the http headers")
     fun `given the http headers`(headers: DataTable) {
-        context.set("headers", headers.asMap())
+        requestHeaders = headers.asMap()
     }
 
     @Given("the query parameters")
     fun `given the query parameters`(queryParams: DataTable) {
-        context.set("query_parameters", queryParams.asMap())
+        requestQueryParams = queryParams.asMap()
     }
 
     @Given("the json body")
     fun `given the json body`(body: String) {
-        context.set("body", body.trimIndent().replace("  ", "    "))
+        requestBody = body.trimIndent().replace("  ", "    ")
     }
 
     @When("I make a {string} http call")
@@ -119,36 +112,23 @@ class RestAssuredApi(
             "PUT" -> put()
             else -> throw IllegalArgumentException("$method http method is not supported")
         }.also {
-            context.set("response_code", it.statusCode)
-            context.set("response_body", it.body.asPrettyString())
+            responseCode = it.statusCode
+            responseBody = it.body.asPrettyString()
         }
     }
 
     @Then("response has {int} status code")
     fun `then response has status code`(statusCode: Int) {
-        assertEquals(statusCode, responseCode())
+        assertEquals(statusCode, responseCode)
     }
 
     @Then("response has body")
     fun `then response has body`(body: String) {
-        assertEquals(body.trimIndent().replace("  ", "    "), responseBody())
+        assertEquals(body.trimIndent().replace("  ", "    "), responseBody)
     }
 
     @Then("response has no body")
     fun `then response has no body`() {
-        assertEquals("", responseBody())
+        assertEquals("", responseBody)
     }
-
-    private fun requestEndpoint() = context.get("endpoint") ?: ""
-
-    private fun requestHeaders(): Map<String, String> = context.get("headers") ?: emptyMap()
-
-    private fun requestQueryParams(): Map<String, String> = context.get("query_params") ?: emptyMap()
-
-    private fun requestBody() = context.get("body") ?: ""
-
-    private fun responseCode(): String = context.get("response_code")
-        ?: throw RuntimeException("no response from http call")
-
-    private fun responseBody(): String = context.get("response_body") ?: ""
 }
