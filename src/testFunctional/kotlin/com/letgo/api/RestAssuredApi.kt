@@ -56,8 +56,9 @@ class RestAssuredApi {
         Given {
             spec(requestSpecification)
             headers(requestHeaders)
+            queryParams(requestQueryParams)
         } When {
-            get(requestEndpoint, requestQueryParams)
+            get(requestEndpoint)
         } Extract {
             response()
         }
