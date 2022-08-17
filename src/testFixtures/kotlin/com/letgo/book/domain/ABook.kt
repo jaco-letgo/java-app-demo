@@ -14,5 +14,13 @@ object ABook {
         title = ABookTitle.with(title = title),
     )
 
+    fun edited(
+        id: String,
+        title: String,
+    ): Book = with(
+        id = ABookId.with(id = id),
+        title = ABookTitle.with(title = title),
+    ).copy(status = BookStatus.Edited).apply { retrieveEvents() }
+
     fun random(): Book = with()
 }
