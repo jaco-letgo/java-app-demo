@@ -8,7 +8,6 @@ import com.letgo.book.domain.Book
 import com.letgo.book.domain.BookRepository
 import com.letgo.book.domain.BookTitle
 import com.letgo.book.domain.criteria.BookTitleFilter
-import com.letgo.context.Context
 import com.letgo.shared.domain.criteria.Criteria
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
@@ -19,16 +18,17 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
-import java.util.UUID
 import javax.sql.DataSource
 
 class BookStepDefinitions(
     dataSource: DataSource,
-    private val context: Context,
     private val api: RestAssuredApi,
     private val repository: BookRepository,
 ) {
     private val connection = dataSource.connection
+    private var existingBook: Book = ABook.random()
+    private var actualBook: Book? = null
+        get() = field ?: throw NoSuchElementException("missing actual book")
 
     @Before
     fun clearDatabase() {
@@ -37,12 +37,10 @@ class BookStepDefinitions(
 
     @Given("a book titled {string} with id {string}")
     fun `given a book with`(title: String, id: String) {
-        context.set(
-            "actual_book",
-            ABook.with(id, title).also {
-                repository.save(it)
-            }
-        )
+        ABook.with(
+            id = id,
+            title = title,
+        ).exists()
     }
 
     @When("I wait for the messages to be processed")
@@ -54,7 +52,7 @@ class BookStepDefinitions(
     fun `then a book with id exists`(id: String) {
         repository.find(ABookId.with(id)).also {
             assertNotNull(it)
-            context.set("expected_book", it)
+            actualBook = it
         }
         connection.prepareStatement("select id from books where id=\"$id\"").executeQuery().apply {
             next()
@@ -73,7 +71,7 @@ class BookStepDefinitions(
 
     @Then("its title is {string}")
     fun `then its title is`(title: String) {
-        assertEquals(title, context.get<Book>("expected_book")?.title()?.value())
+        assertEquals(title, actualBook!!.title().value())
         connection.prepareStatement("select title from books where title=\"$title\"").executeQuery().apply {
             next()
         }.also {
@@ -83,9 +81,9 @@ class BookStepDefinitions(
 
     @Then("it has been edited")
     fun `then it has been edited`() {
-        val book = context.get<Book>("expected_book")
-        assertTrue(book?.hasBeenEdited() ?: false)
-        val id = book?.id()?.value()
+        val book = actualBook!!
+        assertTrue(book.hasBeenEdited())
+        val id = book.id().value()
         connection.prepareStatement("select status from books where id=\"$id\"").executeQuery().apply {
             next()
         }.also {
@@ -107,13 +105,11 @@ class BookStepDefinitions(
 
     @When("the user creates a book titled {string}")
     fun `when the user creates a book titled`(title: String) {
-        val id = UUID.randomUUID().toString()
-        context.set("id", id)
         api.`given the endpoint`("/books")
         api.`given the json body`(
             """
                 {
-                    "id": "$id",
+                    "id": "${existingBook.id().value()}",
                     "title": "$title"
                 }
             """
@@ -125,23 +121,20 @@ class BookStepDefinitions(
     @Then("a book titled {string} is created")
     fun `then a book titled is created`(title: String) {
         api.`then response has status code`(201)
-        `then a book with id exists`(context.get("id") ?: "")
+        `then a book with id exists`(existingBook.id().value())
         `then its title is`(title)
     }
 
     @Given("there is a book titled {string}")
     fun `given there is a book titled`(title: String) {
-        context.set(
-            "actual_book",
-            ABook.with(title = ABookTitle.with(title)).also {
-                repository.save(it)
-            }
-        )
+        ABook.with(
+            title = ABookTitle.with(title)
+        ).exists()
     }
 
     @When("the user changes its title to {string}")
     fun `when the user changes its title to`(title: String) {
-        val id = context.get<Book>("actual_book")!!.id()
+        val id = existingBook.id()
         api.`given the endpoint`("/books/${id.value()}")
         api.`given the json body`(
             """
@@ -157,9 +150,9 @@ class BookStepDefinitions(
     @Then("the book is titled {string}")
     fun `then the book is titled`(title: String) {
         api.`then response has status code`(202)
-        `then a book with id exists`(context.get<Book>("actual_book")!!.id().value())
-        `then it has been edited`()
+        `then a book with id exists`(existingBook.id().value())
         `then its title is`(title)
+        `then it has been edited`()
     }
 
     @When("the user finds a book with id {string}")
@@ -180,5 +173,10 @@ class BookStepDefinitions(
                 }
             """.replace("    ", "  ")
         )
+    }
+
+    private fun Book.exists() {
+        existingBook = this
+        repository.save(this)
     }
 }
