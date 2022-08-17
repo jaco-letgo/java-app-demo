@@ -6,6 +6,7 @@ import com.letgo.book.domain.ABookId
 import com.letgo.book.domain.ABookTitle
 import com.letgo.book.domain.Book
 import com.letgo.book.domain.BookRepository
+import com.letgo.book.domain.BookStatus
 import com.letgo.book.domain.BookTitle
 import com.letgo.book.domain.criteria.BookTitleFilter
 import com.letgo.shared.domain.criteria.Criteria
@@ -41,6 +42,14 @@ class BookStepDefinitions(
             id = id,
             title = title,
         ).exists()
+    }
+
+    @Given("an edited book titled {string} with id {string}")
+    fun `given an edited book with`(title: String, id: String) {
+        ABook.with(
+            id = id,
+            title = title,
+        ).copy(status = BookStatus.Edited).exists()
     }
 
     @When("I wait for the messages to be processed")
