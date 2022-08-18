@@ -4,6 +4,7 @@ import com.letgo.book.domain.ABook
 import com.letgo.book.domain.ABookId
 import com.letgo.book.domain.Book
 import com.letgo.book.domain.BookRepository
+import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
@@ -11,17 +12,20 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
+import java.sql.Connection
 import javax.sql.DataSource
 
 class BookStepDefinitions(
     dataSource: DataSource,
     private val repository: BookRepository,
 ) {
+    private val connection: Connection = dataSource.connection
     private var actualBook: Book? = null
         get() = field ?: throw NoSuchElementException("missing actual book")
 
-    init {
-        dataSource.connection.prepareStatement("delete from books").execute()
+    @Before
+    fun cleanEnvironment() {
+        connection.prepareStatement("delete from books").execute()
     }
 
     @Given("a book titled {string} with id {string}")
