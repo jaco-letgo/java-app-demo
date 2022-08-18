@@ -3,7 +3,7 @@ Feature: Create a book
   Scenario: User wants to create a book
     Given the endpoint "/books"
     And the http headers
-    | Content-Type | application/json |
+      | Content-Type | application/json |
     And the json body
     """
       {

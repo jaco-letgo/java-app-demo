@@ -4,7 +4,7 @@ Feature: Change a book's title
     Given a book titled "Island's Treasure" with id "6cdc1f93-f684-40c6-8581-c225e5c6bce6"
     And the endpoint "/books/6cdc1f93-f684-40c6-8581-c225e5c6bce6"
     And the http headers
-    | Content-Type | application/json |
+      | Content-Type | application/json |
     And the json body
     """
       {

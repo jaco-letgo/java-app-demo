@@ -36,8 +36,8 @@ Feature: Find all books
     And a book titled "Treasure's Island" with id "97034bbe-e03d-4d4d-9386-003f7603a4fe"
     And the endpoint "/books"
     And the query parameters
-    | elements | 2 |
-    | page     | 2 |
+      | elements | 2 |
+      | page     | 2 |
     When I make a "GET" http call
     Then response has 200 status code
     And response has body
