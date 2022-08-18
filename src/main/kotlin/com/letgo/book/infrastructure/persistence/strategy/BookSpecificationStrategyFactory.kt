@@ -4,6 +4,7 @@ import com.letgo.book.domain.Book
 import com.letgo.book.domain.BookId
 import com.letgo.book.domain.BookStatus
 import com.letgo.book.domain.BookTitle
+import com.letgo.book.domain.criteria.Field
 import com.letgo.shared.domain.criteria.Filter
 import com.letgo.shared.domain.criteria.Operator
 import com.letgo.shared.infrastructure.InfrastructureService
@@ -14,17 +15,17 @@ import com.letgo.shared.infrastructure.persistance.specification.SpecificationSt
 class BookSpecificationStrategyFactory : SpecificationStrategyFactory<Book> {
     override fun create(filter: Filter<*>): SpecificationStrategy<Book> =
         when (filter.field) {
-            "id" -> when (filter.operator) {
+            Field.Id -> when (filter.operator) {
                 Operator.Equal -> equalsBookId()
                 Operator.LessThan -> filter.notImplemented()
                 Operator.Containing -> filter.notImplemented()
             }
-            "status" -> when (filter.operator) {
+            Field.Status -> when (filter.operator) {
                 Operator.Equal -> equalsBookStatus()
                 Operator.LessThan -> filter.notImplemented()
                 Operator.Containing -> filter.notImplemented()
             }
-            "title" -> when (filter.operator) {
+            Field.Title -> when (filter.operator) {
                 Operator.Equal -> equalsBookTitle()
                 Operator.LessThan -> filter.notImplemented()
                 Operator.Containing -> containsBookTitle()

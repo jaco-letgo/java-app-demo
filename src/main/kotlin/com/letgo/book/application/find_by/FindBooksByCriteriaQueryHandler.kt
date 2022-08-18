@@ -5,6 +5,7 @@ import com.letgo.book.application.toResponse
 import com.letgo.book.domain.BookId
 import com.letgo.book.domain.BookRepository
 import com.letgo.book.domain.BookStatus
+import com.letgo.book.domain.criteria.Field
 import com.letgo.shared.application.bus.query.QueryHandler
 import com.letgo.shared.domain.criteria.Criteria
 import com.letgo.shared.domain.criteria.Filter
@@ -17,11 +18,11 @@ class FindBooksByCriteriaQueryHandler(
         repository.findBy(
             Criteria.matchingAny(
                 FilterGroup.withAll(
-                    Filter.equalTo("id", BookId(query.bookId)),
-                    Filter.equalTo("status", BookStatus.Edited)
+                    Filter.equalTo(Field.Id, BookId(query.bookId)),
+                    Filter.equalTo(Field.Status, BookStatus.Edited),
                 ),
                 FilterGroup.withAll(
-                    Filter.equalTo("status", BookStatus.Created)
+                    Filter.equalTo(Field.Status, BookStatus.Created),
                 )
             )
         ).toResponse()

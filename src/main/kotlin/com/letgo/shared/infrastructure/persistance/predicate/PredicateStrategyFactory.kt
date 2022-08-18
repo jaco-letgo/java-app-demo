@@ -21,10 +21,10 @@ class GenericPredicateStrategyFactory<T> {
         throw NoSuchElementException("strategy not found for $field ${operator.name} operation")
 
     private fun contains() = { filter: Filter<*>, root: Root<T>, cb: CriteriaBuilder ->
-        cb.like(root.get<String>(filter.field).get("value"), "%${filter.value}%")
+        cb.like(root.get<String>(filter.field.name.lowercase()).get("value"), "%${filter.value}%")
     }
 
     private fun equalsTo() = { filter: Filter<*>, root: Root<T>, cb: CriteriaBuilder ->
-        cb.equal(root.get<String>(filter.field), filter.value)
+        cb.equal(root.get<String>(filter.field.name.lowercase()), filter.value)
     }
 }
