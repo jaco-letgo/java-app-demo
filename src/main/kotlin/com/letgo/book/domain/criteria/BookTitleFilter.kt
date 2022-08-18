@@ -4,11 +4,12 @@ import com.letgo.book.domain.BookTitle
 import com.letgo.shared.domain.criteria.Filter
 import com.letgo.shared.domain.criteria.Operator
 
-class BookTitleFilter(
-    override val name: String = "book_title",
+class BookTitleFilter private constructor(
     override val value: Any,
     override val operator: Operator,
 ) : Filter {
+    override val name: String = "book_title"
+
     companion object {
         fun equalTo(bookTitle: BookTitle) = BookTitleFilter(
             value = bookTitle,
