@@ -12,3 +12,20 @@ bus:
     command:
         max_retries: 5
         workers: 2
+
+management:
+    endpoint:
+        health:
+            probes:
+                enabled: true
+            enabled: true
+            show-details: never
+            group:
+                readiness:
+                    include: db
+    endpoints:
+        enabled-by-default: false
+        web:
+            exposure:
+                include: health
+            base-path: /

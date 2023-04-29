@@ -34,6 +34,7 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
     runtimeOnly("mysql:mysql-connector-java:8.0.29")
+    runtimeOnly("org.springframework.boot:spring-boot-starter-actuator:2.7.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.7.0")
     testImplementation("io.mockk:mockk:1.12.4")
@@ -47,7 +48,6 @@ testing {
             idea.module { testSourceDirs.addAll(sourceSets[this@registering.name].allSource.srcDirs) }
 
             dependencies {
-                implementation(project)
                 implementation(project.dependencies.testFixtures(project))
                 implementation("org.springframework.boot:spring-boot-starter-web:2.7.0")
                 implementation("org.springframework.boot:spring-boot-starter-test:2.7.0")
